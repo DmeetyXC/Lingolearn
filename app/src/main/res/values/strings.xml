@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">LanguageLearning</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Библиотека</string>
+    <string name="title_dashboard">Избранное</string>
+    <string name="title_notifications">Музыка</string>
+    <string name="text_book_simple">Эта острота заставила Роберта Лудлоу, старшего партнера «Лудлоу и Лудлоу», насторожиться. Кристо, ведущий инвестиционный банкир, специализировавшийся на работе с венчурным капиталом, был невероятно богат, и шутки с таким человеком были плохи. Он, в отличие от своего покойного отца, Гаэтано Равелли, относился к жизни очень серьезно.</string>
 </resources>
