@@ -44,7 +44,7 @@ class BookFragment : Fragment() {
                         val firstElement = viewModel.searchFirstElement(offset, textBook.text.toString())
                         val lastElement = viewModel.searchLastElement(offset, textBook.text.toString())
                         val texts = textBook.text.subSequence(firstElement, lastElement)
-                        Log.v("QQQQQQQQQ", "result = $texts")
+//                        Log.v("QQQQQQQQQ", "result = $texts")
                         viewModel.highlightString(textBook, firstElement, lastElement)
                     }
                     return@OnTouchListener true
