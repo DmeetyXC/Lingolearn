@@ -8,28 +8,38 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class TextViewModel : ViewModel() {
-    var textSelected = MutableLiveData<SpannableString>()
+    // Required to receive a dedicated offer for further translation
+    // To select text you only need textLineSelected
+    private var textSelectedMain = MutableLiveData<SpannableString>()
+    private var textSelectedChild = MutableLiveData<SpannableString>()
     var textLineSelected = MutableLiveData<Int>()
 
-    fun selectSetText(text: SpannableString) {
-        textSelected.postValue(text)
+    private fun selectSetTextMain(text: SpannableString) {
+        textSelectedMain.postValue(text)
     }
 
-    fun selectLineText(line: Int) {
+    private fun selectSetTextChild(text: SpannableString) {
+        textSelectedChild.postValue(text)
+    }
+
+    private fun selectLineText(line: Int) {
         textLineSelected.postValue(line)
     }
 
-    fun touchText(offset: Int, text: String) {
+    fun touchText(offset: Int, text: String, touchType: TextTouchType) {
         val firstElement = searchFirstElement(offset, text)
         val lastElement = searchLastElement(offset, text)
         val spannableString = selectionString(
             SpannableString(text),
             firstElement, lastElement
         )
-        selectSetText(spannableString)
+        when (touchType) {
+            TextTouchType.MAIN -> selectSetTextMain(spannableString)
+            TextTouchType.CHILD -> selectSetTextChild(spannableString)
+        }
     }
 
-    fun searchFirstElement(indexClick: Int, text: String): Int {
+    private fun searchFirstElement(indexClick: Int, text: String): Int {
         for (i in indexClick - 1 downTo 1) {
             val symbol1 = text[i]
             if (symbol1 == '.' || symbol1 == '!' || symbol1 == '?') {
@@ -39,7 +49,7 @@ class TextViewModel : ViewModel() {
         return 0
     }
 
-    fun searchLastElement(indexClick: Int, text: String): Int {
+    private fun searchLastElement(indexClick: Int, text: String): Int {
         for (i in indexClick + 1 until text.length) {
             val symbol2 = text[i]
             if (symbol2 == '.' || symbol2 == '!' || symbol2 == '?') {
@@ -49,7 +59,7 @@ class TextViewModel : ViewModel() {
         return 0
     }
 
-    fun selectionString(
+    private fun selectionString(
         spannableString: SpannableString, firstIndex: Int, lastIndex: Int
     ): SpannableString {
 //        BackgroundColorSpan(Color.GREEN)
@@ -77,7 +87,7 @@ class TextViewModel : ViewModel() {
         return selectionString(SpannableString(text), firstIndex, lastIndex)
     }
 
-    fun getFirstElement(numberLine: Int, text: String): Int {
+    private fun getFirstElement(numberLine: Int, text: String): Int {
         var counter = 0
         for (i in text.indices) {
             val symbol = text[i]
@@ -91,7 +101,7 @@ class TextViewModel : ViewModel() {
         return counter
     }
 
-    fun getLastElement(firstIndex: Int, text: String): Int {
+    private fun getLastElement(firstIndex: Int, text: String): Int {
         var lastIndex = firstIndex
         for (i in firstIndex + 1 until text.length) {
             lastIndex++

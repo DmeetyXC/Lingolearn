@@ -29,12 +29,17 @@ class TextMainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.textSelected.observe(viewLifecycleOwner, Observer {
-            textMain.setText(it, TextView.BufferType.SPANNABLE)
-        })
+        observeView()
         textMain.setOnTouchListener(View.OnTouchListener { v, event ->
             v.performClick()
             return@OnTouchListener textTouchListen(v, event)
+        })
+    }
+
+    private fun observeView() {
+        viewModel.textLineSelected.observe(viewLifecycleOwner, Observer {
+            val text = textMain.text.toString()
+            textMain.setText(viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE)
         })
     }
 
@@ -48,7 +53,7 @@ class TextMainFragment : Fragment() {
                     val line = layout.getLineForVertical(y)
                     val offset = layout.getOffsetForHorizontal(line, x.toFloat())
                     val text = textMain.text.toString()
-                    viewModel.touchText(offset, text)
+                    viewModel.touchText(offset, text, TextTouchType.MAIN)
                     viewModel.searchNumberLineText(offset, text)
                 }
                 return true

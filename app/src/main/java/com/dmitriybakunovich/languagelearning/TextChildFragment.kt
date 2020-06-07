@@ -1,8 +1,8 @@
 package com.dmitriybakunovich.languagelearning
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -29,13 +29,36 @@ class TextChildFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.textSelected.observe(viewLifecycleOwner, Observer {
-            Log.v("QQQQQQQQQQ", "selected = $it")
-            //  viewModel.selectionString(textBook, firstElement, lastElement)
+        observeView()
+        textChild.setOnTouchListener(View.OnTouchListener { v, event ->
+            v.performClick()
+            return@OnTouchListener textTouchListen(v, event)
         })
+    }
+
+    private fun observeView() {
         viewModel.textLineSelected.observe(viewLifecycleOwner, Observer {
             val text = textChild.text.toString()
             textChild.setText(viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE)
         })
+    }
+
+    private fun textTouchListen(v: View, event: MotionEvent): Boolean {
+        return when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                val layout = (v as TextView).layout
+                val x = event.x.toInt()
+                val y = event.y.toInt()
+                if (layout != null) {
+                    val line = layout.getLineForVertical(y)
+                    val offset = layout.getOffsetForHorizontal(line, x.toFloat())
+                    val text = textChild.text.toString()
+                    viewModel.touchText(offset, text, TextTouchType.CHILD)
+                    viewModel.searchNumberLineText(offset, text)
+                }
+                return true
+            }
+            else -> false
+        }
     }
 }
