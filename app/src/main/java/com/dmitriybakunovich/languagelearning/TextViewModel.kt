@@ -8,15 +8,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class TextViewModel : ViewModel() {
-    var textSelected = MutableLiveData<CharSequence>()
+    var textSelected = MutableLiveData<SpannableString>()
     var textLineSelected = MutableLiveData<Int>()
 
-    fun selectSetText(text: CharSequence) {
+    fun selectSetText(text: SpannableString) {
         textSelected.postValue(text)
     }
 
     fun selectLineText(line: Int) {
         textLineSelected.postValue(line)
+    }
+
+    fun touchText(offset: Int, text: String) {
+        val firstElement = searchFirstElement(offset, text)
+        val lastElement = searchLastElement(offset, text)
+        val spannableString = selectionString(
+            SpannableString(text),
+            firstElement, lastElement
+        )
+        selectSetText(spannableString)
     }
 
     fun searchFirstElement(indexClick: Int, text: String): Int {
@@ -50,7 +60,6 @@ class TextViewModel : ViewModel() {
         return spannableString
     }
 
-    // ChildFragmentOperations
     fun searchNumberLineText(indexClick: Int, text: String) {
         var number = 0
         for (i in indexClick - 1 downTo 1) {
@@ -60,6 +69,12 @@ class TextViewModel : ViewModel() {
             }
         }
         selectLineText(number)
+    }
+
+    fun handleLineSelected(text: String, numberLine: Int): SpannableString {
+        val firstIndex = getFirstElement(numberLine, text)
+        val lastIndex = getLastElement(firstIndex, text)
+        return selectionString(SpannableString(text), firstIndex, lastIndex)
     }
 
     fun getFirstElement(numberLine: Int, text: String): Int {
@@ -76,7 +91,7 @@ class TextViewModel : ViewModel() {
         return counter
     }
 
-    fun getLastIndex(firstIndex: Int, text: String): Int {
+    fun getLastElement(firstIndex: Int, text: String): Int {
         var lastIndex = firstIndex
         for (i in firstIndex + 1 until text.length) {
             lastIndex++

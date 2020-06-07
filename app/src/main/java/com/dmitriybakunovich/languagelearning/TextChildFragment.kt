@@ -1,7 +1,6 @@
 package com.dmitriybakunovich.languagelearning
 
 import android.os.Bundle
-import android.text.SpannableString
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,14 +35,7 @@ class TextChildFragment : Fragment() {
         })
         viewModel.textLineSelected.observe(viewLifecycleOwner, Observer {
             val text = textChild.text.toString()
-            val firstIndex = viewModel.getFirstElement(it, text)
-            val lastIndex = viewModel.getLastIndex(firstIndex, text)
-
-            val spannableString = viewModel.selectionString(
-                SpannableString(textChild.text.toString()),
-                firstIndex, lastIndex
-            )
-            textChild.setText(spannableString, TextView.BufferType.SPANNABLE)
+            textChild.setText(viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE)
         })
     }
 }

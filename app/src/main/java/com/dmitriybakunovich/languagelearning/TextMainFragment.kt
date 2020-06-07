@@ -1,7 +1,6 @@
 package com.dmitriybakunovich.languagelearning
 
 import android.os.Bundle
-import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.text_main_fragment.*
 
 class TextMainFragment : Fragment() {
@@ -29,6 +29,9 @@ class TextMainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        viewModel.textSelected.observe(viewLifecycleOwner, Observer {
+            textMain.setText(it, TextView.BufferType.SPANNABLE)
+        })
         textMain.setOnTouchListener(View.OnTouchListener { v, event ->
             v.performClick()
             return@OnTouchListener textTouchListen(v, event)
@@ -44,21 +47,9 @@ class TextMainFragment : Fragment() {
                 if (layout != null) {
                     val line = layout.getLineForVertical(y)
                     val offset = layout.getOffsetForHorizontal(line, x.toFloat())
-
-                    val firstElement =
-                        viewModel.searchFirstElement(offset, textMain.text.toString())
-                    val lastElement =
-                        viewModel.searchLastElement(offset, textMain.text.toString())
-                    val text = textMain.text.subSequence(firstElement, lastElement)
-
-                    val spannableString = viewModel.selectionString(
-                        SpannableString(textMain.text.toString()),
-                        firstElement, lastElement
-                    )
-                    textMain.setText(spannableString, TextView.BufferType.SPANNABLE)
-
-                    viewModel.selectSetText(text)
-                    viewModel.searchNumberLineText(offset, textMain.text.toString())
+                    val text = textMain.text.toString()
+                    viewModel.touchText(offset, text)
+                    viewModel.searchNumberLineText(offset, text)
                 }
                 return true
             }
