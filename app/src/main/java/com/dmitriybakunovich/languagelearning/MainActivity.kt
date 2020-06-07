@@ -29,11 +29,11 @@ class MainActivity : AppCompatActivity() {
                 when (item.itemId) {
                     R.id.navigation_home -> {
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, TextMainFragment())
+                            .replace(R.id.container, TextMainFragment.newInstance())
                             .commit()
 
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.container2, TextChildFragment())
+                            .replace(R.id.container2, TextChildFragment.newInstance())
                             .commit()
                         return@OnNavigationItemSelectedListener true
                     }
