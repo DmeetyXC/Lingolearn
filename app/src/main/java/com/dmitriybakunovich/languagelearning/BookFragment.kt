@@ -41,11 +41,13 @@ class BookFragment : Fragment() {
                         val line = layout.getLineForVertical(y)
                         val offset = layout.getOffsetForHorizontal(line, x.toFloat())
 
-                        val firstElement = viewModel.searchFirstElement(offset, textBook.text.toString())
-                        val lastElement = viewModel.searchLastElement(offset, textBook.text.toString())
+                        val firstElement =
+                            viewModel.searchFirstElement(offset, textBook.text.toString())
+                        val lastElement =
+                            viewModel.searchLastElement(offset, textBook.text.toString())
                         val texts = textBook.text.subSequence(firstElement, lastElement)
-//                        Log.v("QQQQQQQQQ", "result = $texts")
-                        viewModel.highlightString(textBook, firstElement, lastElement)
+                        Log.v("QQQQQQQQQ", "result = $texts")
+                        viewModel.selectionString(textBook, firstElement, lastElement)
                     }
                     return@OnTouchListener true
                 }

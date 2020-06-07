@@ -7,25 +7,26 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var textMessage: TextView
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, BookFragment())
-                    .commit()
-                return@OnNavigationItemSelectedListener true
+
+    private val onNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, BookFragment())
+                        .commit()
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_dashboard -> {
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_notifications -> {
+                    return@OnNavigationItemSelectedListener true
+                }
             }
-            R.id.navigation_dashboard -> {
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_notifications -> {
-                return@OnNavigationItemSelectedListener true
-            }
+            false
         }
-        false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

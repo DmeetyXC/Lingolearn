@@ -1,10 +1,11 @@
 package com.dmitriybakunovich.languagelearning
 
+import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.BackgroundColorSpan
+import android.text.style.ForegroundColorSpan
 import android.widget.TextView
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel
 
 class BookViewModel : ViewModel() {
 
@@ -28,10 +29,11 @@ class BookViewModel : ViewModel() {
         return 0
     }
 
-    fun highlightString(textView: TextView, firstIndex: Int, lastIndex: Int) {
+    fun selectionString(textView: TextView, firstIndex: Int, lastIndex: Int) {
         val spannableString = SpannableString(textView.text.toString())
+//        BackgroundColorSpan(Color.GREEN)
         spannableString.setSpan(
-            BackgroundColorSpan(-0x100), firstIndex,
+            ForegroundColorSpan(Color.GREEN), firstIndex,
             lastIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         textView.setText(spannableString, TextView.BufferType.SPANNABLE)
