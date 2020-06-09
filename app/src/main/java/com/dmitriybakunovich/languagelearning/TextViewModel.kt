@@ -1,18 +1,36 @@
 package com.dmitriybakunovich.languagelearning
 
+import android.app.Application
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.dmitriybakunovich.languagelearning.data.db.AppDatabase
+import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
+import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 
-class TextViewModel : ViewModel() {
+class TextViewModel(application: Application) : AndroidViewModel(application) {
     // Required to receive a dedicated offer for further translation
     // To select text you only need textLineSelected
     private var textSelectedMain = MutableLiveData<SpannableString>()
     private var textSelectedChild = MutableLiveData<SpannableString>()
     var textLineSelected = MutableLiveData<Int>()
+
+    private val repository: TextDataRepository
+    val allText: LiveData<List<TextData>>
+
+    init {
+        val databaseDao = AppDatabase.getDatabase(application, viewModelScope).databaseDao()
+        repository =
+            TextDataRepository(
+                databaseDao
+            )
+        allText = repository.allTextData
+    }
 
     private fun selectSetTextMain(text: SpannableString) {
         textSelectedMain.postValue(text)
