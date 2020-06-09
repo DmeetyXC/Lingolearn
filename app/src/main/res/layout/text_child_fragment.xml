@@ -5,9 +5,21 @@
         android:layout_height="match_parent"
         tools:context=".TextChildFragment">
 
-    <TextView
-            android:id="@+id/textChild"
+    <ScrollView
+            android:id="@+id/scrollChild"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/textChild"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
