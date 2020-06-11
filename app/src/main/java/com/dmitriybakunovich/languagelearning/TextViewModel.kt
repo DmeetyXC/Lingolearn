@@ -135,6 +135,8 @@ class TextViewModel(application: Application) : AndroidViewModel(application) {
     fun scrollTextPosition(lineTwain: Int, line: Int) {
         if (lineTwain <= line + 2) {
             scrollTextState.postValue(lineTwain + 100)
+        } else if (lineTwain >= 0) {
+            scrollTextState.postValue(lineTwain - 100)
         }
     }
 }
