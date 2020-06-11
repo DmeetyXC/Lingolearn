@@ -44,6 +44,9 @@ class TextChildFragment : Fragment() {
             val text = textChild.text.toString()
             textChild.setText(viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE)
         })
+        viewModel.scrollTextState.observe(viewLifecycleOwner, Observer {
+            scrollChild.scrollBy(0, it)
+        })
     }
 
     private fun textTouchListen(v: View, event: MotionEvent): Boolean {
@@ -61,13 +64,7 @@ class TextChildFragment : Fragment() {
                     val text = textChild.text.toString()
                     viewModel.touchText(offset, text, TextTouchType.CHILD)
                     viewModel.searchNumberLineText(offset, text)
-
-                    // Scroll down
-                    val lineCountMax = layout.lineCount
-                    val lineTwain = lineCountMax / 2
-                    if (lineTwain <= line + 2) {
-                        scrollChild.scrollBy(0, lineTwain + 100)
-                    }
+                    viewModel.scrollTextPosition(layout.lineCount / 2, line)
                 }
                 return true
             }

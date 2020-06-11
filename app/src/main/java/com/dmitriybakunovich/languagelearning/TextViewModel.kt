@@ -19,6 +19,7 @@ class TextViewModel(application: Application) : AndroidViewModel(application) {
     private var textSelectedMain = MutableLiveData<SpannableString>()
     private var textSelectedChild = MutableLiveData<SpannableString>()
     var textLineSelected = MutableLiveData<Int>()
+    var scrollTextState = MutableLiveData<Int>()
 
     private val repository: TextDataRepository
     val allText: LiveData<List<TextData>>
@@ -129,5 +130,11 @@ class TextViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
         return lastIndex + 1
+    }
+
+    fun scrollTextPosition(lineTwain: Int, line: Int) {
+        if (lineTwain <= line + 2) {
+            scrollTextState.postValue(lineTwain + 100)
+        }
     }
 }
