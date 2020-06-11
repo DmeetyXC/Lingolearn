@@ -49,6 +49,9 @@ class TextMainFragment : Fragment() {
     private fun textTouchListen(v: View, event: MotionEvent): Boolean {
         return when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                return true
+            }
+            MotionEvent.ACTION_UP -> {
                 val layout = (v as TextView).layout
                 val x = event.x.toInt()
                 val y = event.y.toInt()
@@ -58,6 +61,13 @@ class TextMainFragment : Fragment() {
                     val text = textMain.text.toString()
                     viewModel.touchText(offset, text, TextTouchType.MAIN)
                     viewModel.searchNumberLineText(offset, text)
+
+                    // Scroll down
+                    val lineCountMax = layout.lineCount
+                    val lineTwain = lineCountMax / 2
+                    if (lineTwain <= line + 2) {
+                        scrollMain.scrollBy(0, lineTwain + 100)
+                    }
                 }
                 return true
             }
