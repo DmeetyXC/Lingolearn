@@ -1,4 +1,4 @@
-package com.dmitriybakunovich.languagelearning
+package com.dmitriybakunovich.languagelearning.text
 
 import android.app.Application
 import android.graphics.Color

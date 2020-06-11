@@ -1,13 +1,13 @@
 package com.dmitriybakunovich.languagelearning
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.dmitriybakunovich.languagelearning.text.TextContainerActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var textMessage: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun initNavigation() {
@@ -28,13 +28,8 @@ class MainActivity : AppCompatActivity() {
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.navigation_home -> {
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, TextMainFragment.newInstance())
-                            .commit()
-
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.container2, TextChildFragment.newInstance())
-                            .commit()
+                        val intent = Intent(this, TextContainerActivity::class.java)
+                        startActivity(intent)
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_dashboard -> {

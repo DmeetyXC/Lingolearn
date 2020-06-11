@@ -1,4 +1,4 @@
-package com.dmitriybakunovich.languagelearning
+package com.dmitriybakunovich.languagelearning.text
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.dmitriybakunovich.languagelearning.R
 import kotlinx.android.synthetic.main.text_child_fragment.*
 
 class TextChildFragment : Fragment() {
