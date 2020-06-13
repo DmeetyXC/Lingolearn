@@ -37,7 +37,7 @@ class TextChildFragment : Fragment() {
 
     private fun observeView() {
         viewModel.allText.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()) textChild.text = it[0].textChild
+            if (it.isNotEmpty()) textChild.text = it[0].textData[0].textChild
         })
         viewModel.textLineSelected.observe(viewLifecycleOwner, Observer {
             val text = textChild.text.toString()

@@ -6,11 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.dmitriybakunovich.languagelearning.R
+import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [TextData::class], version = 1, exportSchema = false)
+@Database(entities = [TextData::class, BookData::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun databaseDao(): DatabaseDao
@@ -31,12 +32,25 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        // Fake data for the database
         suspend fun addDataDatabase(databaseDao: DatabaseDao) {
+            val bookData = BookData(
+                "book1",
+                0
+            )
+            databaseDao.insert(bookData)
             val textData = TextData(
+                "book1",
                 context.getString(R.string.text_book_simple),
                 context.getString(R.string.text_book_simple_translate)
             )
             databaseDao.insert(textData)
+            val textData2 = TextData(
+                "book1",
+                "Какой-то текст для второй страницы",
+                "Some text for the second page"
+            )
+            databaseDao.insert(textData2)
         }
     }
 
