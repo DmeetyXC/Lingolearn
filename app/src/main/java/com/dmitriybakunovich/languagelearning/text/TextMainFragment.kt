@@ -36,8 +36,8 @@ class TextMainFragment : Fragment() {
     }
 
     private fun observeView() {
-        viewModel.allText.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()) textMain.text = it[0].textData[0].textMain
+        viewModel.book.observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty()) textMain.text = it[0].textMain
         })
         viewModel.textLineSelected.observe(viewLifecycleOwner, Observer {
             val text = textMain.text.toString()

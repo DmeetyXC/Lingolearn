@@ -10,10 +10,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.dmitriybakunovich.languagelearning.data.db.AppDatabase
-import com.dmitriybakunovich.languagelearning.data.db.entity.BookWithText
+import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 
-class TextViewModel(application: Application) : AndroidViewModel(application) {
+class TextViewModel(application: Application, bookName: String) : AndroidViewModel(application) {
     // Required to receive a dedicated offer for further translation
     // To select text you only need textLineSelected
     private var textSelectedMain = MutableLiveData<SpannableString>()
@@ -22,7 +22,7 @@ class TextViewModel(application: Application) : AndroidViewModel(application) {
     var scrollTextState = MutableLiveData<Int>()
 
     private val repository: TextDataRepository
-    val allText: LiveData<List<BookWithText>>
+    val book: LiveData<List<TextData>>
 
     init {
         val databaseDao = AppDatabase
@@ -32,7 +32,7 @@ class TextViewModel(application: Application) : AndroidViewModel(application) {
             TextDataRepository(
                 databaseDao
             )
-        allText = repository.allBookWithText
+        book = repository.getBook(bookName)
     }
 
     fun touchText(offset: Int, text: String, touchType: TextTouchType) {

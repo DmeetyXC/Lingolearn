@@ -32,7 +32,7 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        // Fake data for the database
+        // TODO Fake data for the database, remove
         suspend fun addDataDatabase(databaseDao: DatabaseDao) {
             val bookData = BookData(
                 "book1",
@@ -51,6 +51,18 @@ abstract class AppDatabase : RoomDatabase() {
                 "Some text for the second page"
             )
             databaseDao.insert(textData2)
+            val bookData2 = BookData(
+                "book2",
+                50
+            )
+            databaseDao.insert(bookData2)
+            val textData3 = TextData(
+                "book2",
+                "Какой-то текст второй книги",
+                "Some text of the second book"
+            )
+            databaseDao.insert(textData3)
+
         }
     }
 
