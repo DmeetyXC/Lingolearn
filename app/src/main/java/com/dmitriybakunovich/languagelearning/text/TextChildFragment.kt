@@ -23,9 +23,7 @@ class TextChildFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.text_child_fragment, container, false)
-    }
+    ): View = inflater.inflate(R.layout.text_child_fragment, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -59,13 +57,13 @@ class TextChildFragment : Fragment() {
                 val layout = (v as TextView).layout
                 val x = event.x.toInt()
                 val y = event.y.toInt()
-                if (layout != null) {
-                    val line = layout.getLineForVertical(y)
-                    val offset = layout.getOffsetForHorizontal(line, x.toFloat())
+                layout?.let {
+                    val line = it.getLineForVertical(y)
+                    val offset = it.getOffsetForHorizontal(line, x.toFloat())
                     val text = textChild.text.toString()
                     viewModel.touchText(offset, text, TextTouchType.CHILD)
                     viewModel.searchNumberLineText(offset, text)
-                    viewModel.scrollTextPosition(layout.lineCount / 2, line)
+                    viewModel.scrollTextPosition(it.lineCount / 2, line)
                 }
                 return true
             }

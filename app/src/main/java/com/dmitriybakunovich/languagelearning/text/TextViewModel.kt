@@ -25,24 +25,14 @@ class TextViewModel(application: Application) : AndroidViewModel(application) {
     val allText: LiveData<List<TextData>>
 
     init {
-        val databaseDao = AppDatabase.getDatabase(application, viewModelScope).databaseDao()
+        val databaseDao = AppDatabase
+            .getDatabase(application, viewModelScope)
+            .databaseDao()
         repository =
             TextDataRepository(
                 databaseDao
             )
         allText = repository.allTextData
-    }
-
-    private fun selectSetTextMain(text: SpannableString) {
-        textSelectedMain.postValue(text)
-    }
-
-    private fun selectSetTextChild(text: SpannableString) {
-        textSelectedChild.postValue(text)
-    }
-
-    private fun selectLineText(line: Int) {
-        textLineSelected.postValue(line)
     }
 
     fun touchText(offset: Int, text: String, touchType: TextTouchType) {
@@ -53,8 +43,8 @@ class TextViewModel(application: Application) : AndroidViewModel(application) {
             firstElement, lastElement
         )
         when (touchType) {
-            TextTouchType.MAIN -> selectSetTextMain(spannableString)
-            TextTouchType.CHILD -> selectSetTextChild(spannableString)
+            TextTouchType.MAIN -> textSelectedMain.postValue(spannableString)
+            TextTouchType.CHILD -> textSelectedChild.postValue(spannableString)
         }
     }
 
@@ -97,7 +87,7 @@ class TextViewModel(application: Application) : AndroidViewModel(application) {
                 number++
             }
         }
-        selectLineText(number)
+        textLineSelected.postValue(number)
     }
 
     fun handleLineSelected(text: String, numberLine: Int): SpannableString {
