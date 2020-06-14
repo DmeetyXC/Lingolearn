@@ -49,7 +49,7 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
     override fun onItemClick(position: Int) {
         val book = adapter.getBook()[position]
         val intent = Intent(requireActivity(), TextContainerActivity::class.java)
-        intent.putExtra("book", book.bookName)
+        intent.putExtra("book", book)
         startActivity(intent)
     }
 }

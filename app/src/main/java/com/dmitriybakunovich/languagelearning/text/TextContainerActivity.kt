@@ -6,6 +6,7 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.dmitriybakunovich.languagelearning.R
+import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import kotlinx.android.synthetic.main.activity_text_container.*
 
 class TextContainerActivity : AppCompatActivity() {
@@ -15,7 +16,7 @@ class TextContainerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text_container)
 
-        val bookName = intent.getStringExtra("book")
+        val bookName = intent.getParcelableExtra<BookData>("book")
         viewModel = ViewModelProvider(this, TextViewModelFactory(this.application, bookName))
             .get(TextViewModel::class.java)
         initToolbar()

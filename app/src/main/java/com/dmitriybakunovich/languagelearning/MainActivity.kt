@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dmitriybakunovich.languagelearning.book.BookFragment
+import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.text.TextContainerActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.navigation_dashboard -> {
                         val intent = Intent(this, TextContainerActivity::class.java)
                         // TODO Here the title of the last book should be loaded
-                        intent.putExtra("book", "book1")
+                        intent.putExtra("book", BookData("book1", 0))
                         startActivity(intent)
                         return@OnNavigationItemSelectedListener true
                     }

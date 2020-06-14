@@ -3,10 +3,11 @@ package com.dmitriybakunovich.languagelearning.text
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 
 @Suppress("UNCHECKED_CAST")
-class TextViewModelFactory(private val application: Application, private val bookName: String?) :
+class TextViewModelFactory(private val application: Application, private val bookData: BookData?) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        bookName?.let { TextViewModel(application = application, bookName = it) } as T
+        bookData?.let { TextViewModel(application = application, bookData = it) } as T
 }
