@@ -1,7 +1,6 @@
 package com.dmitriybakunovich.languagelearning.text
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -11,13 +10,14 @@ import kotlinx.android.synthetic.main.activity_text_container.*
 
 class TextContainerActivity : AppCompatActivity() {
     private lateinit var viewModel: TextViewModel
+    private var bookData: BookData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text_container)
 
-        val bookName = intent.getParcelableExtra<BookData>("book")
-        viewModel = ViewModelProvider(this, TextViewModelFactory(this.application, bookName))
+        bookData = intent.getParcelableExtra("book")
+        viewModel = ViewModelProvider(this, TextViewModelFactory(this.application, bookData))
             .get(TextViewModel::class.java)
         initToolbar()
         startText()
@@ -29,11 +29,11 @@ class TextContainerActivity : AppCompatActivity() {
         val textNext = menu?.findItem(R.id.textNext)
         val textBack = menu?.findItem(R.id.textBack)
         textNext?.setOnMenuItemClickListener {
-            Log.v("QQQQ", "next button")
+            viewModel.nextPageClick()
             return@setOnMenuItemClickListener true
         }
         textBack?.setOnMenuItemClickListener {
-            Log.v("QQQQ", "back button")
+            viewModel.backPageClick()
             return@setOnMenuItemClickListener true
         }
         return true

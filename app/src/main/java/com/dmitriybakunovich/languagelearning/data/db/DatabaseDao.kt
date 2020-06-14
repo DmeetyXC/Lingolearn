@@ -19,7 +19,7 @@ interface DatabaseDao {
     fun getBookWithText(): LiveData<List<BookWithText>>
 
     @Query("SELECT * FROM text_data WHERE bookNameText = :bookName")
-    fun getTextBook(bookName: String): LiveData<List<TextData>>
+    suspend fun getTextBook(bookName: String): List<TextData>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(textData: TextData)

@@ -6,15 +6,18 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.dmitriybakunovich.languagelearning.data.db.AppDatabase
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class TextViewModel(application: Application, bookData: BookData) : AndroidViewModel(application) {
+class TextViewModel(application: Application, val bookData: BookData) :
+    AndroidViewModel(application) {
     // Required to receive a dedicated offer for further translation
     // To select text you only need textLineSelected
     private var textSelectedMain = MutableLiveData<SpannableString>()
@@ -23,7 +26,9 @@ class TextViewModel(application: Application, bookData: BookData) : AndroidViewM
     var scrollTextState = MutableLiveData<Int>()
 
     private val repository: TextDataRepository
-    val book: LiveData<List<TextData>>
+    lateinit var books: List<TextData>
+    var bookPage = MutableLiveData<TextData>()
+    private var pageCurrentRead: Int
 
     init {
         val databaseDao = AppDatabase
@@ -33,7 +38,11 @@ class TextViewModel(application: Application, bookData: BookData) : AndroidViewM
             TextDataRepository(
                 databaseDao
             )
-        book = repository.getBook(bookData)
+        viewModelScope.launch(Dispatchers.IO) {
+            books = repository.getBook(bookData)
+            bookPage.postValue(books[bookData.progressRead])
+        }
+        pageCurrentRead = bookData.progressRead
     }
 
     fun touchText(offset: Int, text: String, touchType: TextTouchType) {
@@ -129,5 +138,26 @@ class TextViewModel(application: Application, bookData: BookData) : AndroidViewM
         } else if (lineTwain >= 0) {
             scrollTextState.postValue(lineTwain - 100)
         }
+    }
+
+    fun nextPageClick() {
+        if (books.size - 1 > pageCurrentRead) {
+            pageCurrentRead++
+            bookPage.postValue(books[pageCurrentRead])
+        }
+    }
+
+    fun backPageClick() {
+        if (pageCurrentRead != 0) {
+            pageCurrentRead--
+            bookPage.postValue(books[pageCurrentRead])
+        }
+    }
+
+    override fun onCleared() {
+        GlobalScope.launch(Dispatchers.IO) {
+            repository.update(BookData(bookData.bookName, pageCurrentRead))
+        }
+        super.onCleared()
     }
 }

@@ -53,7 +53,7 @@ abstract class AppDatabase : RoomDatabase() {
             databaseDao.insert(textData2)
             val bookData2 = BookData(
                 "book2",
-                50
+                0
             )
             databaseDao.insert(bookData2)
             val textData3 = TextData(
