@@ -42,7 +42,8 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         while (i < fullTextBook.length) {
             val firstElement = searchFirstElement(i, fullTextBook)
             val lastElement = searchLastElement(i, fullTextBook)
-            splitText.add(fullTextBook.substring(firstElement, lastElement))
+            // Space need to separate lines
+            splitText.add(fullTextBook.substring(firstElement, lastElement) + " ")
             i = lastElement + 1
         }
         return parseText(splitText)

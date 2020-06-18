@@ -48,6 +48,9 @@ class TextViewModel(application: Application, val bookData: BookData) :
     fun touchText(offset: Int, text: String, touchType: TextTouchType) {
         val firstElement = searchFirstElement(offset, text)
         val lastElement = searchLastElement(offset, text)
+        if (lastElement == 0) {
+            return
+        }
         val spannableString = selectionString(
             SpannableString(text),
             firstElement, lastElement
@@ -113,8 +116,10 @@ class TextViewModel(application: Application, val bookData: BookData) :
             if (symbol == '.' || symbol == '!' || symbol == '?') {
                 counter++
             }
-            if (counter == numberLine) {
+            if (counter == numberLine && counter == 0) {
                 return i
+            } else if (counter == numberLine) {
+                return i + 1
             }
         }
         return counter
