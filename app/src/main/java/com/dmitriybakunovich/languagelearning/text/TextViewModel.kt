@@ -156,7 +156,7 @@ class TextViewModel(application: Application, val bookData: BookData) :
 
     override fun onCleared() {
         GlobalScope.launch(Dispatchers.IO) {
-            repository.update(BookData(bookData.bookName, pageCurrentRead))
+            repository.update(BookData(bookData.bookName, pageCurrentRead, true))
         }
         super.onCleared()
     }

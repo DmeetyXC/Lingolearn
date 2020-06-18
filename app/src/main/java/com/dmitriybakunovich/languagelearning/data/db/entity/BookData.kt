@@ -7,4 +7,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "book_data")
-data class BookData(@PrimaryKey val bookName: String, val progressRead: Int) : Parcelable
+data class BookData(@PrimaryKey val bookName: String, val progressRead: Int, val isLoad: Boolean) :
+    Parcelable

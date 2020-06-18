@@ -48,6 +48,9 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
 
     override fun onItemClick(position: Int) {
         val book = adapter.getBook()[position]
+        if (!book.isLoad) {
+            viewModel.initParserBook(book)
+        }
         val intent = Intent(requireActivity(), TextContainerActivity::class.java)
         intent.putExtra("book", book)
         startActivity(intent)
