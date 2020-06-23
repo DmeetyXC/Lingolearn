@@ -40,9 +40,9 @@ class TextViewModel(application: Application, val bookData: BookData) :
             )
         viewModelScope.launch(Dispatchers.IO) {
             books = repository.getBook(bookData)
-            bookPage.postValue(books[bookData.progressRead])
+            bookPage.postValue(books[bookData.currentPageRead])
         }
-        pageCurrentRead = bookData.progressRead
+        pageCurrentRead = bookData.currentPageRead
     }
 
     fun touchText(offset: Int, text: String, touchType: TextTouchType) {
@@ -161,7 +161,7 @@ class TextViewModel(application: Application, val bookData: BookData) :
 
     override fun onCleared() {
         GlobalScope.launch(Dispatchers.IO) {
-            repository.update(BookData(bookData.bookName, pageCurrentRead, true))
+            repository.update(BookData(bookData.bookName, pageCurrentRead, true, books.size))
         }
         super.onCleared()
     }

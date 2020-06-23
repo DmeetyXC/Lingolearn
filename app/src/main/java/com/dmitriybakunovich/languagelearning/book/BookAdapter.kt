@@ -46,7 +46,13 @@ class BookAdapter(
 
         fun bind(book: BookData) {
             nameBook.text = book.bookName
-            progressBook.text = book.progressRead.toString()
+            val progressRead = with(book) {
+                if (!book.isLoad) {
+                    return@with 0
+                }
+                (book.currentPageRead * 100) / book.numberPages
+            }
+            progressBook.text = itemView.context.getString(R.string.progress_book, progressRead)
         }
     }
 }
