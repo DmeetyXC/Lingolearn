@@ -27,6 +27,9 @@ interface DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(bookData: BookData)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(textData: List<TextData>)
+
     @Update
     suspend fun update(textData: TextData)
 

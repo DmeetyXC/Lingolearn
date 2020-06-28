@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.navigation_dashboard -> {
                         val intent = Intent(this, TextContainerActivity::class.java)
                         // TODO Here the title of the last book should be loaded
-                        intent.putExtra("book", BookData("book1", 0, false))
+                        intent.putExtra("book", BookData("book2", 0, true))
                         startActivity(intent)
                         return@OnNavigationItemSelectedListener true
                     }

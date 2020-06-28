@@ -34,7 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
         // TODO Fake data for the database, remove
         suspend fun addDataDatabase(databaseDao: DatabaseDao) {
             val bookData = BookData(
-                "book1",
+                "Treasure island. Lord Of Ballantrae",
                 0,
                 false
             )

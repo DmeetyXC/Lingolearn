@@ -3,6 +3,7 @@ package com.dmitriybakunovich.languagelearning.book
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.dmitriybakunovich.languagelearning.data.db.AppDatabase
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
@@ -10,11 +11,11 @@ import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class BookViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: TextDataRepository
     val allBook: LiveData<List<BookData>>
+    val progressState = MutableLiveData<Pair<Boolean, BookData>>()
 
     init {
         val databaseDao = AppDatabase
@@ -27,13 +28,33 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         allBook = repository.allBook
     }
 
-    fun initParserBook(bookData: BookData) {
-        val fullTextMainBook = repository.loadFullTextMainBook(bookData.bookName)
-        // TODO fullTextChildBook need translate
-        val fullTextChildBook = repository.loadFullTextChildBook(bookData.bookName)
-        val parseMainBook = parseBook(fullTextMainBook)
-        val parseChildBook = parseBook(fullTextChildBook)
-        saveTextBook(parseMainBook, parseChildBook, bookData)
+    fun initLoadBook(bookData: BookData) {
+        progressState.postValue(Pair(true, bookData))
+        fullTextBook(bookData)
+    }
+
+    private fun fullTextBook(bookData: BookData) {
+        repository.loadFullTextCloud(bookData.bookName)
+            .addOnSuccessListener {
+                var parseMainBook: List<String> = listOf()
+                var parseChildBook: List<String> = listOf()
+                for (document in it) {
+                    for (typeBook in document.data) {
+                        when (typeBook.key) {
+                            "bookMain" -> {
+                                val textLoad = typeBook.value.toString()
+                                parseMainBook = parseBook(textLoad)
+                            }
+                            "bookChild" -> {
+                                val textLoad = typeBook.value.toString()
+                                parseChildBook = parseBook(textLoad)
+                            }
+                        }
+                        saveTextBook(parseMainBook, parseChildBook, bookData)
+                    }
+                }
+            }
+            .addOnFailureListener {}
     }
 
     private fun parseBook(fullTextBook: String): List<String> {
@@ -53,25 +74,26 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         parseTextMain: List<String>,
         parseTextChild: List<String>,
         bookData: BookData
-    ) =
-        runBlocking(Dispatchers.IO) {
-            val job = launch(Dispatchers.IO) {
-                fillTextData(parseTextMain, parseTextChild, bookData)
-            }
-            job.join()
+    ) {
+        if (parseTextMain.isNotEmpty() && parseTextChild.isNotEmpty()) {
+            fillTextData(parseTextMain, parseTextChild, bookData)
         }
+    }
 
-    private suspend fun fillTextData(
+    private fun fillTextData(
         parseTextMain: List<String>,
         parseTextChild: List<String>,
         bookData: BookData
     ) {
         viewModelScope.launch(Dispatchers.IO) {
+            val textData = mutableListOf<TextData>()
             for (i in parseTextMain.indices) {
                 val textMain = parseTextMain[i]
                 val textChild = parseTextChild[i]
-                repository.insert(TextData(bookData.bookName, textMain, textChild))
+                textData.add(TextData(bookData.bookName, textMain, textChild))
             }
+            repository.insert(textData)
+            progressState.postValue(Pair(false, bookData))
         }
     }
 
