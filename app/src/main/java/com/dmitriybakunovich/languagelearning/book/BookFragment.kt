@@ -8,14 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.text.TextContainerActivity
 import kotlinx.android.synthetic.main.book_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
     private lateinit var adapter: BookAdapter
@@ -61,12 +58,10 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
 
     override fun onItemClick(position: Int) {
         val book = adapter.getBook()[position]
-        lifecycleScope.launch(Dispatchers.IO) {
-            if (!book.isLoad) {
-                viewModel.initLoadBook(book)
-            } else {
-                startTextContainerActivity(book)
-            }
+        if (!book.isLoad) {
+            viewModel.initBook(book)
+        } else {
+            startTextContainerActivity(book)
         }
     }
 

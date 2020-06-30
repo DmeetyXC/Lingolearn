@@ -9,10 +9,14 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class TextDataRepository(private val databaseDao: DatabaseDao) {
     val allBookWithText: LiveData<List<BookWithText>> = databaseDao.getBookWithText()
     val allBook: LiveData<List<BookData>> = databaseDao.getAllBookData()
+    val db = Firebase.firestore
 
     suspend fun getBook(bookData: BookData): List<TextData> =
         databaseDao.getTextBook(bookData.bookName)
@@ -33,8 +37,23 @@ class TextDataRepository(private val databaseDao: DatabaseDao) {
         databaseDao.update(textData)
     }
 
-    fun loadFullTextCloud(bookName: String): Task<QuerySnapshot> {
-        val db = Firebase.firestore
+    suspend fun loadFullTextBook(bookName: String, typeLoadBook: String): String {
+        return suspendCoroutine { cont ->
+            loadAllDataCloud(bookName).addOnSuccessListener {
+                for (document in it) {
+                    for (typeBook in document.data) {
+                        if (typeLoadBook == typeBook.key) {
+                            val textLoad = typeBook.value.toString()
+                            cont.resume(textLoad)
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener { cont.resumeWithException(it) }
+        }
+    }
+
+    private fun loadAllDataCloud(bookName: String): Task<QuerySnapshot> {
         return db.collection(bookName).get()
     }
 }

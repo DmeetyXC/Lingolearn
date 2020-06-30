@@ -10,6 +10,7 @@ import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class BookViewModel(application: Application) : AndroidViewModel(application) {
@@ -28,33 +29,22 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         allBook = repository.allBook
     }
 
-    fun initLoadBook(bookData: BookData) {
+    fun initBook(bookData: BookData) {
         progressState.postValue(Pair(true, bookData))
-        fullTextBook(bookData)
-    }
-
-    private fun fullTextBook(bookData: BookData) {
-        repository.loadFullTextCloud(bookData.bookName)
-            .addOnSuccessListener {
-                var parseMainBook: List<String> = listOf()
-                var parseChildBook: List<String> = listOf()
-                for (document in it) {
-                    for (typeBook in document.data) {
-                        when (typeBook.key) {
-                            "bookMain" -> {
-                                val textLoad = typeBook.value.toString()
-                                parseMainBook = parseBook(textLoad)
-                            }
-                            "bookChild" -> {
-                                val textLoad = typeBook.value.toString()
-                                parseChildBook = parseBook(textLoad)
-                            }
-                        }
-                        saveTextBook(parseMainBook, parseChildBook, bookData)
-                    }
-                }
+        viewModelScope.launch(Dispatchers.IO) {
+            val textMain = async {
+                repository.loadFullTextBook(bookData.bookName, "bookMain")
             }
-            .addOnFailureListener {}
+            val textChild = async {
+                repository.loadFullTextBook(bookData.bookName, "bookChild")
+            }
+
+            val parseMainBook = async { parseBook(textMain.await()) }
+            val parseChildBook = async { parseBook(textChild.await()) }
+
+            saveTextBook(parseMainBook.await(), parseChildBook.await(), bookData)
+            progressState.postValue(Pair(false, bookData))
+        }
     }
 
     private fun parseBook(fullTextBook: String): List<String> {
@@ -70,7 +60,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         return parseText(splitText)
     }
 
-    private fun saveTextBook(
+    private suspend fun saveTextBook(
         parseTextMain: List<String>,
         parseTextChild: List<String>,
         bookData: BookData
@@ -80,21 +70,18 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun fillTextData(
+    private suspend fun fillTextData(
         parseTextMain: List<String>,
         parseTextChild: List<String>,
         bookData: BookData
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val textData = mutableListOf<TextData>()
-            for (i in parseTextMain.indices) {
-                val textMain = parseTextMain[i]
-                val textChild = parseTextChild[i]
-                textData.add(TextData(bookData.bookName, textMain, textChild))
-            }
-            repository.insert(textData)
-            progressState.postValue(Pair(false, bookData))
+        val textData = mutableListOf<TextData>()
+        for (i in parseTextMain.indices) {
+            val textMain = parseTextMain[i]
+            val textChild = parseTextChild[i]
+            textData.add(TextData(bookData.bookName, textMain, textChild))
         }
+        repository.insert(textData)
     }
 
     private fun parseText(arr: MutableList<String>): List<String> {
