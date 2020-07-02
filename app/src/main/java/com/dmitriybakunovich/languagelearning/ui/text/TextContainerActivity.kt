@@ -1,24 +1,21 @@
-package com.dmitriybakunovich.languagelearning.text
+package com.dmitriybakunovich.languagelearning.ui.text
 
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.dmitriybakunovich.languagelearning.R
-import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import kotlinx.android.synthetic.main.activity_text_container.*
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 
 class TextContainerActivity : AppCompatActivity() {
     private lateinit var viewModel: TextViewModel
-    private var bookData: BookData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text_container)
 
-        bookData = intent.getParcelableExtra("book")
-        viewModel = ViewModelProvider(this, TextViewModelFactory(this.application, bookData))
-            .get(TextViewModel::class.java)
+        viewModel = getViewModel { parametersOf(intent.getParcelableExtra("book")) }
         initToolbar()
         startText()
         observeView()

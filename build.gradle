@@ -31,6 +31,7 @@ ext {
     leakCanary = '2.4'
     firebaseAnalytics = '17.4.3'
     firebaseFirestore = '21.4.3'
+    koin_version = "2.1.6"
 }
 
 task clean(type: Delete) {

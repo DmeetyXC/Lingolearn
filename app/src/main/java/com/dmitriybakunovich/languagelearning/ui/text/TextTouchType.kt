@@ -1,4 +1,4 @@
-package com.dmitriybakunovich.languagelearning.text
+package com.dmitriybakunovich.languagelearning.ui.text
 
 /**
  * Where was the click on view

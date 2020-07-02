@@ -1,14 +1,12 @@
-package com.dmitriybakunovich.languagelearning.text
+package com.dmitriybakunovich.languagelearning.ui.text
 
-import android.app.Application
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dmitriybakunovich.languagelearning.data.db.AppDatabase
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
@@ -16,8 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class TextViewModel(application: Application, val bookData: BookData) :
-    AndroidViewModel(application) {
+class TextViewModel(val bookData: BookData, private val repository: TextDataRepository) :
+    ViewModel() {
     // Required to receive a dedicated offer for further translation
     // To select text you only need textLineSelected
     private var textSelectedMain = MutableLiveData<SpannableString>()
@@ -25,19 +23,11 @@ class TextViewModel(application: Application, val bookData: BookData) :
     var textLineSelected = MutableLiveData<Int>()
     var scrollTextState = MutableLiveData<Int>()
 
-    private val repository: TextDataRepository
     lateinit var books: List<TextData>
     var bookPage = MutableLiveData<TextData>()
     private var pageCurrentRead: Int
 
     init {
-        val databaseDao = AppDatabase
-            .getDatabase(application, viewModelScope)
-            .databaseDao()
-        repository =
-            TextDataRepository(
-                databaseDao
-            )
         viewModelScope.launch(Dispatchers.IO) {
             books = repository.getBook(bookData)
             bookPage.postValue(books[bookData.currentPageRead])

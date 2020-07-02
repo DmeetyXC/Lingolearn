@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        tools:context=".text.TextContainerActivity">
+        tools:context=".ui.text.TextContainerActivity">
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarTextContainer"

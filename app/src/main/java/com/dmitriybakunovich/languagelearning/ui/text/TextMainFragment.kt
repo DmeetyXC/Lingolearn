@@ -1,4 +1,4 @@
-package com.dmitriybakunovich.languagelearning.text
+package com.dmitriybakunovich.languagelearning.ui.text
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,29 +7,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.dmitriybakunovich.languagelearning.R
-import kotlinx.android.synthetic.main.text_child_fragment.*
+import kotlinx.android.synthetic.main.text_main_fragment.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class TextChildFragment : Fragment() {
+class TextMainFragment : Fragment() {
 
     companion object {
-        fun newInstance() = TextChildFragment()
+        fun newInstance() = TextMainFragment()
     }
 
-    private val viewModel: TextViewModel by activityViewModels()
+    private val viewModel: TextViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.text_child_fragment, container, false)
+    ): View = inflater.inflate(R.layout.text_main_fragment, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         observeView()
-        textChild.setOnTouchListener(View.OnTouchListener { v, event ->
+        textMain.setOnTouchListener(View.OnTouchListener { v, event ->
             v.performClick()
             return@OnTouchListener textTouchListen(v, event)
         })
@@ -37,14 +37,14 @@ class TextChildFragment : Fragment() {
 
     private fun observeView() {
         viewModel.bookPage.observe(viewLifecycleOwner, Observer {
-            textChild.text = it.textChild
+            textMain.text = it.textMain
         })
         viewModel.textLineSelected.observe(viewLifecycleOwner, Observer {
-            val text = textChild.text.toString()
-            textChild.setText(viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE)
+            val text = textMain.text.toString()
+            textMain.setText(viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE)
         })
         viewModel.scrollTextState.observe(viewLifecycleOwner, Observer {
-            scrollChild.scrollBy(0, it)
+            scrollMain.scrollBy(0, it)
         })
     }
 
@@ -60,8 +60,8 @@ class TextChildFragment : Fragment() {
                 layout?.let {
                     val line = it.getLineForVertical(y)
                     val offset = it.getOffsetForHorizontal(line, x.toFloat())
-                    val text = textChild.text.toString()
-                    viewModel.touchText(offset, text, TextTouchType.CHILD)
+                    val text = textMain.text.toString()
+                    viewModel.touchText(offset, text, TextTouchType.MAIN)
                     viewModel.searchNumberLineText(offset, text)
                     viewModel.scrollTextPosition(it.lineCount / 2, line)
                 }

@@ -4,7 +4,7 @@
         android:id="@+id/scrollChild"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".text.TextChildFragment">
+        tools:context=".ui.text.TextChildFragment">
 
     <TextView
             android:id="@+id/textChild"

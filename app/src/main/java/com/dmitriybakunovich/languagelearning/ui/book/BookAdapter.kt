@@ -1,4 +1,4 @@
-package com.dmitriybakunovich.languagelearning.book
+package com.dmitriybakunovich.languagelearning.ui.book
 
 import android.view.LayoutInflater
 import android.view.View

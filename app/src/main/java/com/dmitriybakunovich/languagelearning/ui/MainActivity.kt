@@ -1,11 +1,12 @@
-package com.dmitriybakunovich.languagelearning
+package com.dmitriybakunovich.languagelearning.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.dmitriybakunovich.languagelearning.book.BookFragment
+import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
-import com.dmitriybakunovich.languagelearning.text.TextContainerActivity
+import com.dmitriybakunovich.languagelearning.ui.book.BookFragment
+import com.dmitriybakunovich.languagelearning.ui.text.TextContainerActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 

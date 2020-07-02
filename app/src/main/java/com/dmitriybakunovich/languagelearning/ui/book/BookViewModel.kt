@@ -1,10 +1,8 @@
-package com.dmitriybakunovich.languagelearning.book
+package com.dmitriybakunovich.languagelearning.ui.book
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dmitriybakunovich.languagelearning.data.db.AppDatabase
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
@@ -13,21 +11,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class BookViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: TextDataRepository
-    val allBook: LiveData<List<BookData>>
+class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
     val progressState = SingleLiveEvent<Pair<Boolean, BookData>>()
-
-    init {
-        val databaseDao = AppDatabase
-            .getDatabase(application, viewModelScope)
-            .databaseDao()
-        repository =
-            TextDataRepository(
-                databaseDao
-            )
-        allBook = repository.allBook
-    }
+    val allBook: LiveData<List<BookData>> = repository.allBook
 
     fun initBook(bookData: BookData) {
         progressState.postValue(Pair(true, bookData))
