@@ -20,20 +20,18 @@ class TextDataRepository(private val databaseDao: DatabaseDao) {
     suspend fun getBook(bookData: BookData): List<TextData> =
         databaseDao.getTextBook(bookData.bookName)
 
+    suspend fun getBookList(): List<BookData> = databaseDao.getAllBookDataList()
+
     suspend fun insert(textData: List<TextData>) {
         databaseDao.insert(textData)
     }
 
-    suspend fun update(bookData: BookData) {
-        databaseDao.update(bookData)
+    suspend fun addNewBooks() {
+        databaseDao.insertBooks(loadBooksCloud())
     }
 
-    suspend fun updateNewBooks() {
-        val books = databaseDao.getAllBookDataList()
-        // TODO Make check time last add book
-        if (books.isEmpty()) {
-            databaseDao.insertBooks(loadBooksCloud())
-        }
+    suspend fun update(bookData: BookData) {
+        databaseDao.update(bookData)
     }
 
     suspend fun loadFullTextBook(bookName: String, typeLoadBook: String): String {

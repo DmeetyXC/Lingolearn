@@ -1,14 +1,13 @@
 package com.dmitriybakunovich.languagelearning.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
-import com.dmitriybakunovich.languagelearning.ui.book.BookFragment
-import com.dmitriybakunovich.languagelearning.ui.text.TextContainerActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,28 +25,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNavigation() {
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        navView.setOnNavigationItemSelectedListener(
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.navigation_home -> {
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.containerMain, BookFragment.newInstance())
-                            .commit()
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.navigation_dashboard -> {
-                        val intent = Intent(this, TextContainerActivity::class.java)
-                        // TODO Here the title of the last book should be loaded
-                        intent.putExtra("book", BookData("book2", 0, true))
-                        startActivity(intent)
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.navigation_notifications -> {
-                        return@OnNavigationItemSelectedListener true
-                    }
+        val navController = Navigation
+            .findNavController(this, R.id.nav_host_fragment)
+        val navView: BottomNavigationView = findViewById(R.id.bottom_nav)
+        // Will automatically go to menu items, ItemSelectedListener not needed
+        // NavigationUI.setupWithNavController(navView, navController)
+
+        navView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.bookFragment -> {
+                    navController.navigate(R.id.bookFragment)
                 }
-                false
-            })
+                R.id.textContainerActivity -> {
+                    // TODO Here the title of the last book should be loaded
+                    val bundle = Bundle()
+                    bundle.putParcelable("book", BookData("book2", 0, true))
+                    navController.navigate(
+                        R.id.action_bookFragment_to_textContainerActivity,
+                        bundle
+                    )
+                }
+                R.id.dictionaryFragment -> {
+                }
+            }
+            false
+        }
     }
 }

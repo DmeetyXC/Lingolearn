@@ -32,6 +32,7 @@ ext {
     firebaseAnalytics = '17.4.3'
     firebaseFirestore = '21.4.3'
     koin_version = "2.1.6"
+    nav_version = "2.3.0"
 }
 
 task clean(type: Delete) {
