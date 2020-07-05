@@ -14,6 +14,9 @@ interface DatabaseDao {
     @Query("SELECT * FROM book_data")
     fun getAllBookData(): LiveData<List<BookData>>
 
+    @Query("SELECT * FROM book_data")
+    fun getAllBookDataList(): List<BookData>
+
     @Transaction
     @Query("SELECT * FROM book_data")
     fun getBookWithText(): LiveData<List<BookWithText>>
@@ -26,6 +29,9 @@ interface DatabaseDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(bookData: BookData)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertBooks(bookData: List<BookData>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(textData: List<TextData>)

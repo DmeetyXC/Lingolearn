@@ -15,6 +15,12 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
     val progressState = SingleLiveEvent<Pair<Boolean, BookData>>()
     val allBook: LiveData<List<BookData>> = repository.allBook
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateNewBooks()
+        }
+    }
+
     fun initBook(bookData: BookData) {
         progressState.postValue(Pair(true, bookData))
         viewModelScope.launch(Dispatchers.IO) {
