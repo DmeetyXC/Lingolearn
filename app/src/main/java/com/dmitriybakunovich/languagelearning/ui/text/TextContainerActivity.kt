@@ -58,9 +58,6 @@ class TextContainerActivity : AppCompatActivity() {
     private fun startText() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, TextMainFragment.newInstance())
-            .commit()
-
-        supportFragmentManager.beginTransaction()
             .replace(R.id.container2, TextChildFragment.newInstance())
             .commit()
     }

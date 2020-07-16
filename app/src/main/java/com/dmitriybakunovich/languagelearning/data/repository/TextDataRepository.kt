@@ -20,9 +20,9 @@ class TextDataRepository(private val databaseDao: DatabaseDao) {
     suspend fun getBook(bookData: BookData): List<TextData> =
         databaseDao.getTextBook(bookData.bookName)
 
-    suspend fun getBookList(): List<BookData> = databaseDao.getAllBookDataList()
+    fun getBookList(): List<BookData> = databaseDao.getAllBookDataList()
 
-    suspend fun insert(textData: List<TextData>) {
+    fun insert(textData: List<TextData>) {
         databaseDao.insert(textData)
     }
 

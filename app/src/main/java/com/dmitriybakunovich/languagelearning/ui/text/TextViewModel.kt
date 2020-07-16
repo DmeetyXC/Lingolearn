@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class TextViewModel(val bookData: BookData, private val repository: TextDataRepository) :
+class TextViewModel(private val bookData: BookData, private val repository: TextDataRepository) :
     ViewModel() {
     // Required to receive a dedicated offer for further translation
     // To select text you only need textLineSelected
