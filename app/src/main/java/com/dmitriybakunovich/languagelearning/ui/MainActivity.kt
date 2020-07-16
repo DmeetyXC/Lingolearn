@@ -4,10 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.dmitriybakunovich.languagelearning.R
-import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,18 +30,14 @@ class MainActivity : AppCompatActivity() {
         // NavigationUI.setupWithNavController(navView, navController)
 
         navView.setOnNavigationItemSelectedListener { item ->
+            item.isChecked = true
             when (item.itemId) {
                 R.id.bookFragment -> {
                     navController.navigate(R.id.bookFragment)
                 }
                 R.id.textContainerActivity -> {
-                    // TODO Here the title of the last book should be loaded
-                    val bundle = Bundle()
-                    bundle.putParcelable("book", BookData("book2", 0, true))
-                    navController.navigate(
-                        R.id.action_bookFragment_to_textContainerActivity,
-                        bundle
-                    )
+                    // TODO Here the favorite books should be loaded
+                    navController.navigate(R.id.bookFragment)
                 }
                 R.id.dictionaryFragment -> {
                 }

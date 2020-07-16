@@ -93,7 +93,7 @@ class BookViewModel(private val repository: TextDataRepository) :
         return parseText(splitText)
     }
 
-    private suspend fun saveTextBook(
+    private fun saveTextBook(
         parseTextMain: List<String>,
         parseTextChild: List<String>,
         bookData: BookData
