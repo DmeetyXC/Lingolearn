@@ -34,6 +34,26 @@ class BookViewModel(private val repository: TextDataRepository) :
         }
     }
 
+    fun addFavoriteBook(book: BookData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (book.isFavourite) {
+                repository.update(
+                    BookData(
+                        book.bookName, book.currentPageRead, book.isLoad,
+                        book.numberPages, false
+                    )
+                )
+            } else {
+                repository.update(
+                    BookData(
+                        book.bookName, book.currentPageRead,
+                        book.isLoad, book.numberPages, true
+                    )
+                )
+            }
+        }
+    }
+
     private suspend fun checkNewBooks() {
         val books = repository.getBookList()
         // TODO Make check time last add book
@@ -83,7 +103,7 @@ class BookViewModel(private val repository: TextDataRepository) :
         }
     }
 
-    private suspend fun fillTextData(
+    private fun fillTextData(
         parseTextMain: List<String>,
         parseTextChild: List<String>,
         bookData: BookData

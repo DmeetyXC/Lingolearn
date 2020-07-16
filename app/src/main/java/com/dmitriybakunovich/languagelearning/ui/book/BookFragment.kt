@@ -57,6 +57,10 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         viewModel.handleItemClick(adapter.getBook()[position])
     }
 
+    override fun onFavoriteItemClick(position: Int) {
+        viewModel.addFavoriteBook(adapter.getBook()[position])
+    }
+
     private fun navigateTextContainer(bookData: BookData) {
         val bundle = Bundle()
         bundle.putParcelable("book", bookData)

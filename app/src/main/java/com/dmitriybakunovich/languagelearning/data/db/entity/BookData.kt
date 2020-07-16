@@ -11,6 +11,7 @@ data class BookData(
     @PrimaryKey val bookName: String,
     val currentPageRead: Int,
     val isLoad: Boolean,
-    val numberPages: Int = 0
+    val numberPages: Int = 0,
+    val isFavourite: Boolean = false
 ) :
     Parcelable

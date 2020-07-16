@@ -3,6 +3,7 @@ package com.dmitriybakunovich.languagelearning.ui.book
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitriybakunovich.languagelearning.R
@@ -17,13 +18,24 @@ class BookAdapter(
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
+
+        fun onFavoriteItemClick(position: Int)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder =
-        BookViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_book, parent, false),
-            clickListener
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(
+            R.layout.item_book,
+            parent, false
         )
+        val bookHolder = BookViewHolder(view)
+        view.setOnClickListener {
+            clickListener.onItemClick(bookHolder.adapterPosition)
+        }
+        bookHolder.favoriteBook.setOnClickListener {
+            clickListener.onFavoriteItemClick(bookHolder.adapterPosition)
+        }
+        return bookHolder
+    }
 
     override fun getItemCount(): Int = books.size
 
@@ -33,19 +45,19 @@ class BookAdapter(
 
     fun getBook(): List<BookData> = books
 
-    class BookViewHolder(itemView: View, clickListener: OnItemClickListener) :
+    class BookViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
+        val favoriteBook: ImageView = itemView.favoriteBook
         private val nameBook: TextView = itemView.nameBook
         private val progressBook: TextView = itemView.progressBook
 
-        init {
-            itemView.setOnClickListener {
-                clickListener.onItemClick(adapterPosition)
-            }
-        }
-
         fun bind(book: BookData) {
             nameBook.text = book.bookName
+            setBookProgress(book)
+            setBookFavorite(book)
+        }
+
+        private fun setBookProgress(book: BookData) {
             if (book.isLoad) {
                 val progressRead = getProgressReadBook(book)
                 if (progressRead == 100) {
@@ -58,6 +70,14 @@ class BookAdapter(
                 }
             } else {
                 progressBook.text = itemView.context.getString(R.string.book_not_load)
+            }
+        }
+
+        private fun setBookFavorite(book: BookData) {
+            if (book.isFavourite) {
+                favoriteBook.setImageResource(R.drawable.ic_baseline_favorite)
+            } else {
+                favoriteBook.setImageResource(R.drawable.ic_baseline_favorite_not)
             }
         }
 

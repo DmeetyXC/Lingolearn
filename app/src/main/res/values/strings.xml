@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">LanguageLearning</string>
-    <string name="title_home">Библиотека</string>
-    <string name="title_dashboard">Избранное</string>
-    <string name="title_notifications">Словарь</string>
+    <string name="title_library">Библиотека</string>
+    <string name="title_favorite">Избранное</string>
+    <string name="title_dictionary">Словарь</string>
 
     <string name="next">Следующий</string>
     <string name="back">Предыдущий</string>
