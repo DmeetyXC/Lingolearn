@@ -47,10 +47,15 @@ class BookAdapter(
         fun bind(book: BookData) {
             nameBook.text = book.bookName
             if (book.isLoad) {
-                progressBook.text = itemView.context.getString(
-                    R.string.progress_book,
-                    getProgressReadBook(book)
-                )
+                val progressRead = getProgressReadBook(book)
+                if (progressRead == 100) {
+                    progressBook.text = itemView.context.getText(R.string.book_full_read)
+                } else {
+                    progressBook.text = itemView.context.getString(
+                        R.string.progress_book,
+                        progressRead
+                    )
+                }
             } else {
                 progressBook.text = itemView.context.getString(R.string.book_not_load)
             }

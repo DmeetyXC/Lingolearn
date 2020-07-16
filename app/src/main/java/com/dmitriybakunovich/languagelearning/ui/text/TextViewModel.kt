@@ -28,11 +28,8 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     private var pageCurrentRead: Int
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            books = repository.getBook(bookData)
-            bookPage.postValue(books[bookData.currentPageRead])
-        }
         pageCurrentRead = bookData.currentPageRead
+        viewModelScope.launch(Dispatchers.IO) { setPageCurrentRead() }
     }
 
     fun touchText(offset: Int, text: String, touchType: TextTouchType) {
@@ -48,6 +45,62 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         when (touchType) {
             TextTouchType.MAIN -> textSelectedMain.postValue(spannableString)
             TextTouchType.CHILD -> textSelectedChild.postValue(spannableString)
+        }
+    }
+
+    fun searchNumberLineText(indexClick: Int, text: String) {
+        var number = 0
+        for (i in indexClick - 1 downTo 1) {
+            val symbol1 = text[i]
+            if (symbol1 == '.' || symbol1 == '!' || symbol1 == '?') {
+                number++
+            }
+        }
+        textLineSelected.postValue(number)
+    }
+
+    fun handleLineSelected(text: String, numberLine: Int): SpannableString {
+        val firstIndex = getFirstElement(numberLine, text)
+        val lastIndex = getLastElement(firstIndex, text)
+        return selectionString(SpannableString(text), firstIndex, lastIndex)
+    }
+
+    fun scrollTextPosition(lineTwain: Int, line: Int) {
+        if (lineTwain <= line + 2) {
+            scrollTextState.postValue(lineTwain + 100)
+        } else if (lineTwain >= 0) {
+            scrollTextState.postValue(lineTwain - 100)
+        }
+    }
+
+    fun nextPageClick() {
+        if (books.size - 1 > pageCurrentRead) {
+            pageCurrentRead++
+            bookPage.postValue(books[pageCurrentRead])
+        } else if (books.size - 1 <= pageCurrentRead) {
+            // End read book, set max size value + 1 for current page
+            pageCurrentRead = books.size
+        }
+    }
+
+    fun backPageClick() {
+        // Checks equality to prevent double clicking
+        if (pageCurrentRead == books.size) {
+            pageCurrentRead--
+        }
+
+        if (pageCurrentRead != 0) {
+            pageCurrentRead--
+            bookPage.postValue(books[pageCurrentRead])
+        }
+    }
+
+    private suspend fun setPageCurrentRead() {
+        books = repository.getBook(bookData)
+        if (books.size == pageCurrentRead) {
+            bookPage.postValue(books[pageCurrentRead - 1])
+        } else {
+            bookPage.postValue(books[pageCurrentRead])
         }
     }
 
@@ -82,23 +135,6 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         return spannableString
     }
 
-    fun searchNumberLineText(indexClick: Int, text: String) {
-        var number = 0
-        for (i in indexClick - 1 downTo 1) {
-            val symbol1 = text[i]
-            if (symbol1 == '.' || symbol1 == '!' || symbol1 == '?') {
-                number++
-            }
-        }
-        textLineSelected.postValue(number)
-    }
-
-    fun handleLineSelected(text: String, numberLine: Int): SpannableString {
-        val firstIndex = getFirstElement(numberLine, text)
-        val lastIndex = getLastElement(firstIndex, text)
-        return selectionString(SpannableString(text), firstIndex, lastIndex)
-    }
-
     private fun getFirstElement(numberLine: Int, text: String): Int {
         var counter = 0
         for (i in text.indices) {
@@ -125,28 +161,6 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
             }
         }
         return lastIndex + 1
-    }
-
-    fun scrollTextPosition(lineTwain: Int, line: Int) {
-        if (lineTwain <= line + 2) {
-            scrollTextState.postValue(lineTwain + 100)
-        } else if (lineTwain >= 0) {
-            scrollTextState.postValue(lineTwain - 100)
-        }
-    }
-
-    fun nextPageClick() {
-        if (books.size - 1 > pageCurrentRead) {
-            pageCurrentRead++
-            bookPage.postValue(books[pageCurrentRead])
-        }
-    }
-
-    fun backPageClick() {
-        if (pageCurrentRead != 0) {
-            pageCurrentRead--
-            bookPage.postValue(books[pageCurrentRead])
-        }
     }
 
     override fun onCleared() {
