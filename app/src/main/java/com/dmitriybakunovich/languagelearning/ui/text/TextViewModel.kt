@@ -22,14 +22,19 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     private var textSelectedChild = MutableLiveData<SpannableString>()
     var textLineSelected = MutableLiveData<Int>()
     var scrollTextState = MutableLiveData<Int>()
+    var dictionaryModeState = MutableLiveData<Boolean>()
 
-    lateinit var books: List<TextData>
+    private lateinit var books: List<TextData>
     var bookPage = MutableLiveData<TextData>()
     private var pageCurrentRead: Int
 
     init {
         pageCurrentRead = bookData.currentPageRead
         viewModelScope.launch(Dispatchers.IO) { setPageCurrentRead() }
+    }
+
+    fun dictionaryModeState(status: Boolean) {
+        dictionaryModeState.postValue(status)
     }
 
     fun touchText(offset: Int, text: String, touchType: TextTouchType) {
@@ -71,6 +76,12 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         } else if (lineTwain >= 0) {
             scrollTextState.postValue(lineTwain - 100)
         }
+    }
+
+    fun textDictionarySearch(textAll: String, min: Int, max: Int) {
+        val selectedText: CharSequence = textAll.subSequence(min, max)
+        val text = selectedText.toString()
+        //  TODO save text in dictionary
     }
 
     fun nextPageClick() {

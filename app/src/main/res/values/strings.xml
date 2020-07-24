@@ -9,4 +9,7 @@
     <string name="progress_book">Прочитано %d%%</string>
     <string name="book_not_load">Книга еще не загружена</string>
     <string name="book_full_read">Книга полностью прочитана</string>
+    <string name="add_dictionary">Добавить в словарь</string>
+    <string name="text_mode_selected">Выбран режим текста</string>
+    <string name="text_mode_disabled">Режим текста отключен</string>
 </resources>
