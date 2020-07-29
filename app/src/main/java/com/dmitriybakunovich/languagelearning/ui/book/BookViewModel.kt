@@ -120,7 +120,7 @@ class BookViewModel(private val repository: TextDataRepository) :
     private fun parseText(arr: MutableList<String>): List<String> {
         val finalArr = mutableListOf<String>()
         val string: StringBuilder = StringBuilder()
-        val size = 1000
+        val size = repository.getMaxCountCharacters()
         var length = 0
         for (j in arr) {
             length += j.length
@@ -140,7 +140,6 @@ class BookViewModel(private val repository: TextDataRepository) :
         return finalArr
     }
 
-    // TODO need move this to interactor(this code is also in textViewModel)
     private fun searchFirstElement(indexClick: Int, text: String): Int {
         for (i in indexClick - 1 downTo 1) {
             val symbol1 = text[i]

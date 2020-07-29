@@ -3,6 +3,7 @@ package com.dmitriybakunovich.languagelearning.di
 import android.content.Context
 import com.dmitriybakunovich.languagelearning.data.db.AppDatabase
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.manager.ResourceManager
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 import com.dmitriybakunovich.languagelearning.ui.book.BookViewModel
 import com.dmitriybakunovich.languagelearning.ui.dictionary.DictionaryViewModel
@@ -15,7 +16,7 @@ val appModule = module {
     viewModel { (bookData: BookData) -> TextViewModel(bookData, get()) }
     viewModel { DictionaryViewModel(get()) }
     single { provideDatabaseDao(get()) }
-    single { TextDataRepository(get()) }
+    single { TextDataRepository(get(), ResourceManager(get())) }
 //    factory { CoroutineScope(Dispatchers.IO) }
 }
 
