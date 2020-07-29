@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.bookFragment)
                 }
                 R.id.dictionaryFragment -> {
+                    navController.navigate(R.id.dictionaryFragment)
                 }
             }
             false

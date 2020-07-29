@@ -5,6 +5,7 @@ import com.dmitriybakunovich.languagelearning.data.db.AppDatabase
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 import com.dmitriybakunovich.languagelearning.ui.book.BookViewModel
+import com.dmitriybakunovich.languagelearning.ui.dictionary.DictionaryViewModel
 import com.dmitriybakunovich.languagelearning.ui.text.TextViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -12,6 +13,7 @@ import org.koin.dsl.module
 val appModule = module {
     viewModel { BookViewModel(get()) }
     viewModel { (bookData: BookData) -> TextViewModel(bookData, get()) }
+    viewModel { DictionaryViewModel(get()) }
     single { provideDatabaseDao(get()) }
     single { TextDataRepository(get()) }
 //    factory { CoroutineScope(Dispatchers.IO) }
