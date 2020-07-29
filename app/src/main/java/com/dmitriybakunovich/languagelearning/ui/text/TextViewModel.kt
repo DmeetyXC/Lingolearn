@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.db.entity.Dictionary
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 import kotlinx.coroutines.Dispatchers
@@ -81,7 +82,10 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     fun textDictionarySearch(textAll: String, min: Int, max: Int) {
         val selectedText: CharSequence = textAll.subSequence(min, max)
         val text = selectedText.toString()
-        //  TODO save text in dictionary
+        // TODO Translate text
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(Dictionary(text, text))
+        }
     }
 
     fun nextPageClick() {

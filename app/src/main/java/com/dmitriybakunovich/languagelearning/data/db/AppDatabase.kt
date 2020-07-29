@@ -5,9 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.db.entity.Dictionary
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 
-@Database(entities = [TextData::class, BookData::class], version = 1, exportSchema = false)
+@Database(
+    entities = [TextData::class, BookData::class, Dictionary::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun databaseDao(): DatabaseDao

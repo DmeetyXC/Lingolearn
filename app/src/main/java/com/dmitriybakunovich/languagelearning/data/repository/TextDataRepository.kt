@@ -3,6 +3,7 @@ package com.dmitriybakunovich.languagelearning.data.repository
 import androidx.lifecycle.LiveData
 import com.dmitriybakunovich.languagelearning.data.db.DatabaseDao
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.db.entity.Dictionary
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -16,6 +17,7 @@ import kotlin.coroutines.suspendCoroutine
 class TextDataRepository(private val databaseDao: DatabaseDao) {
     //    val allBookWithText: LiveData<List<BookWithText>> = databaseDao.getBookWithText()
     val allBook: LiveData<List<BookData>> = databaseDao.getAllBookData()
+    val dictionary: LiveData<List<Dictionary>> = databaseDao.getAllDictionary()
 
     suspend fun getBook(bookData: BookData): List<TextData> =
         databaseDao.getTextBook(bookData.bookName)
@@ -24,6 +26,10 @@ class TextDataRepository(private val databaseDao: DatabaseDao) {
 
     fun insert(textData: List<TextData>) {
         databaseDao.insert(textData)
+    }
+
+    fun insert(dictionary: Dictionary) {
+        databaseDao.insert(dictionary)
     }
 
     suspend fun addNewBooks() {

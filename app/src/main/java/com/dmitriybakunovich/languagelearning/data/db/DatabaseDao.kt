@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookWithText
+import com.dmitriybakunovich.languagelearning.data.db.entity.Dictionary
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 
 @Dao
@@ -24,6 +25,9 @@ interface DatabaseDao {
     @Query("SELECT * FROM book_data")
     fun getBookWithText(): LiveData<List<BookWithText>>
 
+    @Query("SELECT * FROM dictionary")
+    fun getAllDictionary(): LiveData<List<Dictionary>>
+
     @Query("SELECT * FROM text_data WHERE bookNameText = :bookName")
     suspend fun getTextBook(bookName: String): List<TextData>
 
@@ -38,6 +42,9 @@ interface DatabaseDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(textData: List<TextData>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(dictionary: Dictionary)
 
     @Update
     suspend fun update(textData: TextData)
