@@ -72,10 +72,11 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     }
 
     fun scrollTextPosition(lineTwain: Int, line: Int) {
+        val navigateValue = repository.getMovingNavigateValue()
         if (lineTwain <= line + 2) {
-            scrollTextState.postValue(lineTwain + 100)
+            scrollTextState.postValue(lineTwain + navigateValue)
         } else if (lineTwain >= 0) {
-            scrollTextState.postValue(lineTwain - 100)
+            scrollTextState.postValue(lineTwain - navigateValue)
         }
     }
 

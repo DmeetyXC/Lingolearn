@@ -49,6 +49,11 @@ class TextDataRepository(
      */
     fun getMaxCountCharacters(): Int = resourceManager.getDisplayPixels()
 
+    /**
+     * Value for moving navigate focus text after touch display
+     */
+    fun getMovingNavigateValue(): Int = resourceManager.getMovingPixels()
+
     suspend fun loadFullTextBook(bookName: String, typeLoadBook: String): String {
         return suspendCoroutine { cont ->
             loadAllDataCloud()

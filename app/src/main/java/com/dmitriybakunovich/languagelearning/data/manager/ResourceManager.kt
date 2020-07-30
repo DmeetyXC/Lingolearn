@@ -8,4 +8,7 @@ class ResourceManager(private val context: Context) {
                 context.applicationContext.resources.displayMetrics.widthPixels)
     /*(context.applicationContext.resources.displayMetrics.xdpi +
             context.applicationContext.resources.displayMetrics.ydpi).toInt()*/
+
+    fun getMovingPixels(): Int = (context.applicationContext.resources.displayMetrics.xdpi /
+            context.applicationContext.resources.displayMetrics.scaledDensity).toInt()
 }
