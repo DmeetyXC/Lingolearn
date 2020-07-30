@@ -87,7 +87,7 @@ class BookViewModel(private val repository: TextDataRepository) :
             val firstElement = searchFirstElement(i, fullTextBook)
             val lastElement = searchLastElement(i, fullTextBook)
             // Space need to separate lines
-            splitText.add(fullTextBook.substring(firstElement, lastElement) + " ")
+            splitText.add(fullTextBook.substring(firstElement, lastElement).trim() + " ")
             i = lastElement + 1
         }
         return parseText(splitText)
