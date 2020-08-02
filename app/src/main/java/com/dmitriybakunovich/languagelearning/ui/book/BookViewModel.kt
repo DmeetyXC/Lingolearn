@@ -20,6 +20,9 @@ class BookViewModel(private val repository: TextDataRepository) :
     val allBook: LiveData<List<BookData>> = repository.allBook
 
     init {
+        // TODO test language choice
+        repository.saveSelectLanguage("en", "ru")
+
         viewModelScope.launch(Dispatchers.IO) { checkNewBooks() }
     }
 

@@ -83,9 +83,9 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     fun textDictionarySearch(textAll: String, min: Int, max: Int) {
         val selectedText: CharSequence = textAll.subSequence(min, max)
         val text = selectedText.toString()
-        // TODO Translate text
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(Dictionary(text, text))
+            val translateText = repository.translateText(text)
+            repository.insert(Dictionary(text, translateText))
         }
     }
 

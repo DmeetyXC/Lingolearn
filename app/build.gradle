@@ -30,6 +30,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        buildTypes.each {
+            it.buildConfigField 'String', 'apiTranslateText', apiTranslate
+        }
     }
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module'
@@ -50,15 +53,15 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$arch_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$arch_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_lifecycle_version"
 
     // Room components
-    implementation "androidx.room:room-runtime:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
-    androidTestImplementation "androidx.room:room-testing:$roomVersion"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    androidTestImplementation "androidx.room:room-testing:$room_version"
 
     // Kotlin components
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -66,8 +69,8 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
 
     // Firebase components
-    implementation "com.google.firebase:firebase-analytics:$firebaseAnalytics"
-    implementation "com.google.firebase:firebase-firestore-ktx:$firebaseFirestore"
+    implementation "com.google.firebase:firebase-analytics:$firebase_analytics"
+    implementation "com.google.firebase:firebase-firestore-ktx:$firebase_firestore"
 
     // DI components
     implementation "org.koin:koin-android:$koin_version"
@@ -79,5 +82,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+    // Retrofit components
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary"
 }
