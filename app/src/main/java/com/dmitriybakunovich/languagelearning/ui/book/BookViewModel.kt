@@ -21,7 +21,7 @@ class BookViewModel(private val repository: TextDataRepository) :
 
     init {
         // TODO test language choice
-        repository.saveSelectLanguage("en", "ru")
+        repository.saveSelectLanguage("ru", "en")
 
         viewModelScope.launch(Dispatchers.IO) { checkNewBooks() }
     }
@@ -42,14 +42,14 @@ class BookViewModel(private val repository: TextDataRepository) :
             if (book.isFavourite) {
                 repository.update(
                     BookData(
-                        book.bookName, book.currentPageRead, book.isLoad,
-                        book.numberPages, false
+                        book.bookName, book.bookCategory, book.currentPageRead,
+                        book.isLoad, book.numberPages, false
                     )
                 )
             } else {
                 repository.update(
                     BookData(
-                        book.bookName, book.currentPageRead,
+                        book.bookName, book.bookCategory, book.currentPageRead,
                         book.isLoad, book.numberPages, true
                     )
                 )
@@ -70,10 +70,10 @@ class BookViewModel(private val repository: TextDataRepository) :
     private suspend fun initBook(bookData: BookData) {
         withContext(Dispatchers.IO) {
             val textMain = async {
-                repository.loadFullTextBook(bookData.bookName, "bookMain")
+                repository.loadFullTextBook(bookData, "bookMain")
             }
             val textChild = async {
-                repository.loadFullTextBook(bookData.bookName, "bookChild")
+                repository.loadFullTextBook(bookData, "bookChild")
             }
 
             val parseMainBook = async { parseBook(textMain.await()) }

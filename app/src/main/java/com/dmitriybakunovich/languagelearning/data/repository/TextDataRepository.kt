@@ -9,9 +9,6 @@ import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager
 import com.dmitriybakunovich.languagelearning.data.manager.ResourceManager
 import com.dmitriybakunovich.languagelearning.data.network.ApiTranslate
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import retrofit2.Retrofit
@@ -47,7 +44,9 @@ class TextDataRepository(
     }
 
     suspend fun addNewBooks() {
-        databaseDao.insertBooks(loadBooksCloud())
+//        databaseDao.insertBooks(loadBooksCloud())
+        databaseDao.insertBooks(loadBooksCategory("news"))
+        databaseDao.insertBooks(loadBooksCategory("stories"))
     }
 
     suspend fun update(bookData: BookData) {
@@ -90,7 +89,7 @@ class TextDataRepository(
      */
     fun getMovingNavigateValue(): Int = resourceManager.getMovingPixels()
 
-    suspend fun loadFullTextBook(bookName: String, typeLoadBook: String): String {
+    /*suspend fun loadFullTextBook(bookName: String, typeLoadBook: String): String {
         return suspendCoroutine { cont ->
             loadAllDataCloud()
                 .addOnSuccessListener {
@@ -101,9 +100,53 @@ class TextDataRepository(
                 }
                 .addOnFailureListener { cont.resumeWithException(it) }
         }
+    }*/
+
+    suspend fun loadFullTextBook(bookData: BookData, typeLoadBook: String): String {
+        return suspendCoroutine { cont ->
+            Firebase.firestore.collection(bookData.bookCategory)
+                .document(bookData.bookName)
+                .get()
+                .addOnSuccessListener { document ->
+                    val typeLanguage = getTypeLanguage(typeLoadBook)
+                    val textBook = document.getString(typeLanguage)
+                    textBook?.let {
+                        cont.resume(it)
+                    }
+                }
+                .addOnFailureListener { cont.resumeWithException(it) }
+        }
     }
 
-    private fun searchTextBook(
+    private fun getTypeLanguage(typeLoadBook: String): String {
+        var typeLanguage: String? = null
+        if (typeLoadBook == "bookMain") {
+            typeLanguage = preferenceManager.loadMainLanguage()
+        } else if (typeLoadBook == "bookChild") {
+            typeLanguage = preferenceManager.loadChildLanguage()
+        }
+        typeLanguage?.let {
+            return typeLanguage
+        }
+        return ""
+    }
+
+    private suspend fun loadBooksCategory(category: String): List<BookData> {
+        val bookData = mutableListOf<BookData>()
+        return suspendCoroutine { cont ->
+            Firebase.firestore.collection(category)
+                .get()
+                .addOnSuccessListener {
+                    for (document in it) {
+                        bookData.add(BookData(document.id, category, 0, false))
+                    }
+                    cont.resume(bookData)
+                }
+                .addOnFailureListener { cont.resumeWithException(it) }
+        }
+    }
+
+    /*private fun searchTextBook(
         document: QueryDocumentSnapshot,
         bookName: String,
         typeLoadBook: String
@@ -116,23 +159,19 @@ class TextDataRepository(
             }
         }
         return ""
-    }
+    }*/
 
     // Get books name
-    private suspend fun loadBooksCloud(): List<BookData> {
+    /*private suspend fun loadBooksCloud(): List<BookData> {
         val bookData = mutableListOf<BookData>()
         return suspendCoroutine { cont ->
             loadAllDataCloud().addOnSuccessListener {
                 for (document in it) {
-                    bookData.add(BookData(document.id, 0, false))
+                   // bookData.add(BookData(document.id, 0, false))
                 }
                 cont.resume(bookData)
             }
                 .addOnFailureListener { cont.resumeWithException(it) }
         }
-    }
-
-    private fun loadAllDataCloud(): Task<QuerySnapshot> {
-        return Firebase.firestore.collection("books").get()
-    }
+    }*/
 }

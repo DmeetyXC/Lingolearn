@@ -183,7 +183,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         GlobalScope.launch(Dispatchers.IO) {
             repository.update(
                 BookData(
-                    bookData.bookName, pageCurrentRead,
+                    bookData.bookName, bookData.bookCategory, pageCurrentRead,
                     true, books.size, bookData.isFavourite
                 )
             )
