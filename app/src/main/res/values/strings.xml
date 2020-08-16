@@ -13,4 +13,5 @@
     <string name="text_mode_selected">Выбран режим текста</string>
     <string name="text_mode_disabled">Режим текста отключен</string>
     <string name="empty_dictionary">Словарь пуст</string>
+    <string name="empty_favorite">Нет избранных книг</string>
 </resources>

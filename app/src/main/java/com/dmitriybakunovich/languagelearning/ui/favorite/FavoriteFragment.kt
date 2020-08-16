@@ -34,8 +34,13 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
 
     private fun observerView() {
         viewModel.favoriteBook.observe(viewLifecycleOwner, Observer {
-            adapter = FavoriteAdapter(it, this)
-            recyclerFavorite.adapter = adapter
+            if (it.isEmpty()) {
+                txtEmptyFavorite.visibility = View.VISIBLE
+            } else {
+                adapter = FavoriteAdapter(it, this)
+                recyclerFavorite.adapter = adapter
+                txtEmptyFavorite.visibility = View.INVISIBLE
+            }
         })
     }
 
