@@ -9,6 +9,7 @@ import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager
 import com.dmitriybakunovich.languagelearning.data.manager.ResourceManager
 import com.dmitriybakunovich.languagelearning.data.network.ApiTranslate
+import com.dmitriybakunovich.languagelearning.ui.text.BookType
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import retrofit2.Retrofit
@@ -102,7 +103,7 @@ class TextDataRepository(
         }
     }*/
 
-    suspend fun loadFullTextBook(bookData: BookData, typeLoadBook: String): String {
+    suspend fun loadFullTextBook(bookData: BookData, typeLoadBook: BookType): String {
         return suspendCoroutine { cont ->
             Firebase.firestore.collection(bookData.bookCategory)
                 .document(bookData.bookName)
@@ -118,11 +119,11 @@ class TextDataRepository(
         }
     }
 
-    private fun getTypeLanguage(typeLoadBook: String): String {
+    private fun getTypeLanguage(typeLoadBook: BookType): String {
         var typeLanguage: String? = null
-        if (typeLoadBook == "bookMain") {
+        if (typeLoadBook == BookType.MAIN) {
             typeLanguage = preferenceManager.loadMainLanguage()
-        } else if (typeLoadBook == "bookChild") {
+        } else if (typeLoadBook == BookType.CHILD) {
             typeLanguage = preferenceManager.loadChildLanguage()
         }
         typeLanguage?.let {

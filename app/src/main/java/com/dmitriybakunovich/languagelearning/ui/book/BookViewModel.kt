@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
+import com.dmitriybakunovich.languagelearning.ui.text.BookType
 import com.dmitriybakunovich.languagelearning.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -70,10 +71,10 @@ class BookViewModel(private val repository: TextDataRepository) :
     private suspend fun initBook(bookData: BookData) {
         withContext(Dispatchers.IO) {
             val textMain = async {
-                repository.loadFullTextBook(bookData, "bookMain")
+                repository.loadFullTextBook(bookData, BookType.MAIN)
             }
             val textChild = async {
-                repository.loadFullTextBook(bookData, "bookChild")
+                repository.loadFullTextBook(bookData, BookType.CHILD)
             }
 
             val parseMainBook = async { parseBook(textMain.await()) }

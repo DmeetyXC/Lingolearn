@@ -38,7 +38,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         dictionaryModeState.postValue(status)
     }
 
-    fun touchText(offset: Int, text: String, touchType: TextTouchType) {
+    fun touchText(offset: Int, text: String, touchType: BookType) {
         val firstElement = searchFirstElement(offset, text)
         val lastElement = searchLastElement(offset, text)
         if (lastElement == 0) {
@@ -49,8 +49,8 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
             firstElement, lastElement
         )
         when (touchType) {
-            TextTouchType.MAIN -> textSelectedMain.postValue(spannableString)
-            TextTouchType.CHILD -> textSelectedChild.postValue(spannableString)
+            BookType.MAIN -> textSelectedMain.postValue(spannableString)
+            BookType.CHILD -> textSelectedChild.postValue(spannableString)
         }
     }
 

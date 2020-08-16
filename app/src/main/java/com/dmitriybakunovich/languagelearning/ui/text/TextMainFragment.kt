@@ -71,7 +71,7 @@ class TextMainFragment : Fragment() {
                         val line = it.getLineForVertical(event.y.toInt())
                         val offset = it.getOffsetForHorizontal(line, event.x)
                         val text = textMain.text.toString()
-                        viewModel.touchText(offset, text, TextTouchType.MAIN)
+                        viewModel.touchText(offset, text, BookType.MAIN)
                         viewModel.searchNumberLineText(offset, text)
                         viewModel.scrollTextPosition(it.lineCount / 2, line)
                     }
