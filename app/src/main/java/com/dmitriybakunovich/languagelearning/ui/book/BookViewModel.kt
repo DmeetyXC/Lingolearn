@@ -30,16 +30,29 @@ class BookViewModel(private val repository: TextDataRepository) :
     fun handleItemClick(book: BookData) {
         viewModelScope.launch {
             if (!book.isLoad) {
-                progressState.postValue(true)
-                initBook(book)
-                progressState.postValue(false)
+                loadBook(book)
             }
             initBookState.postValue(book)
         }
     }
 
     fun addFavoriteBook(book: BookData) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
+            if (!book.isLoad) {
+                loadBook(book)
+            }
+            updateFavoriteBook(book)
+        }
+    }
+
+    private suspend fun loadBook(book: BookData) {
+        progressState.postValue(true)
+        initBook(book)
+        progressState.postValue(false)
+    }
+
+    private suspend fun updateFavoriteBook(book: BookData) {
+        withContext(Dispatchers.IO) {
             if (book.isFavourite) {
                 repository.update(
                     BookData(
@@ -51,7 +64,7 @@ class BookViewModel(private val repository: TextDataRepository) :
                 repository.update(
                     BookData(
                         book.bookName, book.bookCategory, book.currentPageRead,
-                        book.isLoad, book.numberPages, true
+                        true, book.numberPages, true
                     )
                 )
             }

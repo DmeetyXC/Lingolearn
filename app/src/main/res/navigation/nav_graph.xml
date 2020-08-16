@@ -16,6 +16,9 @@
         <action
                 android:id="@+id/action_bookFragment_to_dictionaryFragment"
                 app:destination="@id/dictionaryFragment" />
+        <action
+                android:id="@+id/action_bookFragment_to_favoriteFragment2"
+                app:destination="@id/favoriteFragment" />
     </fragment>
     <activity
             android:id="@+id/textContainerActivity"
@@ -31,4 +34,13 @@
             android:name="com.dmitriybakunovich.languagelearning.ui.dictionary.DictionaryFragment"
             android:label="dictionary_fragment"
             tools:layout="@layout/dictionary_fragment" />
+    <fragment
+            android:id="@+id/favoriteFragment"
+            android:name="com.dmitriybakunovich.languagelearning.ui.favorite.FavoriteFragment"
+            android:label="favorite_fragment"
+            tools:layout="@layout/favorite_fragment">
+        <action
+                android:id="@+id/action_favoriteFragment_to_textContainerActivity"
+                app:destination="@id/textContainerActivity" />
+    </fragment>
 </navigation>

@@ -26,6 +26,7 @@ class TextDataRepository(
     //    val allBookWithText: LiveData<List<BookWithText>> = databaseDao.getBookWithText()
     val allBook: LiveData<List<BookData>> = databaseDao.getAllBookData()
     val dictionary: LiveData<List<Dictionary>> = databaseDao.getAllDictionary()
+    val favoriteBook: LiveData<List<BookData>> = databaseDao.getFavoriteBook()
 
     companion object {
         private const val TRANSLATE_URL = "https://translate.yandex.net"

@@ -82,7 +82,7 @@ class BookAdapter(
         }
 
         private fun getProgressReadBook(book: BookData) = with(book) {
-            if (!book.isLoad) {
+            if (!book.isLoad || book.numberPages == 0) {
                 return@with 0
             }
             (book.currentPageRead * 100) / book.numberPages

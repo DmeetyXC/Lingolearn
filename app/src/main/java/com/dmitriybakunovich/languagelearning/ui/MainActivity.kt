@@ -36,8 +36,7 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.bookFragment)
                 }
                 R.id.textContainerActivity -> {
-                    // TODO Here the favorite books should be loaded
-                    navController.navigate(R.id.bookFragment)
+                    navController.navigate(R.id.favoriteFragment)
                 }
                 R.id.dictionaryFragment -> {
                     navController.navigate(R.id.dictionaryFragment)
