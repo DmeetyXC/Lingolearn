@@ -1,11 +1,11 @@
 package com.dmitriybakunovich.languagelearning.ui.book
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
+import com.dmitriybakunovich.languagelearning.data.model.BookParentModel
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 import com.dmitriybakunovich.languagelearning.ui.text.BookType
 import com.dmitriybakunovich.languagelearning.util.SingleLiveEvent
@@ -18,7 +18,7 @@ class BookViewModel(private val repository: TextDataRepository) :
     ViewModel() {
     val progressState = MutableLiveData<Boolean>()
     val initBookState = SingleLiveEvent<BookData>()
-    val allBook: LiveData<List<BookData>> = repository.allBook
+    val allBook = repository.allBook
 
     init {
         // TODO test language choice
@@ -43,6 +43,24 @@ class BookViewModel(private val repository: TextDataRepository) :
             }
             updateFavoriteBook(book)
         }
+    }
+
+    /**
+     * Downloading and converting books for each category,
+     * updated after each change of books to the database
+     */
+    suspend fun loadBookCategory(allBookLoad: List<BookData>): List<BookParentModel> {
+        val categoryList: MutableList<String> = mutableListOf()
+        for (bookData in allBookLoad) {
+            if (!categoryList.contains(bookData.bookCategory)) {
+                categoryList.add(bookData.bookCategory)
+            }
+        }
+        val bookCategory: MutableList<BookParentModel> = mutableListOf()
+        for (category in categoryList) {
+            bookCategory.add(BookParentModel(category, repository.getBookDataCategory(category)))
+        }
+        return bookCategory
     }
 
     private suspend fun loadBook(book: BookData) {

@@ -15,6 +15,9 @@ interface DatabaseDao {
     @Query("SELECT * FROM book_data")
     fun getAllBookData(): LiveData<List<BookData>>
 
+    @Query("SELECT * FROM book_data WHERE bookCategory = :bookCategory")
+    suspend fun loadBookDataCategory(bookCategory: String): List<BookData>
+
     @Query("SELECT * FROM book_data WHERE isFavourite")
     fun getFavoriteBook(): LiveData<List<BookData>>
 

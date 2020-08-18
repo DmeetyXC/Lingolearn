@@ -17,22 +17,21 @@ class BookAdapter(
     RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(book: BookData)
 
-        fun onFavoriteItemClick(position: Int)
+        fun onFavoriteItemClick(book: BookData)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_book,
-            parent, false
+            R.layout.item_book, parent, false
         )
         val bookHolder = BookViewHolder(view)
         view.setOnClickListener {
-            clickListener.onItemClick(bookHolder.adapterPosition)
+            clickListener.onItemClick(books[bookHolder.adapterPosition])
         }
         bookHolder.favoriteBook.setOnClickListener {
-            clickListener.onFavoriteItemClick(bookHolder.adapterPosition)
+            clickListener.onFavoriteItemClick(books[bookHolder.adapterPosition])
         }
         return bookHolder
     }
@@ -42,8 +41,6 @@ class BookAdapter(
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         holder.bind(books[position])
     }
-
-    fun getBook(): List<BookData> = books
 
     class BookViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
