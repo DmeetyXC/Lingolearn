@@ -7,7 +7,7 @@
             android:title="@string/title_library" />
 
     <item
-            android:id="@+id/textContainerActivity"
+            android:id="@+id/favoriteFragment"
             android:enabled="true"
             android:icon="@drawable/ic_dashboard_black_24dp"
             android:title="@string/title_favorite" />

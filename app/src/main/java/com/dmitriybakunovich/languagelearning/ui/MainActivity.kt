@@ -3,6 +3,7 @@ package com.dmitriybakunovich.languagelearning.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import androidx.navigation.ui.setupWithNavController
 import com.dmitriybakunovich.languagelearning.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,23 +27,6 @@ class MainActivity : AppCompatActivity() {
         val navController = Navigation
             .findNavController(this, R.id.nav_host_fragment)
         val navView: BottomNavigationView = findViewById(R.id.bottom_nav)
-        // Will automatically go to menu items, ItemSelectedListener not needed
-        // NavigationUI.setupWithNavController(navView, navController)
-
-        navView.setOnNavigationItemSelectedListener { item ->
-            item.isChecked = true
-            when (item.itemId) {
-                R.id.bookFragment -> {
-                    navController.navigate(R.id.bookFragment)
-                }
-                R.id.textContainerActivity -> {
-                    navController.navigate(R.id.favoriteFragment)
-                }
-                R.id.dictionaryFragment -> {
-                    navController.navigate(R.id.dictionaryFragment)
-                }
-            }
-            false
-        }
+        navView.setupWithNavController(navController)
     }
 }
