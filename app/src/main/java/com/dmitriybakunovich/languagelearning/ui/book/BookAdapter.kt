@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import kotlinx.android.synthetic.main.item_book.view.*
@@ -47,11 +48,13 @@ class BookAdapter(
         val favoriteBook: ImageView = itemView.favoriteBook
         private val nameBook: TextView = itemView.nameBook
         private val progressBook: TextView = itemView.progressBook
+        private val imageBook: ImageView = itemView.imageBook
 
         fun bind(book: BookData) {
             nameBook.text = book.bookName
             setBookProgress(book)
             setBookFavorite(book)
+            Glide.with(itemView).load(book.bookCoverPatch).into(imageBook)
         }
 
         private fun setBookProgress(book: BookData) {

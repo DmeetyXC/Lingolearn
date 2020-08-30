@@ -144,7 +144,12 @@ class TextDataRepository(
                 .get()
                 .addOnSuccessListener {
                     for (document in it) {
-                        bookData.add(BookData(document.id, category, 0, false))
+                        bookData.add(
+                            BookData(
+                                document.id, category, 0,
+                                false, document.getString("image")
+                            )
+                        )
                     }
                     cont.resume(bookData)
                 }

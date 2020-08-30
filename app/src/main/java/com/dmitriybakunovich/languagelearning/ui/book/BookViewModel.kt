@@ -75,14 +75,14 @@ class BookViewModel(private val repository: TextDataRepository) :
                 repository.update(
                     BookData(
                         book.bookName, book.bookCategory, book.currentPageRead,
-                        book.isLoad, book.numberPages, false
+                        book.isLoad, book.bookCoverPatch, book.numberPages, false
                     )
                 )
             } else {
                 repository.update(
                     BookData(
                         book.bookName, book.bookCategory, book.currentPageRead,
-                        true, book.numberPages, true
+                        true, book.bookCoverPatch, book.numberPages, true
                     )
                 )
             }

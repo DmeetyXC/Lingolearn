@@ -184,7 +184,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
             repository.update(
                 BookData(
                     bookData.bookName, bookData.bookCategory, pageCurrentRead,
-                    true, books.size, bookData.isFavourite
+                    true, bookData.bookCoverPatch, books.size, bookData.isFavourite
                 )
             )
         }

@@ -12,6 +12,7 @@ data class BookData(
     val bookCategory: String,
     val currentPageRead: Int,
     val isLoad: Boolean,
+    val bookCoverPatch: String?,
     val numberPages: Int = 0,
     val isFavourite: Boolean = false
 ) :
