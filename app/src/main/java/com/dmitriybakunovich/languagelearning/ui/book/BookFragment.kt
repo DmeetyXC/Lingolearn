@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
-import com.dmitriybakunovich.languagelearning.data.model.BookParentModel
 import kotlinx.android.synthetic.main.book_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,6 +38,8 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         recyclerBookParent.layoutManager = LinearLayoutManager(
             requireActivity(), LinearLayoutManager.VERTICAL, false
         )
+        adapter = BookParentAdapter(this)
+        recyclerBookParent.adapter = adapter
     }
 
     private fun observerView() {
@@ -46,7 +47,7 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 val bookCategory = viewModel.loadBookCategory(it)
                 withContext(Dispatchers.Main) {
-                    setDataAdapter(bookCategory)
+                    adapter.setItems(bookCategory)
                 }
             }
         })
@@ -62,11 +63,6 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         viewModel.initBookState.observe(viewLifecycleOwner, Observer {
             navigateTextContainer(it)
         })
-    }
-
-    private fun setDataAdapter(bookCategory: List<BookParentModel>) {
-        adapter = BookParentAdapter(bookCategory, this)
-        recyclerBookParent.adapter = adapter
     }
 
     override fun onItemClick(book: BookData) {

@@ -11,11 +11,10 @@ import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import kotlinx.android.synthetic.main.item_book.view.*
 
-class BookAdapter(
-    private val books: List<BookData>,
-    private val clickListener: OnItemClickListener
-) :
+class BookAdapter(private val clickListener: OnItemClickListener) :
     RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
+
+    private var books: List<BookData> = mutableListOf()
 
     interface OnItemClickListener {
         fun onItemClick(book: BookData)
@@ -41,6 +40,11 @@ class BookAdapter(
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         holder.bind(books[position])
+    }
+
+    fun setItems(books: List<BookData>) {
+        this.books = books
+        notifyDataSetChanged()
     }
 
     class BookViewHolder(itemView: View) :

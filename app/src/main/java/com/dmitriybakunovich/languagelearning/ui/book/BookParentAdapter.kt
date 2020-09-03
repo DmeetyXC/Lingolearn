@@ -10,47 +10,52 @@ import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.model.BookParentModel
 import kotlinx.android.synthetic.main.item_book_category.view.*
 
-class BookParentAdapter(
-    private val categoryBook: List<BookParentModel>,
-    private val clickListener: BookAdapter.OnItemClickListener
-) :
+class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListener) :
     RecyclerView.Adapter<BookParentAdapter.BookParentViewHolder>() {
 
     private val viewPool = RecyclerView.RecycledViewPool()
+    private var categoryBook: List<BookParentModel> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookParentViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
             R.layout.item_book_category, parent, false
         )
-        return BookParentViewHolder(view, viewPool)
+        val adapter = BookAdapter(clickListener)
+        val viewHolder = BookParentViewHolder(view, adapter)
+        initRecycler(viewHolder, adapter)
+        return viewHolder
+    }
+
+    private fun initRecycler(viewHolder: BookParentViewHolder, bookAdapter: BookAdapter) {
+        viewHolder.recyclerView.apply {
+            layoutManager = LinearLayoutManager(
+                viewHolder.recyclerView.context, LinearLayoutManager.HORIZONTAL, false
+            )
+            setRecycledViewPool(viewPool)
+            adapter = bookAdapter
+        }
     }
 
     override fun getItemCount(): Int = categoryBook.size
 
     override fun onBindViewHolder(holder: BookParentViewHolder, position: Int) {
-        holder.bind(categoryBook[position], clickListener)
+        holder.bind(categoryBook[position])
     }
 
-    class BookParentViewHolder(
-        itemView: View,
-        private val viewPool: RecyclerView.RecycledViewPool
-    ) :
+    fun setItems(categoryBook: List<BookParentModel>) {
+        this.categoryBook = categoryBook
+        notifyDataSetChanged()
+    }
+
+    class BookParentViewHolder(itemView: View, private var adapter: BookAdapter) :
         RecyclerView.ViewHolder(itemView) {
 
-        private val recyclerView: RecyclerView = itemView.recyclerBookChild
+        val recyclerView: RecyclerView = itemView.recyclerBookChild
         private val textCategory: TextView = itemView.textTitle
 
-        fun bind(book: BookParentModel, clickListener: BookAdapter.OnItemClickListener) {
+        fun bind(book: BookParentModel) {
             textCategory.text = book.category
-            val childLayoutManager = LinearLayoutManager(
-                recyclerView.context, LinearLayoutManager.HORIZONTAL, false
-            )
-            childLayoutManager.initialPrefetchItemCount = 3
-            recyclerView.apply {
-                layoutManager = childLayoutManager
-                adapter = BookAdapter(book.books, clickListener)
-                setRecycledViewPool(viewPool)
-            }
+            adapter.setItems(book.books)
         }
     }
 }
