@@ -4,17 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.model.BookParentModel
 import kotlinx.android.synthetic.main.item_book_category.view.*
 
 class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListener) :
-    RecyclerView.Adapter<BookParentAdapter.BookParentViewHolder>() {
+    ListAdapter<BookParentModel, BookParentAdapter.BookParentViewHolder>(DiffCallback()) {
 
     private val viewPool = RecyclerView.RecycledViewPool()
-    private var categoryBook: List<BookParentModel> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookParentViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -31,20 +32,27 @@ class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListen
             layoutManager = LinearLayoutManager(
                 viewHolder.recyclerView.context, LinearLayoutManager.HORIZONTAL, false
             )
+            itemAnimator = null
             setRecycledViewPool(viewPool)
             adapter = bookAdapter
         }
     }
 
-    override fun getItemCount(): Int = categoryBook.size
-
     override fun onBindViewHolder(holder: BookParentViewHolder, position: Int) {
-        holder.bind(categoryBook[position])
+        holder.bind(getItem(position))
     }
 
-    fun setItems(categoryBook: List<BookParentModel>) {
-        this.categoryBook = categoryBook
-        notifyDataSetChanged()
+    private class DiffCallback : DiffUtil.ItemCallback<BookParentModel>() {
+        override fun areItemsTheSame(oldItem: BookParentModel, newItem: BookParentModel): Boolean {
+            return oldItem.category == newItem.category
+        }
+
+        override fun areContentsTheSame(
+            oldItem: BookParentModel,
+            newItem: BookParentModel
+        ): Boolean {
+            return oldItem.books == newItem.books
+        }
     }
 
     class BookParentViewHolder(itemView: View, private var adapter: BookAdapter) :
@@ -55,7 +63,7 @@ class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListen
 
         fun bind(book: BookParentModel) {
             textCategory.text = book.category
-            adapter.setItems(book.books)
+            adapter.submitList(book.books)
         }
     }
 }

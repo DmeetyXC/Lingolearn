@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dmitriybakunovich.languagelearning.R
@@ -12,9 +14,7 @@ import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import kotlinx.android.synthetic.main.item_book.view.*
 
 class BookAdapter(private val clickListener: OnItemClickListener) :
-    RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
-
-    private var books: List<BookData> = mutableListOf()
+    ListAdapter<BookData, BookAdapter.BookViewHolder>(DiffCallback()) {
 
     interface OnItemClickListener {
         fun onItemClick(book: BookData)
@@ -28,23 +28,29 @@ class BookAdapter(private val clickListener: OnItemClickListener) :
         )
         val bookHolder = BookViewHolder(view)
         view.setOnClickListener {
-            clickListener.onItemClick(books[bookHolder.adapterPosition])
+            clickListener.onItemClick(getItem(bookHolder.adapterPosition))
         }
         bookHolder.favoriteBook.setOnClickListener {
-            clickListener.onFavoriteItemClick(books[bookHolder.adapterPosition])
+            clickListener.onFavoriteItemClick(getItem(bookHolder.adapterPosition))
         }
         return bookHolder
     }
 
-    override fun getItemCount(): Int = books.size
-
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
-        holder.bind(books[position])
+        holder.bind(getItem(position))
     }
 
-    fun setItems(books: List<BookData>) {
-        this.books = books
-        notifyDataSetChanged()
+    private class DiffCallback : DiffUtil.ItemCallback<BookData>() {
+        override fun areItemsTheSame(oldItem: BookData, newItem: BookData): Boolean {
+            return oldItem.bookName == newItem.bookName
+        }
+
+        override fun areContentsTheSame(oldItem: BookData, newItem: BookData): Boolean {
+            return oldItem.isFavourite == newItem.isFavourite
+                    && oldItem.isLoad == newItem.isLoad
+                    && oldItem.numberPages == newItem.numberPages
+                    && oldItem.currentPageRead == newItem.currentPageRead
+        }
     }
 
     class BookViewHolder(itemView: View) :

@@ -20,7 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
 
     private val viewModel: BookViewModel by viewModel()
-    private lateinit var adapter: BookParentAdapter
+    private lateinit var parentAdapter: BookParentAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,11 +35,14 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
     }
 
     private fun initView() {
-        recyclerBookParent.layoutManager = LinearLayoutManager(
-            requireActivity(), LinearLayoutManager.VERTICAL, false
-        )
-        adapter = BookParentAdapter(this)
-        recyclerBookParent.adapter = adapter
+        parentAdapter = BookParentAdapter(this)
+        recyclerBookParent.apply {
+            layoutManager = LinearLayoutManager(
+                requireActivity(), LinearLayoutManager.VERTICAL, false
+            )
+            itemAnimator = null
+            adapter = parentAdapter
+        }
     }
 
     private fun observerView() {
@@ -47,7 +50,7 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 val bookCategory = viewModel.loadBookCategory(it)
                 withContext(Dispatchers.Main) {
-                    adapter.setItems(bookCategory)
+                    parentAdapter.submitList(bookCategory)
                 }
             }
         })

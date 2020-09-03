@@ -16,7 +16,7 @@ class FavoriteAdapter(
     RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(book: BookData)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
@@ -26,7 +26,7 @@ class FavoriteAdapter(
         )
         val favoriteHolder = FavoriteViewHolder(view)
         view.setOnClickListener {
-            clickListener.onItemClick(favoriteHolder.adapterPosition)
+            clickListener.onItemClick(favoriteBooks[favoriteHolder.adapterPosition])
         }
         return favoriteHolder
     }
@@ -36,8 +36,6 @@ class FavoriteAdapter(
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         holder.bind(favoriteBooks[position])
     }
-
-    fun getBook(): List<BookData> = favoriteBooks
 
     class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameBookFavorite: TextView = itemView.nameBookFavorite

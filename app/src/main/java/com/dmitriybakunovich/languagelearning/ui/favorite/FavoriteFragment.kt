@@ -32,6 +32,10 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
         observerView()
     }
 
+    override fun onItemClick(book: BookData) {
+        navigateTextContainer(book)
+    }
+
     private fun observerView() {
         viewModel.favoriteBook.observe(viewLifecycleOwner, Observer {
             if (it.isEmpty()) {
@@ -44,18 +48,14 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
         })
     }
 
-    private fun navigateTextContainer(bookData: BookData) {
+    private fun navigateTextContainer(book: BookData) {
         val bundle = Bundle()
-        bundle.putParcelable("book", bookData)
+        bundle.putParcelable("book", book)
         findNavController().navigate(R.id.action_favoriteFragment_to_textContainerActivity, bundle)
     }
 
     override fun onDestroyView() {
         recyclerFavorite.adapter = null
         super.onDestroyView()
-    }
-
-    override fun onItemClick(position: Int) {
-        navigateTextContainer(adapter.getBook()[position])
     }
 }
