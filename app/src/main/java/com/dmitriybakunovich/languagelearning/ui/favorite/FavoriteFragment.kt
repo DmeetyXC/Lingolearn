@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import kotlinx.android.synthetic.main.favorite_fragment.*
@@ -28,7 +28,7 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        recyclerFavorite.layoutManager = LinearLayoutManager(requireActivity())
+        initView()
         observerView()
     }
 
@@ -36,13 +36,18 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
         navigateTextContainer(book)
     }
 
+    private fun initView() {
+        adapter = FavoriteAdapter(this)
+        recyclerFavorite.layoutManager = GridLayoutManager(requireActivity(), 2)
+        recyclerFavorite.adapter = adapter
+    }
+
     private fun observerView() {
         viewModel.favoriteBook.observe(viewLifecycleOwner, Observer {
             if (it.isEmpty()) {
                 txtEmptyFavorite.visibility = View.VISIBLE
             } else {
-                adapter = FavoriteAdapter(it, this)
-                recyclerFavorite.adapter = adapter
+                adapter.submitList(it)
                 txtEmptyFavorite.visibility = View.INVISIBLE
             }
         })
