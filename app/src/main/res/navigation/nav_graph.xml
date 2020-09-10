@@ -17,8 +17,14 @@
                 android:id="@+id/action_bookFragment_to_dictionaryFragment"
                 app:destination="@id/dictionaryFragment" />
         <action
-                android:id="@+id/action_bookFragment_to_favoriteFragment2"
+                android:id="@+id/action_bookFragment_to_favoriteFragment"
                 app:destination="@id/favoriteFragment" />
+        <action
+                android:id="@+id/action_bookFragment_to_choiceLanguageFragment"
+                app:destination="@id/choiceLanguageFragment"
+                app:launchSingleTop="true"
+                app:popUpTo="@id/nav_graph"
+                app:popUpToInclusive="true" />
     </fragment>
     <activity
             android:id="@+id/textContainerActivity"
@@ -42,5 +48,17 @@
         <action
                 android:id="@+id/action_favoriteFragment_to_textContainerActivity"
                 app:destination="@id/textContainerActivity" />
+    </fragment>
+    <fragment
+            android:id="@+id/choiceLanguageFragment"
+            android:name="com.dmitriybakunovich.languagelearning.ui.choiceLanguage.ChoiceLanguageFragment"
+            android:label="choice_language_fragment"
+            tools:layout="@layout/choice_language_fragment">
+        <action
+                android:id="@+id/action_choiceLanguageFragment_to_bookFragment"
+                app:destination="@id/bookFragment"
+                app:launchSingleTop="true"
+                app:popUpTo="@id/nav_graph"
+                app:popUpToInclusive="true" />
     </fragment>
 </navigation>

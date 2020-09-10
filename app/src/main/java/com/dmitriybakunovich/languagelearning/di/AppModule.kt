@@ -7,6 +7,7 @@ import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager
 import com.dmitriybakunovich.languagelearning.data.manager.ResourceManager
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 import com.dmitriybakunovich.languagelearning.ui.book.BookViewModel
+import com.dmitriybakunovich.languagelearning.ui.choiceLanguage.ChoiceLanguageViewModel
 import com.dmitriybakunovich.languagelearning.ui.dictionary.DictionaryViewModel
 import com.dmitriybakunovich.languagelearning.ui.favorite.FavoriteViewModel
 import com.dmitriybakunovich.languagelearning.ui.text.TextViewModel
@@ -18,6 +19,7 @@ val appModule = module {
     viewModel { (bookData: BookData) -> TextViewModel(bookData, get()) }
     viewModel { DictionaryViewModel(get()) }
     viewModel { FavoriteViewModel(get()) }
+    viewModel { ChoiceLanguageViewModel(get()) }
     single { provideDatabaseDao(get()) }
     single { TextDataRepository(get(), ResourceManager(get()), PreferenceManager(get())) }
 //    factory { CoroutineScope(Dispatchers.IO) }

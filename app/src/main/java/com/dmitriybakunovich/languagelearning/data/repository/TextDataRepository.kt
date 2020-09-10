@@ -73,6 +73,8 @@ class TextDataRepository(
         return translateResult.text[0]
     }
 
+    fun getMainLanguage() = preferenceManager.loadMainLanguage()
+
     private fun getRetrofit(): ApiTranslate = Retrofit.Builder()
         .baseUrl(TRANSLATE_URL)
         .addConverterFactory(GsonConverterFactory.create())

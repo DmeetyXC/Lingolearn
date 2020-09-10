@@ -14,4 +14,7 @@
     <string name="text_mode_disabled">Режим текста отключен</string>
     <string name="empty_dictionary">Словарь пуст</string>
     <string name="empty_favorite">Нет избранных книг</string>
+    <string name="further">Далее</string>
+    <string name="choice_lang_learn">Выберите язык который хотите изучить</string>
+    <string name="choice_lang_native">Выберите ваш исходный язык</string>
 </resources>

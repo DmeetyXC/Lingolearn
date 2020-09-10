@@ -21,9 +21,6 @@ class BookViewModel(private val repository: TextDataRepository) :
     val allBook = repository.allBook
 
     init {
-        // TODO test language choice
-        repository.saveSelectLanguage("ru", "en")
-
         viewModelScope.launch(Dispatchers.IO) { checkNewBooks() }
     }
 
@@ -43,6 +40,11 @@ class BookViewModel(private val repository: TextDataRepository) :
             }
             updateFavoriteBook(book)
         }
+    }
+
+    fun checkSaveLanguage(): Boolean {
+        val mainLanguage = repository.getMainLanguage()
+        return mainLanguage != null && mainLanguage.isNotEmpty()
     }
 
     /**

@@ -20,13 +20,13 @@ class PreferenceManager(private val context: Context) {
         val sharedPref = context.getSharedPreferences(
             "language", Context.MODE_PRIVATE
         )
-        return sharedPref.getString("main", Locale.getDefault().language)
+        return sharedPref.getString("main", "")
     }
 
     fun loadChildLanguage(): String? {
         val sharedPref = context.getSharedPreferences(
             "language", Context.MODE_PRIVATE
         )
-        return sharedPref.getString("child", "en")
+        return sharedPref.getString("child", Locale.getDefault().language)
     }
 }

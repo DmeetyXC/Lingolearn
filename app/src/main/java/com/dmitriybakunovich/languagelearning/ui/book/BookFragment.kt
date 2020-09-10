@@ -27,6 +27,13 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.book_fragment, container, false)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (!viewModel.checkSaveLanguage()) {
+            findNavController().navigate(R.id.action_bookFragment_to_choiceLanguageFragment)
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
