@@ -3,22 +3,23 @@ package com.dmitriybakunovich.languagelearning.ui.text
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.navArgs
 import com.dmitriybakunovich.languagelearning.R
 import kotlinx.android.synthetic.main.activity_text_container.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
 class TextContainerActivity : AppCompatActivity() {
+
     private lateinit var viewModel: TextViewModel
+    private val args: TextContainerActivityArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text_container)
 
-        viewModel = getViewModel { parametersOf(intent.getParcelableExtra("book")) }
+        viewModel = getViewModel { parametersOf(args.book) }
         initToolbar()
-        startText()
-        observeView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -42,23 +43,5 @@ class TextContainerActivity : AppCompatActivity() {
         toolbarTextContainer.setNavigationOnClickListener {
             onBackPressed()
         }
-    }
-
-    private fun observeView() {
-        /*viewModel.allText.observe(this, Observer {
-            if (it.isNotEmpty()) {
-                Log.v("QQQQ", "book in activity = ${it[0].bookData.bookName}")
-            }
-        })
-        viewModel.book.observe(this, Observer {
-            Log.v("QQQQQQQQQQ", "WATCH = ${it[0].textMain}")
-        })*/
-    }
-
-    private fun startText() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, TextMainFragment.newInstance())
-            .replace(R.id.container2, TextChildFragment.newInstance())
-            .commit()
     }
 }

@@ -30,7 +30,9 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!viewModel.checkSaveLanguage()) {
-            findNavController().navigate(R.id.action_bookFragment_to_choiceLanguageFragment)
+            findNavController().navigate(
+                BookFragmentDirections.actionBookFragmentToChoiceLanguageFragment()
+            )
         }
     }
 
@@ -71,7 +73,9 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         })
 
         viewModel.initBookState.observe(viewLifecycleOwner, Observer {
-            navigateTextContainer(it)
+            findNavController().navigate(
+                BookFragmentDirections.actionBookFragmentToTextContainerActivity(it)
+            )
         })
     }
 
@@ -81,16 +85,5 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
 
     override fun onFavoriteItemClick(book: BookData) {
         viewModel.addFavoriteBook(book)
-    }
-
-    private fun navigateTextContainer(bookData: BookData) {
-        val bundle = Bundle()
-        bundle.putParcelable("book", bookData)
-        findNavController().navigate(R.id.action_bookFragment_to_textContainerActivity, bundle)
-    }
-
-    override fun onDestroyView() {
-        recyclerBookParent.adapter = null
-        super.onDestroyView()
     }
 }

@@ -12,10 +12,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class TextMainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = TextMainFragment()
-    }
-
     private val viewModel: TextViewModel by sharedViewModel()
 
     // Detect long click time

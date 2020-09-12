@@ -19,9 +19,7 @@ class ChoiceLanguageFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.choice_language_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.choice_language_fragment, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -40,7 +38,9 @@ class ChoiceLanguageFragment : Fragment() {
             val childLanguage = selectedValues[spinnerChild.selectedItemPosition]
             viewModel.saveLanguageChoice(mainLanguage, childLanguage)
             navView.visibility = View.VISIBLE
-            findNavController().navigate(R.id.action_choiceLanguageFragment_to_bookFragment)
+            findNavController().navigate(
+                ChoiceLanguageFragmentDirections.actionChoiceLanguageFragmentToBookFragment()
+            )
         }
     }
 }

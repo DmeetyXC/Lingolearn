@@ -31,8 +31,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbarTextContainer">
 
-        <FrameLayout
-                android:id="@+id/container"
+        <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/textMainFragment"
+                android:name="com.dmitriybakunovich.languagelearning.ui.text.TextMainFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -48,8 +49,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp" />
 
-        <FrameLayout
-                android:id="@+id/container2"
+        <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/textChildFragment"
+                android:name="com.dmitriybakunovich.languagelearning.ui.text.TextChildFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"

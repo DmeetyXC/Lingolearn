@@ -21,9 +21,7 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.favorite_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.favorite_fragment, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -33,7 +31,9 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(book: BookData) {
-        navigateTextContainer(book)
+        findNavController().navigate(
+            FavoriteFragmentDirections.actionFavoriteFragmentToTextContainerActivity(book)
+        )
     }
 
     private fun initView() {
@@ -51,16 +51,5 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
                 txtEmptyFavorite.visibility = View.INVISIBLE
             }
         })
-    }
-
-    private fun navigateTextContainer(book: BookData) {
-        val bundle = Bundle()
-        bundle.putParcelable("book", book)
-        findNavController().navigate(R.id.action_favoriteFragment_to_textContainerActivity, bundle)
-    }
-
-    override fun onDestroyView() {
-        recyclerFavorite.adapter = null
-        super.onDestroyView()
     }
 }

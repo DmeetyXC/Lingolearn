@@ -14,14 +14,16 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class BookViewModel(private val repository: TextDataRepository) :
-    ViewModel() {
+class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
+
     val progressState = MutableLiveData<Boolean>()
     val initBookState = SingleLiveEvent<BookData>()
     val allBook = repository.allBook
 
     init {
-        viewModelScope.launch(Dispatchers.IO) { checkNewBooks() }
+        viewModelScope.launch(Dispatchers.IO) {
+            checkNewBooks()
+        }
     }
 
     fun handleItemClick(book: BookData) {

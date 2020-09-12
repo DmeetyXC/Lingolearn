@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,9 @@ import com.dmitriybakunovich.languagelearning.data.model.BookParentModel
 import kotlinx.android.synthetic.main.item_book_category.view.*
 
 class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListener) :
-    ListAdapter<BookParentModel, BookParentAdapter.BookParentViewHolder>(DiffCallback()) {
+    ListAdapter<BookParentModel, BookParentAdapter.BookParentViewHolder>(
+        BookParentModel.DiffCallback()
+    ) {
 
     private val viewPool = RecyclerView.RecycledViewPool()
 
@@ -40,19 +41,6 @@ class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListen
 
     override fun onBindViewHolder(holder: BookParentViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    private class DiffCallback : DiffUtil.ItemCallback<BookParentModel>() {
-        override fun areItemsTheSame(oldItem: BookParentModel, newItem: BookParentModel): Boolean {
-            return oldItem.category == newItem.category
-        }
-
-        override fun areContentsTheSame(
-            oldItem: BookParentModel,
-            newItem: BookParentModel
-        ): Boolean {
-            return oldItem.books == newItem.books
-        }
     }
 
     class BookParentViewHolder(itemView: View, private var adapter: BookAdapter) :

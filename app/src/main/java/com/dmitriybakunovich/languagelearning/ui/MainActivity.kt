@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.dmitriybakunovich.languagelearning.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private fun initNavigation() {
         val navController = Navigation
             .findNavController(this, R.id.nav_host_fragment)
-        val navView: BottomNavigationView = findViewById(R.id.bottom_nav)
-        navView.setupWithNavController(navController)
+        bottom_nav.setupWithNavController(navController)
     }
 }

@@ -31,7 +31,9 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
 
     init {
         pageCurrentRead = bookData.currentPageRead
-        viewModelScope.launch(Dispatchers.IO) { setPageCurrentRead() }
+        viewModelScope.launch(Dispatchers.IO) {
+            setPageCurrentRead()
+        }
     }
 
     fun dictionaryModeState(status: Boolean) {
