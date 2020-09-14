@@ -44,6 +44,8 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
     }
 
     private fun initView() {
+        swipeRefresh.setOnRefreshListener { viewModel.checkNewBooks() }
+
         parentAdapter = BookParentAdapter(this)
         recyclerBookParent.apply {
             layoutManager = LinearLayoutManager(
@@ -65,11 +67,7 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         })
 
         viewModel.progressState.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                progressLoadBook.visibility = View.VISIBLE
-            } else {
-                progressLoadBook.visibility = View.GONE
-            }
+            swipeRefresh.isRefreshing = it
         })
 
         viewModel.initBookState.observe(viewLifecycleOwner, Observer {

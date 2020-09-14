@@ -21,6 +21,9 @@ interface DatabaseDao {
     @Query("SELECT * FROM book_data WHERE isFavourite")
     fun getFavoriteBook(): LiveData<List<BookData>>
 
+    @Query("SELECT bookName FROM book_data")
+    fun getBooksName(): List<String>
+
     @Query("SELECT * FROM book_data")
     fun getAllBookDataList(): List<BookData>
 

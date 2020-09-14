@@ -35,8 +35,6 @@ class TextDataRepository(
     suspend fun getBook(bookData: BookData): List<TextData> =
         databaseDao.getTextBook(bookData.bookName)
 
-    fun getBookList(): List<BookData> = databaseDao.getAllBookDataList()
-
     fun insert(textData: List<TextData>) {
         databaseDao.insert(textData)
     }
@@ -72,6 +70,23 @@ class TextDataRepository(
     }
 
     fun getMainLanguage() = preferenceManager.loadMainLanguage()
+
+    fun getBooksNameLocal(): List<String> = databaseDao.getBooksName()
+
+    suspend fun loadBooksNameCloud(): List<String> {
+        val bookData = mutableListOf<String>()
+        return suspendCoroutine { cont ->
+            getFirebaseCollection()
+                .get()
+                .addOnSuccessListener {
+                    for (document in it) {
+                        bookData.add(document.id)
+                    }
+                    cont.resume(bookData)
+                }
+                .addOnFailureListener { cont.resumeWithException(it) }
+        }
+    }
 
     private fun getRetrofit(): ApiTranslate = Retrofit.Builder()
         .baseUrl(TRANSLATE_URL)

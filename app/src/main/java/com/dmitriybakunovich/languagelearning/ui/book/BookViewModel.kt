@@ -21,8 +21,16 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
     val allBook = repository.allBook
 
     init {
+        checkNewBooks()
+    }
+
+    fun checkNewBooks() {
         viewModelScope.launch(Dispatchers.IO) {
-            checkNewBooks()
+            if (repository.getBooksNameLocal() != repository.loadBooksNameCloud()) {
+                progressState.postValue(true)
+                repository.addNewBooks()
+            }
+            progressState.postValue(false)
         }
     }
 
@@ -90,16 +98,6 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
                     )
                 )
             }
-        }
-    }
-
-    private suspend fun checkNewBooks() {
-        val books = repository.getBookList()
-        // TODO Make check time last add book
-        if (books.isEmpty()) {
-            progressState.postValue(true)
-            repository.addNewBooks()
-            progressState.postValue(false)
         }
     }
 
