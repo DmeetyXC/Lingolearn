@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="2dp"
-        android:elevation="8dp"
-        app:cardCornerRadius="4dp"
-        app:contentPadding="8dp">
+        android:padding="16dp">
 
     <TextView
             android:id="@+id/textTitle"
             style="@style/Base.TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/recyclerBookChild"
-            android:layout_alignParentTop="true"
             android:textSize="18sp"
             android:textStyle="bold|italic"
             tools:text="Категория" />
@@ -25,10 +19,8 @@
             android:id="@+id/recyclerBookChild"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:orientation="horizontal"
             tools:layout_editor_absoluteX="74dp" />
 
-</androidx.cardview.widget.CardView>
+</FrameLayout>

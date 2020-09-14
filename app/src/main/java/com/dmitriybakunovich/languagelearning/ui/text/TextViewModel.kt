@@ -1,6 +1,5 @@
 package com.dmitriybakunovich.languagelearning.ui.text
 
-import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -147,7 +146,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     ): SpannableString {
 //        BackgroundColorSpan(Color.GREEN)
         spannableString.setSpan(
-            ForegroundColorSpan(Color.GREEN), firstIndex,
+            ForegroundColorSpan(repository.getColorText()), firstIndex,
             lastIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         return spannableString

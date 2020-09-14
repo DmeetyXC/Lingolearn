@@ -71,6 +71,8 @@ class TextDataRepository(
 
     fun getMainLanguage() = preferenceManager.loadMainLanguage()
 
+    fun getColorText() = resourceManager.getColorSelectText()
+
     fun getBooksNameLocal(): List<String> = databaseDao.getBooksName()
 
     suspend fun loadBooksNameCloud(): List<String> {
