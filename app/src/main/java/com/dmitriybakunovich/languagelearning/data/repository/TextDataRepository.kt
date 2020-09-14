@@ -50,9 +50,7 @@ class TextDataRepository(
     }
 
     suspend fun addNewBooks() {
-//        databaseDao.insertBooks(loadBooksCloud())
-        databaseDao.insertBooks(loadBooksCategory("news"))
-        databaseDao.insertBooks(loadBooksCategory("stories"))
+        databaseDao.insertBooks(loadBooks())
     }
 
     suspend fun update(bookData: BookData) {
@@ -97,22 +95,9 @@ class TextDataRepository(
      */
     fun getMovingNavigateValue(): Int = resourceManager.getMovingPixels()
 
-    /*suspend fun loadFullTextBook(bookName: String, typeLoadBook: String): String {
-        return suspendCoroutine { cont ->
-            loadAllDataCloud()
-                .addOnSuccessListener {
-                    for (document in it) {
-                        val textBook = searchTextBook(document, bookName, typeLoadBook)
-                        if (textBook.isNotEmpty()) cont.resume(textBook)
-                    }
-                }
-                .addOnFailureListener { cont.resumeWithException(it) }
-        }
-    }*/
-
     suspend fun loadFullTextBook(bookData: BookData, typeLoadBook: BookType): String {
         return suspendCoroutine { cont ->
-            Firebase.firestore.collection(bookData.bookCategory)
+            getFirebaseCollection()
                 .document(bookData.bookName)
                 .get()
                 .addOnSuccessListener { document ->
@@ -139,16 +124,16 @@ class TextDataRepository(
         return ""
     }
 
-    private suspend fun loadBooksCategory(category: String): List<BookData> {
+    private suspend fun loadBooks(): List<BookData> {
         val bookData = mutableListOf<BookData>()
         return suspendCoroutine { cont ->
-            Firebase.firestore.collection(category)
+            getFirebaseCollection()
                 .get()
                 .addOnSuccessListener {
                     for (document in it) {
                         bookData.add(
                             BookData(
-                                document.id, category, 0,
+                                document.id, document.getString("category")!!, 0,
                                 false, document.getString("image")
                             )
                         )
@@ -159,32 +144,6 @@ class TextDataRepository(
         }
     }
 
-    /*private fun searchTextBook(
-        document: QueryDocumentSnapshot,
-        bookName: String,
-        typeLoadBook: String
-    ): String {
-        if (bookName == document.id) {
-            for (typeBook in document.data) {
-                if (typeLoadBook == typeBook.key) {
-                    return typeBook.value.toString()
-                }
-            }
-        }
-        return ""
-    }*/
-
-    // Get books name
-    /*private suspend fun loadBooksCloud(): List<BookData> {
-        val bookData = mutableListOf<BookData>()
-        return suspendCoroutine { cont ->
-            loadAllDataCloud().addOnSuccessListener {
-                for (document in it) {
-                   // bookData.add(BookData(document.id, 0, false))
-                }
-                cont.resume(bookData)
-            }
-                .addOnFailureListener { cont.resumeWithException(it) }
-        }
-    }*/
+    private fun getFirebaseCollection() = Firebase.firestore
+        .collection("books")
 }
