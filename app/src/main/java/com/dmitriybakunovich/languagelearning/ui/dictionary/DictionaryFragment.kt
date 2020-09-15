@@ -14,6 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class DictionaryFragment : Fragment() {
 
     private val viewModel: DictionaryViewModel by viewModel()
+    private lateinit var adapter: DictionaryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,8 +24,14 @@ class DictionaryFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        recyclerDictionary.layoutManager = LinearLayoutManager(requireActivity())
+        initView()
         observerView()
+    }
+
+    private fun initView() {
+        adapter = DictionaryAdapter()
+        recyclerDictionary.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerDictionary.adapter = adapter
     }
 
     private fun observerView() {
@@ -32,7 +39,7 @@ class DictionaryFragment : Fragment() {
             if (it.isEmpty()) {
                 txtEmptyDictionary.visibility = View.VISIBLE
             } else {
-                recyclerDictionary.adapter = DictionaryAdapter(it)
+                adapter.submitList(it)
                 txtEmptyDictionary.visibility = View.INVISIBLE
             }
         })

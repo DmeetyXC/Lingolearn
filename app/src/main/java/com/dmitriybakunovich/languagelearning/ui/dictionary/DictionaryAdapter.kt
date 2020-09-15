@@ -3,13 +3,14 @@ package com.dmitriybakunovich.languagelearning.ui.dictionary
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.db.entity.Dictionary
 import kotlinx.android.synthetic.main.item_dictionary.view.*
 
-class DictionaryAdapter(private val dictionary: List<Dictionary>) :
-    RecyclerView.Adapter<DictionaryAdapter.DictionaryViewHolder>() {
+class DictionaryAdapter :
+    ListAdapter<Dictionary, DictionaryAdapter.DictionaryViewHolder>(Dictionary.DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DictionaryViewHolder =
         DictionaryViewHolder(
@@ -18,10 +19,8 @@ class DictionaryAdapter(private val dictionary: List<Dictionary>) :
             )
         )
 
-    override fun getItemCount(): Int = dictionary.size
-
     override fun onBindViewHolder(holder: DictionaryViewHolder, position: Int) {
-        holder.bind(dictionary[position])
+        holder.bind(getItem(position))
     }
 
     class DictionaryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
