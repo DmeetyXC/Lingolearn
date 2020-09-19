@@ -29,7 +29,7 @@ class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListen
     }
 
     private fun initRecycler(viewHolder: BookParentViewHolder, bookAdapter: BookAdapter) {
-        viewHolder.recyclerView.apply {
+        with(viewHolder.recyclerView) {
             layoutManager = LinearLayoutManager(
                 viewHolder.recyclerView.context, LinearLayoutManager.HORIZONTAL, false
             )

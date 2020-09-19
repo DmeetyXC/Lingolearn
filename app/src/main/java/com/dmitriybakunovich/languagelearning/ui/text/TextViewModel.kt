@@ -183,9 +183,9 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     override fun onCleared() {
         GlobalScope.launch(Dispatchers.IO) {
             repository.update(
-                BookData(
-                    bookData.bookName, bookData.bookCategory, pageCurrentRead,
-                    true, bookData.bookCoverPatch, books.size, bookData.isFavourite
+                bookData.copy(
+                    currentPageRead = pageCurrentRead, isLoad = true,
+                    numberPages = books.size
                 )
             )
         }

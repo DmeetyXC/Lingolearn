@@ -6,15 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import kotlinx.android.synthetic.main.book_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
@@ -47,7 +43,7 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         swipeRefresh.setOnRefreshListener { viewModel.checkNewBooks() }
 
         parentAdapter = BookParentAdapter(this)
-        recyclerBookParent.apply {
+        with(recyclerBookParent) {
             layoutManager = LinearLayoutManager(
                 requireActivity(), LinearLayoutManager.VERTICAL, false
             )
@@ -57,13 +53,8 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
     }
 
     private fun observerView() {
-        viewModel.allBook.observe(viewLifecycleOwner, Observer {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val bookCategory = viewModel.loadBookCategory(it)
-                withContext(Dispatchers.Main) {
-                    parentAdapter.submitList(bookCategory)
-                }
-            }
+        viewModel.allBookCategory.observe(viewLifecycleOwner, Observer {
+            parentAdapter.submitList(it)
         })
 
         viewModel.progressState.observe(viewLifecycleOwner, Observer {

@@ -1,6 +1,7 @@
 package com.dmitriybakunovich.languagelearning.ui.book
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
@@ -18,7 +19,9 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
 
     val progressState = MutableLiveData<Boolean>()
     val initBookState = SingleLiveEvent<BookData>()
-    val allBook = repository.allBook
+    val allBookCategory = Transformations.map(repository.allBook) {
+        return@map loadBookCategory(it)
+    }
 
     init {
         checkNewBooks()
@@ -58,21 +61,18 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
     }
 
     /**
-     * Downloading and converting books for each category,
+     * Get and convert books for each category,
      * updated after each change of books to the database
      */
-    suspend fun loadBookCategory(allBookLoad: List<BookData>): List<BookParentModel> {
-        val categoryList: MutableList<String> = mutableListOf()
-        for (bookData in allBookLoad) {
-            if (!categoryList.contains(bookData.bookCategory)) {
-                categoryList.add(bookData.bookCategory)
+    private fun loadBookCategory(allBookLoad: List<BookData>): List<BookParentModel> {
+        return allBookLoad
+            .distinctBy { it.bookCategory }
+            .map { it.bookCategory }
+            .map {
+                BookParentModel(
+                    it,
+                    allBookLoad.filter { bookData -> bookData.bookCategory == it })
             }
-        }
-        val bookCategory: MutableList<BookParentModel> = mutableListOf()
-        for (category in categoryList) {
-            bookCategory.add(BookParentModel(category, repository.getBookDataCategory(category)))
-        }
-        return bookCategory
     }
 
     private suspend fun loadBook(book: BookData) {
@@ -84,19 +84,9 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
     private suspend fun updateFavoriteBook(book: BookData) {
         withContext(Dispatchers.IO) {
             if (book.isFavourite) {
-                repository.update(
-                    BookData(
-                        book.bookName, book.bookCategory, book.currentPageRead,
-                        book.isLoad, book.bookCoverPatch, book.numberPages, false
-                    )
-                )
+                repository.update(book.copy(isFavourite = false))
             } else {
-                repository.update(
-                    BookData(
-                        book.bookName, book.bookCategory, book.currentPageRead,
-                        true, book.bookCoverPatch, book.numberPages, true
-                    )
-                )
+                repository.update(book.copy(isLoad = true, isFavourite = true))
             }
         }
     }

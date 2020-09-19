@@ -16,7 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
 
     private val viewModel: FavoriteViewModel by viewModel()
-    private lateinit var adapter: FavoriteAdapter
+    private lateinit var favoriteAdapter: FavoriteAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +37,11 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
     }
 
     private fun initView() {
-        adapter = FavoriteAdapter(this)
-        recyclerFavorite.layoutManager = GridLayoutManager(requireActivity(), 2)
-        recyclerFavorite.adapter = adapter
+        favoriteAdapter = FavoriteAdapter(this)
+        with(recyclerFavorite) {
+            layoutManager = GridLayoutManager(requireActivity(), 2)
+            adapter = favoriteAdapter
+        }
     }
 
     private fun observerView() {
@@ -47,7 +49,7 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
             if (it.isEmpty()) {
                 txtEmptyFavorite.visibility = View.VISIBLE
             } else {
-                adapter.submitList(it)
+                favoriteAdapter.submitList(it)
                 txtEmptyFavorite.visibility = View.INVISIBLE
             }
         })

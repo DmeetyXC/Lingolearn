@@ -43,10 +43,6 @@ class TextDataRepository(
         databaseDao.insert(dictionary)
     }
 
-    suspend fun getBookDataCategory(category: String): List<BookData> {
-        return databaseDao.loadBookDataCategory(category)
-    }
-
     suspend fun addNewBooks() {
         databaseDao.insertBooks(loadBooks())
     }

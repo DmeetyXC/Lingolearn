@@ -80,19 +80,25 @@ class TextChildFragment : Fragment() {
 
     private fun dictionaryModeState(state: Boolean) {
         if (state) {
-            Snackbar.make(
-                requireView(), requireActivity().getString(R.string.text_mode_selected),
-                Snackbar.LENGTH_INDEFINITE
-            )
-                .setAction(R.string.cancel) { viewModel.dictionaryModeState(false) }
-                .show()
-            textChild.setTextIsSelectable(true)
-            textChild.setOnTouchListener(null)
-            textChild.text = textChild.text.toString()
+            showSnackBar()
+            with(textChild) {
+                setTextIsSelectable(true)
+                setOnTouchListener(null)
+                text = textChild.text.toString()
+            }
         } else {
             textChild.setTextIsSelectable(false)
             registerTouchListener()
         }
+    }
+
+    private fun showSnackBar() {
+        Snackbar.make(
+            requireView(), requireActivity().getString(R.string.text_mode_selected),
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(R.string.cancel) { viewModel.dictionaryModeState(false) }
+            .show()
     }
 
     private fun longClickDictionary() {
