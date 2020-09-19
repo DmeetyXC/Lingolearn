@@ -3,10 +3,10 @@ package com.dmitriybakunovich.languagelearning.ui.text
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.dmitriybakunovich.languagelearning.R
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.text_child_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -80,20 +80,16 @@ class TextChildFragment : Fragment() {
 
     private fun dictionaryModeState(state: Boolean) {
         if (state) {
-            Toast.makeText(
-                requireActivity(),
-                requireActivity().getString(R.string.text_mode_selected),
-                Toast.LENGTH_SHORT
-            ).show()
+            Snackbar.make(
+                requireView(), requireActivity().getString(R.string.text_mode_selected),
+                Snackbar.LENGTH_INDEFINITE
+            )
+                .setAction(R.string.cancel) { viewModel.dictionaryModeState(false) }
+                .show()
             textChild.setTextIsSelectable(true)
             textChild.setOnTouchListener(null)
             textChild.text = textChild.text.toString()
         } else {
-            Toast.makeText(
-                requireActivity(),
-                requireActivity().getString(R.string.text_mode_disabled),
-                Toast.LENGTH_SHORT
-            ).show()
             textChild.setTextIsSelectable(false)
             registerTouchListener()
         }
@@ -103,9 +99,7 @@ class TextChildFragment : Fragment() {
         textChild.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = false
 
-            override fun onDestroyActionMode(mode: ActionMode?) {
-                viewModel.dictionaryModeState(false)
-            }
+            override fun onDestroyActionMode(mode: ActionMode?) {}
 
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 mode?.menuInflater?.inflate(R.menu.text_dictionary, menu)
