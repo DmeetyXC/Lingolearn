@@ -8,14 +8,22 @@
         android:orientation="horizontal"
         tools:context=".ui.text.TextContainerActivity">
 
-    <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarTextContainer"
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayoutText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ToolbarTheme"
+            android:theme="@style/AppBarOverlay"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarTextContainer"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
             android:layout_width="0dp"
@@ -25,7 +33,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarTextContainer">
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayoutText">
 
         <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/textMainFragment"

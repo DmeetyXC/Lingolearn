@@ -7,14 +7,19 @@
         android:orientation="vertical"
         tools:context=".ui.text.TextContainerActivity">
 
-    <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarTextContainer"
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayoutText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ToolbarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:theme="@style/AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarTextContainer"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/textMainFragment"
