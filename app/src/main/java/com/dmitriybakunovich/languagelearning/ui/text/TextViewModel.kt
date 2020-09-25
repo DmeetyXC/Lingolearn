@@ -96,6 +96,8 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
             pageCurrentRead++
             bookPage.postValue(books[pageCurrentRead])
             if (pageCurrentRead + 1 == books.size) lastPageState.postValue(true)
+            // Focus top page
+            scrollTextState.postValue(-Int.MAX_VALUE)
         }
     }
 
@@ -109,6 +111,8 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         }
 
         if (pageCurrentRead + 1 != books.size) lastPageState.postValue(false)
+        // Focus top page
+        scrollTextState.postValue(-Int.MAX_VALUE)
     }
 
     fun finishReadBook() {

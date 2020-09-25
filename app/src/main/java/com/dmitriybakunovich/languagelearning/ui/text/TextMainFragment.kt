@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.dmitriybakunovich.languagelearning.R
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.text_main_fragment.*
@@ -31,17 +30,17 @@ class TextMainFragment : Fragment() {
     }
 
     private fun observeView() {
-        viewModel.bookPage.observe(viewLifecycleOwner, Observer {
+        viewModel.bookPage.observe(viewLifecycleOwner, {
             textMain.text = it.textMain
         })
-        viewModel.textLineSelected.observe(viewLifecycleOwner, Observer {
+        viewModel.textLineSelected.observe(viewLifecycleOwner, {
             val text = textMain.text.toString()
             textMain.setText(viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE)
         })
-        viewModel.scrollTextState.observe(viewLifecycleOwner, Observer {
+        viewModel.scrollTextState.observe(viewLifecycleOwner, {
             scrollMain.scrollBy(0, it)
         })
-        viewModel.dictionaryModeState.observe(viewLifecycleOwner, Observer {
+        viewModel.dictionaryModeState.observe(viewLifecycleOwner, {
             dictionaryModeState(it)
         })
     }
