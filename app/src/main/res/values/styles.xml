@@ -16,4 +16,8 @@
 
     <style name="PopupOverlay" parent="Theme.MaterialComponents.DayNight" />
 
+    <style name="BottomNavigationView">
+        <item name="android:background">?android:attr/windowBackground</item>
+    </style>
+
 </resources>

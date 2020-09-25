@@ -15,5 +15,5 @@ class ResourceManager(private val context: Context) {
             context.applicationContext.resources.displayMetrics.scaledDensity).toInt()
 
     fun getColorSelectText() =
-        ContextCompat.getColor(context.applicationContext, R.color.colorAccentNight)
+        ContextCompat.getColor(context.applicationContext, R.color.colorPrimary)
 }

@@ -19,9 +19,7 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
 
     val progressState = MutableLiveData<Boolean>()
     val initBookState = SingleLiveEvent<BookData>()
-    val allBookCategory = Transformations.map(repository.allBook) {
-        return@map loadBookCategory(it)
-    }
+    val allBookCategory = Transformations.map(repository.allBook) { loadBookCategory(it) }
 
     init {
         checkNewBooks()
