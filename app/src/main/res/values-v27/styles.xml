@@ -1,6 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -8,12 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:statusBarColor">@color/colorGrayLight</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
-
-    <style name="AppBarOverlay" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="android:background">@android:color/white</item>
-    </style>
-
-    <style name="PopupOverlay" parent="Theme.MaterialComponents.DayNight" />
-
 </resources>
