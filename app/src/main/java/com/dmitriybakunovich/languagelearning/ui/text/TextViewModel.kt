@@ -18,14 +18,15 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     ViewModel() {
     // Required to receive a dedicated offer for further translation
     // To select text you only need textLineSelected
-    private var textSelectedMain = MutableLiveData<SpannableString>()
-    private var textSelectedChild = MutableLiveData<SpannableString>()
-    var textLineSelected = MutableLiveData<Int>()
-    var scrollTextState = MutableLiveData<Int>()
-    var dictionaryModeState = MutableLiveData<Boolean>()
+    private val textSelectedMain = MutableLiveData<SpannableString>()
+    private val textSelectedChild = MutableLiveData<SpannableString>()
+    val textLineSelected = MutableLiveData<Int>()
+    val scrollTextState = MutableLiveData<Int>()
+    val dictionaryModeState = MutableLiveData<Boolean>()
+    val bookPage = MutableLiveData<TextData>()
+    val lastPageState = MutableLiveData<Boolean>()
 
     private lateinit var books: List<TextData>
-    var bookPage = MutableLiveData<TextData>()
     private var pageCurrentRead: Int
 
     init {
@@ -94,22 +95,25 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         if (books.size - 1 > pageCurrentRead) {
             pageCurrentRead++
             bookPage.postValue(books[pageCurrentRead])
-        } else if (books.size - 1 <= pageCurrentRead) {
-            // End read book, set max size value + 1 for current page
-            pageCurrentRead = books.size
+            if (pageCurrentRead + 1 == books.size) lastPageState.postValue(true)
         }
     }
 
     fun backPageClick() {
         // Checks equality to prevent double clicking
-        if (pageCurrentRead == books.size) {
-            pageCurrentRead--
-        }
+        if (pageCurrentRead == books.size) pageCurrentRead--
 
         if (pageCurrentRead != 0) {
             pageCurrentRead--
             bookPage.postValue(books[pageCurrentRead])
         }
+
+        if (pageCurrentRead + 1 != books.size) lastPageState.postValue(false)
+    }
+
+    fun finishReadBook() {
+        // End read book, set max size value + 1 for current page
+        pageCurrentRead = books.size
     }
 
     private suspend fun setPageCurrentRead() {
@@ -119,6 +123,8 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         } else {
             bookPage.postValue(books[pageCurrentRead])
         }
+
+        if (pageCurrentRead + 1 >= books.size) lastPageState.postValue(true)
     }
 
     private fun searchFirstElement(indexClick: Int, text: String): Int {

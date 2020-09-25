@@ -2,6 +2,7 @@ package com.dmitriybakunovich.languagelearning.ui.text
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
 import com.dmitriybakunovich.languagelearning.R
@@ -20,6 +21,8 @@ class TextContainerActivity : AppCompatActivity() {
 
         viewModel = getViewModel { parametersOf(args.book) }
         initToolbar()
+        initView()
+        observeView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -43,5 +46,22 @@ class TextContainerActivity : AppCompatActivity() {
         toolbarTextContainer.setNavigationOnClickListener {
             onBackPressed()
         }
+    }
+
+    private fun initView() {
+        txtPageList.setOnClickListener {
+            viewModel.finishReadBook()
+            finish()
+        }
+    }
+
+    private fun observeView() {
+        viewModel.lastPageState.observe(this, {
+            if (it) {
+                txtPageList.visibility = View.VISIBLE
+            } else {
+                txtPageList.visibility = View.GONE
+            }
+        })
     }
 }
