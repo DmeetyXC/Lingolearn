@@ -29,7 +29,10 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             if (repository.getBooksNameLocal() != repository.loadBooksNameCloud()) {
                 progressState.postValue(true)
-                repository.addNewBooks()
+                val childLanguage = repository.getChildLanguage()
+                if (!childLanguage.isNullOrEmpty()) {
+                    repository.addNewBooks(childLanguage)
+                }
             }
             progressState.postValue(false)
         }

@@ -46,7 +46,7 @@ class BookAdapter(private val clickListener: OnItemClickListener) :
         private val imageBook: ImageView = itemView.imageBook
 
         fun bind(book: BookData) {
-            nameBook.text = book.bookName
+            nameBook.text = book.bookNameTranslate
             setBookProgress(book)
             setBookFavorite(book)
             Glide.with(itemView).load(book.bookCoverPatch).into(imageBook)

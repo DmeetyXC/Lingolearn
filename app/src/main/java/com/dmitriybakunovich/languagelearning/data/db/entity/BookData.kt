@@ -10,6 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "book_data")
 data class BookData(
     @PrimaryKey val bookName: String,
+    val bookNameTranslate: String,
     val bookCategory: String,
     val currentPageRead: Int,
     val isLoad: Boolean,

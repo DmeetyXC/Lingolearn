@@ -43,8 +43,8 @@ class TextDataRepository(
         databaseDao.insert(dictionary)
     }
 
-    suspend fun addNewBooks() {
-        databaseDao.insertBooks(loadBooks())
+    suspend fun addNewBooks(childLanguage: String) {
+        databaseDao.insertBooks(loadBooks(childLanguage))
     }
 
     suspend fun update(bookData: BookData) {
@@ -66,6 +66,8 @@ class TextDataRepository(
     }
 
     fun getMainLanguage() = preferenceManager.loadMainLanguage()
+
+    fun getChildLanguage() = preferenceManager.loadChildLanguage()
 
     fun getColorText() = resourceManager.getColorSelectText()
 
@@ -137,7 +139,7 @@ class TextDataRepository(
         return ""
     }
 
-    private suspend fun loadBooks(): List<BookData> {
+    private suspend fun loadBooks(childLanguage: String): List<BookData> {
         val bookData = mutableListOf<BookData>()
         return suspendCoroutine { cont ->
             getFirebaseCollection()
@@ -146,7 +148,8 @@ class TextDataRepository(
                     for (document in it) {
                         bookData.add(
                             BookData(
-                                document.id, document.getString("category")!!, 0,
+                                document.id, document.getString("book_$childLanguage")!!,
+                                document.getString("category_$childLanguage")!!, 0,
                                 false, document.getString("image")
                             )
                         )

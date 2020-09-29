@@ -1,7 +1,6 @@
 package com.dmitriybakunovich.languagelearning.data.manager
 
 import android.content.Context
-import java.util.*
 
 class PreferenceManager(private val context: Context) {
 
@@ -27,6 +26,6 @@ class PreferenceManager(private val context: Context) {
         val sharedPref = context.getSharedPreferences(
             "language", Context.MODE_PRIVATE
         )
-        return sharedPref.getString("child", Locale.getDefault().language)
+        return sharedPref.getString("child", "")
     }
 }
