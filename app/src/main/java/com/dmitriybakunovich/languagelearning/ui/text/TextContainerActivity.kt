@@ -42,6 +42,7 @@ class TextContainerActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
+        toolbarTextContainer.title = args.book.bookNameTranslate
         setSupportActionBar(toolbarTextContainer)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbarTextContainer.setNavigationOnClickListener {

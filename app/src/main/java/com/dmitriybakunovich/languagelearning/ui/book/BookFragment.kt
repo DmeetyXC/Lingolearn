@@ -39,6 +39,7 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
     }
 
     private fun initView() {
+        requireActivity().title = getString(R.string.title_library)
         swipeRefresh.setOnRefreshListener { viewModel.checkNewBooks() }
 
         parentAdapter = BookParentAdapter(this)

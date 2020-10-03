@@ -24,6 +24,7 @@ class ChoiceLanguageFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        initView()
         val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav)
         navView.visibility = View.INVISIBLE
 
@@ -42,5 +43,9 @@ class ChoiceLanguageFragment : Fragment() {
                 ChoiceLanguageFragmentDirections.actionChoiceLanguageFragmentToBookFragment()
             )
         }
+    }
+
+    private fun initView() {
+        requireActivity().title = getString(R.string.app_name)
     }
 }

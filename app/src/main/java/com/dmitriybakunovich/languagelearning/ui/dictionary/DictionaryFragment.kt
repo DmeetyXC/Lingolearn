@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import kotlinx.android.synthetic.main.dictionary_fragment.*
@@ -28,9 +29,12 @@ class DictionaryFragment : Fragment() {
     }
 
     private fun initView() {
+        requireActivity().title = getString(R.string.title_dictionary)
         dictionaryAdapter = DictionaryAdapter()
+        val divider = DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL)
         with(recyclerDictionary) {
             layoutManager = LinearLayoutManager(requireActivity())
+            addItemDecoration(divider)
             adapter = dictionaryAdapter
         }
     }
