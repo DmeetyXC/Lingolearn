@@ -3,6 +3,7 @@ package com.dmitriybakunovich.languagelearning.ui.text
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
 import com.dmitriybakunovich.languagelearning.R
@@ -62,6 +63,9 @@ class TextContainerActivity : AppCompatActivity() {
             } else {
                 txtPageList.visibility = View.GONE
             }
+        })
+        viewModel.errorState.observe(this, {
+            Toast.makeText(this, getString(R.string.error, it), Toast.LENGTH_SHORT).show()
         })
     }
 }

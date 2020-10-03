@@ -10,6 +10,7 @@ import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.db.entity.Dictionary
 import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
+import com.dmitriybakunovich.languagelearning.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     val dictionaryModeState = MutableLiveData<Boolean>()
     val bookPage = MutableLiveData<TextData>()
     val lastPageState = MutableLiveData<Boolean>()
+    val errorState = SingleLiveEvent<String>()
 
     private lateinit var books: List<TextData>
     private var pageCurrentRead: Int
@@ -86,8 +88,12 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         val selectedText: CharSequence = textAll.subSequence(min, max)
         val text = selectedText.toString()
         viewModelScope.launch(Dispatchers.IO) {
-            val translateText = repository.translateText(text)
-            repository.insert(Dictionary(text, translateText))
+            try {
+                val translateText = repository.translateText(text)
+                repository.insert(Dictionary(text, translateText))
+            } catch (e: Exception) {
+                errorState.postValue(e.localizedMessage)
+            }
         }
     }
 

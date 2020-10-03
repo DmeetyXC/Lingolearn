@@ -19,4 +19,5 @@
     <string name="choice_lang_learn">Выберите язык который хотите изучить</string>
     <string name="choice_lang_native">Выберите ваш исходный язык</string>
     <string name="mark_read">Пометить как прочитанное</string>
+    <string name="error">Ошибка: %s</string>
 </resources>
