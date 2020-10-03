@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitriybakunovich.languagelearning.R
-import com.dmitriybakunovich.languagelearning.data.db.entity.Dictionary
+import com.dmitriybakunovich.languagelearning.data.entity.Dictionary
 import kotlinx.android.synthetic.main.item_dictionary.view.*
 
 class DictionaryAdapter :

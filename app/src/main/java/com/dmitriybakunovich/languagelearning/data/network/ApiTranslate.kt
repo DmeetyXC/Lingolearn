@@ -1,15 +1,16 @@
 package com.dmitriybakunovich.languagelearning.data.network
 
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import com.dmitriybakunovich.languagelearning.data.entity.TranslateResult
+import com.dmitriybakunovich.languagelearning.data.entity.TranslationData
+import retrofit2.http.*
 
 interface ApiTranslate {
-    @FormUrlEncoded
-    @POST("/api/v1.5/tr.json/translate")
+    @Headers("Content-Type: application/json")
+    @POST("/translate?api-version=3.0")
     suspend fun getTranslateText(
-        @Field("key") key: String,
-        @Field("text") text: String,
-        @Field("lang") lang: String
-    ): TranslateModel
+        @Header("Ocp-Apim-Subscription-Key") key: String,
+        @Query("from") langFrom: String,
+        @Query("to") langTo: String,
+        @Body text: List<TranslationData>
+    ): List<TranslateResult>
 }

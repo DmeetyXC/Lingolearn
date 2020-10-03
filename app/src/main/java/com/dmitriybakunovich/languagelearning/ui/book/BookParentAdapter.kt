@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dmitriybakunovich.languagelearning.R
-import com.dmitriybakunovich.languagelearning.data.model.BookParentModel
+import com.dmitriybakunovich.languagelearning.data.entity.BookParentModel
 import kotlinx.android.synthetic.main.item_book_category.view.*
 
 class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListener) :

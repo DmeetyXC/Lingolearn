@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dmitriybakunovich.languagelearning.R
-import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.entity.BookData
 import kotlinx.android.synthetic.main.item_favorite.view.*
 
 class FavoriteAdapter(private val clickListener: OnItemClickListener) :

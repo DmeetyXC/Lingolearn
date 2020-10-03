@@ -1,7 +1,6 @@
-package com.dmitriybakunovich.languagelearning.data.model
+package com.dmitriybakunovich.languagelearning.data.entity
 
 import androidx.recyclerview.widget.DiffUtil
-import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
 
 data class BookParentModel(
     val category: String,

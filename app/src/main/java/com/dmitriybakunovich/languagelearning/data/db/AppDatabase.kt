@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
-import com.dmitriybakunovich.languagelearning.data.db.entity.Dictionary
-import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
+import com.dmitriybakunovich.languagelearning.data.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.entity.Dictionary
+import com.dmitriybakunovich.languagelearning.data.entity.TextData
 
 @Database(
     entities = [TextData::class, BookData::class, Dictionary::class],

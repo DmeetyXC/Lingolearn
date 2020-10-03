@@ -33,7 +33,7 @@
             tools:layout="@layout/activity_text_container">
         <argument
                 android:name="book"
-                app:argType="com.dmitriybakunovich.languagelearning.data.db.entity.BookData" />
+                app:argType="com.dmitriybakunovich.languagelearning.data.entity.BookData" />
     </activity>
     <fragment
             android:id="@+id/dictionaryFragment"

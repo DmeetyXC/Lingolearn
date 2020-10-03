@@ -1,4 +1,4 @@
-package com.dmitriybakunovich.languagelearning.data.db.entity
+package com.dmitriybakunovich.languagelearning.data.entity
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil

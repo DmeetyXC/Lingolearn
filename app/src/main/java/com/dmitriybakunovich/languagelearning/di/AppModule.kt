@@ -2,7 +2,7 @@ package com.dmitriybakunovich.languagelearning.di
 
 import android.content.Context
 import com.dmitriybakunovich.languagelearning.data.db.AppDatabase
-import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager
 import com.dmitriybakunovich.languagelearning.data.manager.ResourceManager
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository

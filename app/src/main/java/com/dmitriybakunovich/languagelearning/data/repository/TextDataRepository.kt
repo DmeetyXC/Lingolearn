@@ -3,9 +3,10 @@ package com.dmitriybakunovich.languagelearning.data.repository
 import androidx.lifecycle.LiveData
 import com.dmitriybakunovich.languagelearning.BuildConfig
 import com.dmitriybakunovich.languagelearning.data.db.DatabaseDao
-import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
-import com.dmitriybakunovich.languagelearning.data.db.entity.Dictionary
-import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
+import com.dmitriybakunovich.languagelearning.data.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.entity.Dictionary
+import com.dmitriybakunovich.languagelearning.data.entity.TextData
+import com.dmitriybakunovich.languagelearning.data.entity.TranslationData
 import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager
 import com.dmitriybakunovich.languagelearning.data.manager.ResourceManager
 import com.dmitriybakunovich.languagelearning.data.network.ApiTranslate
@@ -23,13 +24,12 @@ class TextDataRepository(
     private val resourceManager: ResourceManager,
     private val preferenceManager: PreferenceManager
 ) {
-    //    val allBookWithText: LiveData<List<BookWithText>> = databaseDao.getBookWithText()
     val allBook: LiveData<List<BookData>> = databaseDao.getAllBookData()
     val dictionary: LiveData<List<Dictionary>> = databaseDao.getAllDictionary()
     val favoriteBook: LiveData<List<BookData>> = databaseDao.getFavoriteBook()
 
     companion object {
-        private const val TRANSLATE_URL = "https://translate.yandex.net"
+        private const val TRANSLATE_URL = "https://api.cognitive.microsofttranslator.com"
     }
 
     suspend fun getBook(bookData: BookData): List<TextData> =
@@ -59,10 +59,11 @@ class TextDataRepository(
         val translateResult =
             getRetrofit().getTranslateText(
                 BuildConfig.apiTranslateText,
-                textTranslate,
-                getLanguages()
+                getMainLanguage()!!,
+                getChildLanguage()!!,
+                listOf(TranslationData(textTranslate))
             )
-        return translateResult.text[0]
+        return translateResult[0].translation[0].text
     }
 
     fun getMainLanguage() = preferenceManager.loadMainLanguage()
@@ -86,18 +87,6 @@ class TextDataRepository(
                 }
                 .addOnFailureListener { cont.resumeWithException(it) }
         }
-    }
-
-    private fun getRetrofit(): ApiTranslate = Retrofit.Builder()
-        .baseUrl(TRANSLATE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(ApiTranslate::class.java)
-
-    private fun getLanguages(): String {
-        val main = preferenceManager.loadMainLanguage()
-        val child = preferenceManager.loadChildLanguage()
-        return "$main-$child"
     }
 
     /**
@@ -125,6 +114,12 @@ class TextDataRepository(
                 .addOnFailureListener { cont.resumeWithException(it) }
         }
     }
+
+    private fun getRetrofit(): ApiTranslate = Retrofit.Builder()
+        .baseUrl(TRANSLATE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(ApiTranslate::class.java)
 
     private fun getTypeLanguage(typeLoadBook: BookType): String {
         var typeLanguage: String? = null

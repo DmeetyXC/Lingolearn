@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
-import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.entity.BookData
 import kotlinx.android.synthetic.main.book_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -53,15 +52,15 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
     }
 
     private fun observerView() {
-        viewModel.allBookCategory.observe(viewLifecycleOwner, Observer {
+        viewModel.allBookCategory.observe(viewLifecycleOwner, {
             parentAdapter.submitList(it)
         })
 
-        viewModel.progressState.observe(viewLifecycleOwner, Observer {
+        viewModel.progressState.observe(viewLifecycleOwner, {
             swipeRefresh.isRefreshing = it
         })
 
-        viewModel.initBookState.observe(viewLifecycleOwner, Observer {
+        viewModel.initBookState.observe(viewLifecycleOwner, {
             findNavController().navigate(
                 BookFragmentDirections.actionBookFragmentToTextContainerActivity(it)
             )

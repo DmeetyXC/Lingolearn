@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import kotlinx.android.synthetic.main.dictionary_fragment.*
@@ -37,7 +36,7 @@ class DictionaryFragment : Fragment() {
     }
 
     private fun observerView() {
-        viewModel.dictionary.observe(viewLifecycleOwner, Observer {
+        viewModel.dictionary.observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
                 txtEmptyDictionary.visibility = View.VISIBLE
             } else {

@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dmitriybakunovich.languagelearning.data.db.entity.BookData
-import com.dmitriybakunovich.languagelearning.data.db.entity.TextData
-import com.dmitriybakunovich.languagelearning.data.model.BookParentModel
+import com.dmitriybakunovich.languagelearning.data.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.entity.BookParentModel
+import com.dmitriybakunovich.languagelearning.data.entity.TextData
 import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 import com.dmitriybakunovich.languagelearning.ui.text.BookType
 import com.dmitriybakunovich.languagelearning.util.SingleLiveEvent
