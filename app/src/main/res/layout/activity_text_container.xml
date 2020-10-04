@@ -64,4 +64,31 @@
             android:textStyle="bold|italic"
             android:visibility="gone"
             tools:visibility="visible" />
+
+    <LinearLayout
+            android:id="@+id/containerNavigationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+        <ImageView
+                android:id="@+id/navigationBack"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/back"
+                app:srcCompat="@drawable/ic_navigate_back" />
+
+        <ImageView
+                android:id="@+id/navigationNext"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/next"
+                app:srcCompat="@drawable/ic_navigate_next" />
+    </LinearLayout>
+
 </LinearLayout>

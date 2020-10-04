@@ -1,7 +1,6 @@
 package com.dmitriybakunovich.languagelearning.ui.text
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,10 +22,11 @@ class TextContainerActivity : AppCompatActivity() {
         viewModel = getViewModel { parametersOf(args.book) }
         initToolbar()
         initView()
+        initNavigationButton()
         observeView()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.text_menu, menu)
         val textNext = menu?.findItem(R.id.textNext)
         val textBack = menu?.findItem(R.id.textBack)
@@ -39,7 +39,7 @@ class TextContainerActivity : AppCompatActivity() {
             return@setOnMenuItemClickListener true
         }
         return true
-    }
+    }*/
 
     private fun initToolbar() {
         toolbarTextContainer.title = args.book.bookNameTranslate
@@ -54,6 +54,15 @@ class TextContainerActivity : AppCompatActivity() {
         txtPageList.setOnClickListener {
             viewModel.finishReadBook()
             finish()
+        }
+    }
+
+    private fun initNavigationButton() {
+        navigationNext.setOnClickListener {
+            viewModel.nextPageClick()
+        }
+        navigationBack.setOnClickListener {
+            viewModel.backPageClick()
         }
     }
 

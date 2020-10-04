@@ -6,10 +6,10 @@ import com.dmitriybakunovich.languagelearning.R
 
 class ResourceManager(private val context: Context) {
     fun getDisplayPixels(): Int =
-        (context.applicationContext.resources.displayMetrics.heightPixels -
-                context.applicationContext.resources.displayMetrics.widthPixels)
-    /*(context.applicationContext.resources.displayMetrics.xdpi +
-            context.applicationContext.resources.displayMetrics.ydpi).toInt()*/
+        (context.applicationContext.resources.displayMetrics.xdpi +
+                context.applicationContext.resources.displayMetrics.ydpi).toInt()
+    /*(context.applicationContext.resources.displayMetrics.heightPixels -
+            context.applicationContext.resources.displayMetrics.widthPixels)*/
 
     fun getMovingPixels(): Int = (context.applicationContext.resources.displayMetrics.xdpi /
             context.applicationContext.resources.displayMetrics.scaledDensity).toInt()

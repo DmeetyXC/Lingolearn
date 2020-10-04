@@ -26,7 +26,7 @@ class ChoiceLanguageFragment : Fragment() {
 
         initView()
         val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav)
-        navView.visibility = View.INVISIBLE
+        navView.visibility = View.GONE
 
         // TODO remove Language from the list of native languages if you want to learn it
         val selectedValues = resources.getStringArray(R.array.languages_value)
