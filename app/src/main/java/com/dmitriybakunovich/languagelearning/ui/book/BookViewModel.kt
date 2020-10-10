@@ -66,6 +66,10 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
      * updated after each change of books to the database
      */
     private fun loadBookCategory(allBookLoad: List<BookData>): List<BookParentModel> {
+        if (allBookLoad.isEmpty()) {
+            checkNewBooks()
+            return emptyList()
+        }
         return allBookLoad
             .distinctBy { it.bookCategory }
             .map { it.bookCategory }

@@ -1,13 +1,10 @@
 package com.dmitriybakunovich.languagelearning.data.manager
 
-import android.content.Context
+import android.content.SharedPreferences
 
-class PreferenceManager(private val context: Context) {
+class PreferenceManager(private val sharedPref: SharedPreferences) {
 
     fun saveLanguage(mainLanguage: String, childLanguage: String) {
-        val sharedPref = context.getSharedPreferences(
-            "language", Context.MODE_PRIVATE
-        )
         with(sharedPref.edit()) {
             putString("main", mainLanguage)
             putString("child", childLanguage)
@@ -16,16 +13,14 @@ class PreferenceManager(private val context: Context) {
     }
 
     fun loadMainLanguage(): String? {
-        val sharedPref = context.getSharedPreferences(
-            "language", Context.MODE_PRIVATE
-        )
         return sharedPref.getString("main", "")
     }
 
     fun loadChildLanguage(): String? {
-        val sharedPref = context.getSharedPreferences(
-            "language", Context.MODE_PRIVATE
-        )
         return sharedPref.getString("child", "")
+    }
+
+    fun loadTextSize(): String? {
+        return sharedPref.getString("font_size", "16")
     }
 }

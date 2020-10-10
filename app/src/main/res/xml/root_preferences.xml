@@ -1,0 +1,40 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/lang_header">
+
+        <SwitchPreferenceCompat
+                app:key="warning_lang"
+                app:summary="@string/warning_summary"
+                app:title="@string/warning_title" />
+
+        <ListPreference
+                app:dependency="warning_lang"
+                app:entries="@array/languages"
+                app:entryValues="@array/languages_value"
+                app:key="main"
+                app:title="@string/choice_lang_learn"
+                app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+                app:dependency="warning_lang"
+                app:entries="@array/languages"
+                app:entryValues="@array/languages_value"
+                app:key="child"
+                app:title="@string/choice_lang_native"
+                app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/text_header">
+
+        <ListPreference
+                app:defaultValue="16"
+                app:entries="@array/font"
+                app:entryValues="@array/font_values"
+                app:key="font_size"
+                app:title="@string/text_title"
+                app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

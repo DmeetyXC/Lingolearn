@@ -27,6 +27,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     val bookPage = MutableLiveData<TextData>()
     val lastPageState = MutableLiveData<Boolean>()
     val errorState = SingleLiveEvent<String>()
+    val textSizeState = MutableLiveData<Float>()
 
     private lateinit var books: List<TextData>
     private var pageCurrentRead: Int
@@ -36,6 +37,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         viewModelScope.launch(Dispatchers.IO) {
             setPageCurrentRead()
         }
+        textSizeState.postValue((repository.getTextSize())?.toFloat())
     }
 
     fun dictionaryModeState(status: Boolean) {

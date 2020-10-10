@@ -1,9 +1,7 @@
 package com.dmitriybakunovich.languagelearning.ui.book
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +27,7 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
                 BookFragmentDirections.actionBookFragmentToChoiceLanguageFragment()
             )
         }
+        setHasOptionsMenu(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -36,6 +35,19 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
 
         initView()
         observerView()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        requireActivity().menuInflater.inflate(R.menu.main_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.actionSettings -> findNavController()
+                .navigate(BookFragmentDirections.actionBookFragmentToSettingsFragment())
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initView() {

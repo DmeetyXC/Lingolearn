@@ -43,6 +43,9 @@ class TextMainFragment : Fragment() {
         viewModel.dictionaryModeState.observe(viewLifecycleOwner, {
             dictionaryModeState(it)
         })
+        viewModel.textSizeState.observe(viewLifecycleOwner, {
+            textMain.textSize = it
+        })
     }
 
     private fun registerTouchListener() {

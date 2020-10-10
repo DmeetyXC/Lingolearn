@@ -16,8 +16,17 @@
     <string name="empty_dictionary">Словарь пуст</string>
     <string name="empty_favorite">Нет избранных книг</string>
     <string name="further">Далее</string>
-    <string name="choice_lang_learn">Выберите язык который хотите изучить</string>
-    <string name="choice_lang_native">Выберите ваш исходный язык</string>
+    <string name="choice_lang_learn">Язык который хотите изучить</string>
+    <string name="choice_lang_native">Ваш исходный язык</string>
     <string name="mark_read">Пометить как прочитанное</string>
     <string name="error">Ошибка: %s</string>
+    <string name="settings">Настройки</string>
+
+    <!-- Preference -->
+    <string name="lang_header">Языки</string>
+    <string name="text_header">Текст</string>
+    <string name="text_title">Размер текста при чтении</string>
+    <string name="warning_title">Смена языка</string>
+    <string name="warning_summary">При изменении языка будет удалена вся
+        информация о книгах</string>
 </resources>

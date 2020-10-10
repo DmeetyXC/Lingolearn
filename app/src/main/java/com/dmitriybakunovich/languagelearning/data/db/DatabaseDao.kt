@@ -39,5 +39,8 @@ interface DatabaseDao {
     suspend fun delete(bookData: BookData)
 
     @Query("DELETE FROM text_data")
-    suspend fun deleteAll()
+    suspend fun deleteAllText()
+
+    @Query("DELETE FROM book_data")
+    suspend fun deleteAllBook()
 }

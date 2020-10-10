@@ -51,6 +51,13 @@ class TextDataRepository(
         databaseDao.update(bookData)
     }
 
+    suspend fun deleteAllData() {
+        databaseDao.deleteAllBook()
+        databaseDao.deleteAllText()
+    }
+
+    fun getTextSize() = preferenceManager.loadTextSize()
+
     fun saveSelectLanguage(mainLanguage: String, childLanguage: String) {
         preferenceManager.saveLanguage(mainLanguage, childLanguage)
     }

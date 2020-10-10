@@ -25,6 +25,9 @@
                 app:launchSingleTop="true"
                 app:popUpTo="@id/nav_graph"
                 app:popUpToInclusive="true" />
+        <action
+                android:id="@+id/action_bookFragment_to_settingsFragment"
+                app:destination="@id/settingsFragment" />
     </fragment>
     <activity
             android:id="@+id/textContainerActivity"
@@ -61,4 +64,8 @@
                 app:popUpTo="@id/nav_graph"
                 app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+            android:id="@+id/settingsFragment"
+            android:name="com.dmitriybakunovich.languagelearning.ui.settings.SettingsFragment"
+            android:label="settingsFragment" />
 </navigation>
