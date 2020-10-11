@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="languages">
-        <item>Английский</item>
-        <item>Русский</item>
-    </string-array>
-
-    <string-array name="languages_value">
-        <item>en</item>
-        <item>ru</item>
-    </string-array>
-
     <string-array name="font">
         <item>Очень маленький</item>
         <item>Маленький</item>
@@ -24,5 +14,27 @@
         <item>16</item>
         <item>18</item>
         <item>20</item>
+    </string-array>
+
+    <string-array name="theme">
+        <item>Светлая</item>
+        <item>Тёмная</item>
+        <item>Использовать тему устройства</item>
+    </string-array>
+
+    <string-array name="theme_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>system</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>Английский</item>
+        <item>Русский</item>
+    </string-array>
+
+    <string-array name="languages_value">
+        <item>en</item>
+        <item>ru</item>
     </string-array>
 </resources>

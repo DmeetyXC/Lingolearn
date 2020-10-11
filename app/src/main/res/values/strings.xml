@@ -24,9 +24,10 @@
 
     <!-- Preference -->
     <string name="lang_header">Языки</string>
-    <string name="text_header">Текст</string>
+    <string name="appearance_header">Внешний вид</string>
     <string name="text_title">Размер текста при чтении</string>
     <string name="warning_title">Смена языка</string>
+    <string name="theme_title">Тема</string>
     <string name="warning_summary">При изменении языка будет удалена вся
         информация о книгах</string>
 </resources>

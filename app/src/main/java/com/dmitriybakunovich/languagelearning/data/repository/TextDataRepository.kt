@@ -81,6 +81,8 @@ class TextDataRepository(
 
     fun getBooksNameLocal(): List<String> = databaseDao.getBooksName()
 
+    fun getAppTheme() = preferenceManager.getAppTheme()
+
     suspend fun loadBooksNameCloud(): List<String> {
         val bookData = mutableListOf<String>()
         return suspendCoroutine { cont ->

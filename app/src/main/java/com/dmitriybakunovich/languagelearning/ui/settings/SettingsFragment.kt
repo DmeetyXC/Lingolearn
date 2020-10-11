@@ -4,7 +4,10 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.appcompat.widget.Toolbar
+import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.dmitriybakunovich.languagelearning.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,6 +20,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
+        listenerChangeTheme()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -55,6 +60,22 @@ class SettingsFragment : PreferenceFragmentCompat(),
         super.onDestroyView()
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         changeVisibleNavigation(true)
+    }
+
+    private fun listenerChangeTheme() {
+        val listPreference = findPreference("theme") as ListPreference?
+        listPreference.let {
+            it?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+                setDefaultNightMode(
+                    when (newValue) {
+                        "light" -> MODE_NIGHT_NO
+                        "dark" -> MODE_NIGHT_YES
+                        else -> MODE_NIGHT_FOLLOW_SYSTEM
+                    }
+                )
+                true
+            }
+        }
     }
 
     // TODO Redesign navigation structure, this remove
