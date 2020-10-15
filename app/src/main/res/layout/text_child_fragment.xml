@@ -4,11 +4,13 @@
         android:id="@+id/scrollChild"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         tools:context=".ui.text.TextChildFragment">
 
     <TextView
             android:id="@+id/textChild"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             android:textSize="16sp" />
 </ScrollView>

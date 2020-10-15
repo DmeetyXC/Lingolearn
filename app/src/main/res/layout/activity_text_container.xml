@@ -29,8 +29,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="2dp"
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,12 +38,9 @@
 
     <View
             android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?attr/colorDivider"
             app:layout_constraintBottom_toTopOf="@+id/txtPageList"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,8 +53,8 @@
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/txtPageList"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/navigationBorder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider">
@@ -66,9 +63,8 @@
 
     <TextView
             android:id="@+id/txtPageList"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:text="@string/mark_read"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
@@ -87,6 +83,15 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
+    <View
+            android:id="@+id/navigationBorder"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?attr/colorDivider"
+            app:layout_constraintBottom_toTopOf="@+id/txtPageList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     <FrameLayout
             android:id="@+id/containerNavigationBack"
             android:layout_width="0dp"
@@ -100,6 +105,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
+                android:layout_margin="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/back"
                 app:srcCompat="@drawable/ic_navigate_back" />
@@ -118,6 +124,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
+                android:layout_margin="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/next"
                 app:srcCompat="@drawable/ic_navigate_next" />

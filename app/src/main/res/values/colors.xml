@@ -8,4 +8,7 @@
     <color name="colorGray">#9CA9BA</color>
     <color name="colorGrayDark">#675F7F</color>
     <color name="colorGrayLight">#cccccc</color>
+
+    <color name="colorDividerDark">#1F000000</color>
+    <color name="colorDividerLight">#1FFFFFFF</color>
 </resources>

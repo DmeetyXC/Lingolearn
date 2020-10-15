@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccentNight</item>
 
+        <item name="colorDivider">@color/colorDividerLight</item>
         <item name="android:statusBarColor">@android:color/black</item>
     </style>
 

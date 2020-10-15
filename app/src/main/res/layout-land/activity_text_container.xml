@@ -4,8 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
         tools:context=".ui.text.TextContainerActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -31,21 +29,18 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toTopOf="@+id/txtPageList"
+            android:layout_marginEnd="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/navigationBorder"
             app:layout_constraintEnd_toStartOf="@+id/divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayoutText" />
 
     <View
             android:id="@+id/divider"
-            android:layout_width="10dp"
+            android:layout_width="1dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/txtPageList"
+            android:background="?attr/colorDivider"
+            app:layout_constraintBottom_toTopOf="@+id/navigationBorder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayoutText" />
@@ -55,20 +50,17 @@
             android:name="com.dmitriybakunovich.languagelearning.ui.text.TextChildFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="2dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toTopOf="@+id/txtPageList"
+            app:layout_constraintBottom_toTopOf="@+id/navigationBorder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayoutText" />
 
     <TextView
             android:id="@+id/txtPageList"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:text="@string/mark_read"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
@@ -79,6 +71,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible" />
+
+    <View
+            android:id="@+id/navigationBorder"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?attr/colorDivider"
+            app:layout_constraintBottom_toTopOf="@+id/txtPageList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <FrameLayout
             android:id="@+id/containerNavigationBack"
@@ -93,6 +94,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
+                android:layout_margin="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/back"
                 app:srcCompat="@drawable/ic_navigate_back" />
@@ -111,6 +113,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
+                android:layout_margin="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/next"
                 app:srcCompat="@drawable/ic_navigate_next" />
