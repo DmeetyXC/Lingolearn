@@ -58,10 +58,10 @@ class TextContainerActivity : AppCompatActivity() {
     }
 
     private fun initNavigationButton() {
-        navigationNext.setOnClickListener {
+        containerNavigationNext.setOnClickListener {
             viewModel.nextPageClick()
         }
-        navigationBack.setOnClickListener {
+        containerNavigationBack.setOnClickListener {
             viewModel.backPageClick()
         }
     }

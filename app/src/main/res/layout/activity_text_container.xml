@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".ui.text.TextContainerActivity">
 
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayoutText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppBarOverlay">
+            android:theme="@style/AppBarOverlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbarTextContainer"
@@ -24,12 +26,15 @@
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/textMainFragment"
             android:name="com.dmitriybakunovich.languagelearning.ui.text.TextMainFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="1" />
+            app:layout_constraintBottom_toTopOf="@+id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayoutText" />
 
     <View
             android:id="@+id/divider"
@@ -37,17 +42,25 @@
             android:layout_height="10dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/txtPageList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayoutText" />
 
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/textChildFragment"
             android:name="com.dmitriybakunovich.languagelearning.ui.text.TextChildFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:layout_weight="1">
+            app:layout_constraintBottom_toTopOf="@+id/txtPageList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider">
 
     </androidx.fragment.app.FragmentContainerView>
 
@@ -55,40 +68,59 @@
             android:id="@+id/txtPageList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingBottom="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/mark_read"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             android:textStyle="bold|italic"
             android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/containerNavigationBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible" />
 
-    <LinearLayout
-            android:id="@+id/containerNavigationButton"
-            android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+    <FrameLayout
+            android:id="@+id/containerNavigationBack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
                 android:id="@+id/navigationBack"
-                android:layout_width="wrap_content"
+                android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_weight="1"
+                android:layout_gravity="center"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/back"
                 app:srcCompat="@drawable/ic_navigate_back" />
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/containerNavigationNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline">
 
         <ImageView
                 android:id="@+id/navigationNext"
-                android:layout_width="wrap_content"
+                android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_weight="1"
+                android:layout_gravity="center"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/next"
                 app:srcCompat="@drawable/ic_navigate_next" />
-    </LinearLayout>
+    </FrameLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
