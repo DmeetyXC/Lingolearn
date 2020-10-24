@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dmitriybakunovich.languagelearning.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.choice_language_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class ChoiceLanguageFragment : Fragment() {
 
@@ -25,27 +25,41 @@ class ChoiceLanguageFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         initView()
-        val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav)
-        navView.visibility = View.GONE
+        observeView()
+        viewModel.setInitialPositionLang()
+    }
 
-        // TODO remove Language from the list of native languages if you want to learn it
-        val selectedValues = resources.getStringArray(R.array.languages_value)
-        val positionSystemLanguage =
-            selectedValues.indexOfFirst { it == Locale.getDefault().language }
-        spinnerChild.setSelection(positionSystemLanguage)
+    private fun initView() {
+        requireActivity().title = getString(R.string.app_name)
+        changeVisibleNavigation(false)
+        next.setOnClickListener { nextClick() }
+    }
 
-        next.setOnClickListener {
-            val mainLanguage = selectedValues[spinnerMain.selectedItemPosition]
-            val childLanguage = selectedValues[spinnerChild.selectedItemPosition]
+    private fun observeView() {
+        viewModel.childSelectState.observe(viewLifecycleOwner, {
+            spinnerChild.setSelection(it)
+        })
+    }
+
+    private fun nextClick() {
+        val mainLanguage = viewModel.getSelectValues(spinnerMain.selectedItemPosition)
+        val childLanguage = viewModel.getSelectValues(spinnerChild.selectedItemPosition)
+        if (mainLanguage == childLanguage) {
+            Snackbar.make(requireView(), R.string.different_choice_lang, Snackbar.LENGTH_SHORT)
+                .show()
+        } else {
             viewModel.saveLanguageChoice(mainLanguage, childLanguage)
-            navView.visibility = View.VISIBLE
+            changeVisibleNavigation(true)
             findNavController().navigate(
                 ChoiceLanguageFragmentDirections.actionChoiceLanguageFragmentToBookFragment()
             )
         }
     }
 
-    private fun initView() {
-        requireActivity().title = getString(R.string.app_name)
+    // TODO Redesign navigation structure, this remove
+    private fun changeVisibleNavigation(visibility: Boolean) {
+        val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav)
+        if (visibility) navView.visibility = View.VISIBLE
+        else navView.visibility = View.GONE
     }
 }

@@ -26,7 +26,7 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
         super.onActivityCreated(savedInstanceState)
 
         initView()
-        observerView()
+        observeView()
     }
 
     override fun onItemClick(book: BookData) {
@@ -44,7 +44,7 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
         }
     }
 
-    private fun observerView() {
+    private fun observeView() {
         viewModel.favoriteBook.observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
                 txtEmptyFavorite.visibility = View.VISIBLE

@@ -24,4 +24,7 @@ class ResourceManager(private val context: Context) {
             )
             else -> ContextCompat.getColor(context.applicationContext, R.color.colorPrimary)
         }
+
+    fun getListLanguages(): Array<String> =
+        context.applicationContext.resources.getStringArray(R.array.languages_value)
 }

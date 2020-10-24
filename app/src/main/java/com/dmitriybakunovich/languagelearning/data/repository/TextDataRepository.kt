@@ -83,6 +83,8 @@ class TextDataRepository(
 
     fun getAppTheme() = preferenceManager.getAppTheme()
 
+    fun getListLanguages(): Array<String> = resourceManager.getListLanguages()
+
     suspend fun loadBooksNameCloud(): List<String> {
         val bookData = mutableListOf<String>()
         return suspendCoroutine { cont ->
