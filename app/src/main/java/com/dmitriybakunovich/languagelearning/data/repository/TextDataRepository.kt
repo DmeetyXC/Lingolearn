@@ -83,7 +83,9 @@ class TextDataRepository(
 
     fun getAppTheme() = preferenceManager.getAppTheme()
 
-    fun getListLanguages(): Array<String> = resourceManager.getListLanguages()
+    fun getLanguagesValue(): Array<String> = resourceManager.getLanguagesValue()
+
+    fun getLanguages(): Array<String> = resourceManager.getLanguages()
 
     suspend fun loadBooksNameCloud(): List<String> {
         val bookData = mutableListOf<String>()

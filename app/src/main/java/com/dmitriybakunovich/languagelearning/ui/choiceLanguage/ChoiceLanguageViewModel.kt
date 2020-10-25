@@ -7,7 +7,7 @@ import java.util.*
 
 class ChoiceLanguageViewModel(private val repository: TextDataRepository) : ViewModel() {
     val childSelectState = MutableLiveData<Int>()
-    private val selectedValues = repository.getListLanguages()
+    private val selectedValues = repository.getLanguagesValue()
 
     fun saveLanguageChoice(mainLanguage: String, childLanguage: String) {
         repository.saveSelectLanguage(mainLanguage, childLanguage)

@@ -17,6 +17,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val viewModel: SettingsViewModel by viewModel()
+    private lateinit var prefChild: ListPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -27,7 +28,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        prefChild = preferenceScreen.findPreference("child")!!
         initToolbar()
+        observeView()
+        viewModel.initChildPref()
     }
 
     override fun onResume() {
@@ -42,10 +46,19 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            "main", "child" -> {
+            "main" -> {
+                viewModel.handleMainClick()
+            }
+            "child" -> {
                 viewModel.deleteAllData()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        changeVisibleNavigation(true)
     }
 
     private fun initToolbar() {
@@ -56,10 +69,19 @@ class SettingsFragment : PreferenceFragmentCompat(),
         changeVisibleNavigation(false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        changeVisibleNavigation(true)
+    private fun observeView() {
+        viewModel.childPreferenceSate.observe(viewLifecycleOwner, {
+            prefChild.entries = it.first
+            prefChild.entryValues = it.second
+        })
+        viewModel.childSelectItemSate.observe(viewLifecycleOwner, {
+            val indexLanguage = prefChild.findIndexOfValue(it)
+            if (indexLanguage != -1) {
+                prefChild.setValueIndex(indexLanguage)
+            } else {
+                prefChild.setValueIndex(0)
+            }
+        })
     }
 
     private fun listenerChangeTheme() {
