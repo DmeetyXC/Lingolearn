@@ -19,7 +19,9 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
 
     val progressState = MutableLiveData<Boolean>()
     val initBookState = SingleLiveEvent<BookData>()
-    val allBookCategory = Transformations.map(repository.allBook) { loadBookCategory(it) }
+    val allBookCategory = Transformations.map(repository.allBook) {
+        loadBookCategory(it)
+    }
 
     init {
         checkNewBooks()
@@ -104,15 +106,17 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
             val textChild = async {
                 repository.loadFullTextBook(bookData, BookType.CHILD)
             }
-
             val parseMainBook = async { parseBook(textMain.await()) }
             val parseChildBook = async { parseBook(textChild.await()) }
-
-            saveTextBook(parseMainBook.await(), parseChildBook.await(), bookData)
+            val parseText = parseText(
+                parseMainBook.await(),
+                parseChildBook.await()
+            )
+            saveTextBook(parseText.first, parseText.second, bookData)
         }
     }
 
-    private fun parseBook(fullTextBook: String): List<String> {
+    private fun parseBook(fullTextBook: String): MutableList<String> {
         val splitText = mutableListOf<String>()
         var i = 0
         while (i < fullTextBook.length) {
@@ -122,7 +126,7 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
             splitText.add(fullTextBook.substring(firstElement, lastElement).trim() + " ")
             i = lastElement + 1
         }
-        return parseText(splitText)
+        return splitText
     }
 
     private fun saveTextBook(
@@ -149,33 +153,46 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
         repository.insert(textData)
     }
 
-    private fun parseText(arr: MutableList<String>): List<String> {
-        val finalArr = mutableListOf<String>()
-        val string: StringBuilder = StringBuilder()
-        val size = repository.getMaxCountCharacters()
-        var length = 0
-        for (j in arr) {
-            length += j.length
-            if (length < size) {
-                string.append(j)
+    /**
+     * Parses text no more than the maximum specified number, the text is divided by sentences.
+     * The child text depends on the main text
+     * @return prepared pair lists consisting of main and child list to save in database
+     */
+    private fun parseText(arrMain: MutableList<String>, arrChild: MutableList<String>):
+            Pair<List<String>, List<String>> {
+        val finalArrMain = mutableListOf<String>()
+        val finalArrChild = mutableListOf<String>()
+        val stringMain: StringBuilder = StringBuilder()
+        val stringChild: StringBuilder = StringBuilder()
+        val sizeMax = repository.getMaxCountCharacters()
+        var lengthText = 0
+        for (i in arrMain.indices) {
+            lengthText += arrMain[i].length
+            if (lengthText < sizeMax) {
+                stringMain.append(arrMain[i])
+                stringChild.append(arrChild[i])
             } else {
-                if (string.isEmpty()) {
-                    string.append(j)
+                if (stringMain.isEmpty()) {
+                    stringMain.append(arrMain[i])
+                    stringChild.append(arrChild[i])
                 } else {
-                    finalArr.add(string.toString())
-                    string.clear().append(j)
-                    length = 0
+                    finalArrMain.add(stringMain.toString())
+                    finalArrChild.add(stringChild.toString())
+                    stringMain.clear().append(arrMain[i])
+                    stringChild.clear().append(arrChild[i])
+                    lengthText = 0
                 }
             }
         }
-        finalArr.add(string.toString())
-        return finalArr
+        finalArrMain.add(stringMain.toString())
+        finalArrChild.add(stringChild.toString())
+        return Pair(finalArrMain, finalArrChild)
     }
 
     private fun searchFirstElement(indexClick: Int, text: String): Int {
         for (i in indexClick - 1 downTo 1) {
             val symbol1 = text[i]
-            if (symbol1 == '.' || symbol1 == '!' || symbol1 == '?') {
+            if (symbol1 == '.' || symbol1 == '!' || symbol1 == '?' || symbol1 == '…') {
                 return i + 2
             }
         }
@@ -185,7 +202,7 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
     private fun searchLastElement(indexClick: Int, text: String): Int {
         for (i in indexClick + 1 until text.length) {
             val symbol2 = text[i]
-            if (symbol2 == '.' || symbol2 == '!' || symbol2 == '?') {
+            if (symbol2 == '.' || symbol2 == '!' || symbol2 == '?' || symbol2 == '…') {
                 return i + 1
             }
         }

@@ -64,7 +64,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         var number = 0
         for (i in indexClick - 1 downTo 1) {
             val symbol1 = text[i]
-            if (symbol1 == '.' || symbol1 == '!' || symbol1 == '?') {
+            if (symbol1 == '.' || symbol1 == '!' || symbol1 == '?' || symbol1 == '…') {
                 number++
             }
         }
@@ -142,7 +142,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     private fun searchFirstElement(indexClick: Int, text: String): Int {
         for (i in indexClick - 1 downTo 1) {
             val symbol1 = text[i]
-            if (symbol1 == '.' || symbol1 == '!' || symbol1 == '?') {
+            if (symbol1 == '.' || symbol1 == '!' || symbol1 == '?' || symbol1 == '…') {
                 return i + 2
             }
         }
@@ -152,7 +152,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     private fun searchLastElement(indexClick: Int, text: String): Int {
         for (i in indexClick + 1 until text.length) {
             val symbol2 = text[i]
-            if (symbol2 == '.' || symbol2 == '!' || symbol2 == '?') {
+            if (symbol2 == '.' || symbol2 == '!' || symbol2 == '?' || symbol2 == '…') {
                 return i + 1
             }
         }
@@ -174,7 +174,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         var counter = 0
         for (i in text.indices) {
             val symbol = text[i]
-            if (symbol == '.' || symbol == '!' || symbol == '?') {
+            if (symbol == '.' || symbol == '!' || symbol == '?' || symbol == '…') {
                 counter++
             }
             if (counter == numberLine && counter == 0) {
@@ -191,7 +191,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         for (i in firstIndex + 1 until text.length) {
             lastIndex++
             val symbol = text[i]
-            if (symbol == '.' || symbol == '!' || symbol == '?') {
+            if (symbol == '.' || symbol == '!' || symbol == '?' || symbol == '…') {
                 return lastIndex + 1
             }
         }
