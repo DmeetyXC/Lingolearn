@@ -46,10 +46,10 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
 
     private fun observeView() {
         viewModel.favoriteBook.observe(viewLifecycleOwner, {
+            favoriteAdapter.submitList(it)
             if (it.isEmpty()) {
                 txtEmptyFavorite.visibility = View.VISIBLE
             } else {
-                favoriteAdapter.submitList(it)
                 txtEmptyFavorite.visibility = View.INVISIBLE
             }
         })

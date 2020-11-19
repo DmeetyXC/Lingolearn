@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LanguageLearning</string>
+    <string name="title_library">Библиотека</string>
+    <string name="title_favorite">Избранное</string>
+    <string name="title_dictionary">Словарь</string>
+
+    <string name="next">Далее</string>
+    <string name="back">Предыдущий</string>
+    <string name="progress_book">Прочитано %d%%</string>
+    <string name="book_not_load">Книга еще не загружена</string>
+    <string name="book_full_read">Книга полностью прочитана</string>
+    <string name="add_dictionary">Добавить в словарь</string>
+    <string name="text_mode_selected">Выбран режим текста</string>
+    <string name="text_mode_disabled">Режим текста отключен</string>
+    <string name="cancel">Отмена</string>
+    <string name="empty_dictionary">Словарь пуст</string>
+    <string name="empty_favorite">Нет избранных книг</string>
+    <string name="different_choice_lang">Выберите разные языки</string>
+    <string name="choice_lang_learn">Язык который хотите изучить</string>
+    <string name="choice_lang_native">Ваш исходный язык</string>
+    <string name="mark_read">Пометить как прочитанное</string>
+    <string name="error">Ошибка: %s</string>
+    <string name="settings">Настройки</string>
+
+    <!-- Preference -->
+    <string name="lang_header">Языки</string>
+    <string name="appearance_header">Внешний вид</string>
+    <string name="text_title">Размер текста при чтении</string>
+    <string name="warning_title">Смена языка</string>
+    <string name="theme_title">Тема</string>
+    <string name="warning_summary">При изменении языка будет удалена вся
+        информация о книгах</string>
+
+    <!-- Arrays -->
+    <string name="font_very_small">Очень маленький</string>
+    <string name="font_small">Маленький</string>
+    <string name="font_average">Средний</string>
+    <string name="font_big">Большой</string>
+    <string name="font_very_big">Очень большой</string>
+
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="theme_system">Использовать тему устройства</string>
+
+    <string name="language_en">Английский</string>
+    <string name="language_ru">Русский</string>
+</resources>

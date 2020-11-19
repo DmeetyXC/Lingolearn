@@ -41,10 +41,10 @@ class DictionaryFragment : Fragment() {
 
     private fun observerView() {
         viewModel.dictionary.observe(viewLifecycleOwner, {
+            dictionaryAdapter.submitList(it)
             if (it.isEmpty()) {
                 txtEmptyDictionary.visibility = View.VISIBLE
             } else {
-                dictionaryAdapter.submitList(it)
                 txtEmptyDictionary.visibility = View.INVISIBLE
             }
         })
