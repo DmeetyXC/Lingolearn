@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.dictionary_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -29,6 +30,8 @@ class DictionaryFragment : Fragment() {
     }
 
     private fun initView() {
+        val appBarLayout = requireActivity().findViewById(R.id.appBarLayout) as AppBarLayout
+        appBarLayout.setExpanded(true, true)
         requireActivity().title = getString(R.string.title_dictionary)
         dictionaryAdapter = DictionaryAdapter()
         val divider = DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL)

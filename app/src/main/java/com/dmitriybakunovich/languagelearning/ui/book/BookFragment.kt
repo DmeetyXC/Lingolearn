@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.book_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -51,6 +52,8 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
     }
 
     private fun initView() {
+        val appBarLayout = requireActivity().findViewById(R.id.appBarLayout) as AppBarLayout
+        appBarLayout.setExpanded(true, true)
         requireActivity().title = getString(R.string.title_library)
         swipeRefresh.setOnRefreshListener { viewModel.checkNewBooks() }
 

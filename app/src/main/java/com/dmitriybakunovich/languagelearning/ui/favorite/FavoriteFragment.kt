@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.favorite_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,6 +37,8 @@ class FavoriteFragment : Fragment(), FavoriteAdapter.OnItemClickListener {
     }
 
     private fun initView() {
+        val appBarLayout = requireActivity().findViewById(R.id.appBarLayout) as AppBarLayout
+        appBarLayout.setExpanded(true, true)
         requireActivity().title = getString(R.string.title_favorite)
         favoriteAdapter = FavoriteAdapter(this)
         with(recyclerFavorite) {
