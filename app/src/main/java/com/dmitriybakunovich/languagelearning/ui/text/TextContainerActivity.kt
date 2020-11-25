@@ -7,23 +7,24 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
 import com.dmitriybakunovich.languagelearning.R
-import kotlinx.android.synthetic.main.activity_text_container.*
+import com.dmitriybakunovich.languagelearning.databinding.ActivityTextContainerBinding
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
 class TextContainerActivity : AppCompatActivity() {
 
     private lateinit var viewModel: TextViewModel
+    private lateinit var binding: ActivityTextContainerBinding
     private val args: TextContainerActivityArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_text_container)
+        binding = ActivityTextContainerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         viewModel = getViewModel { parametersOf(args.book) }
         initToolbar()
         initView()
-        initNavigationButton()
         observeView()
     }
 
@@ -43,27 +44,28 @@ class TextContainerActivity : AppCompatActivity() {
     }*/
 
     private fun initToolbar() {
-        toolbarTextContainer.title = args.book.bookNameTranslate
-        setSupportActionBar(toolbarTextContainer)
+        binding.toolbarTextContainer.title = args.book.bookNameTranslate
+        setSupportActionBar(binding.toolbarTextContainer)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbarTextContainer.setNavigationOnClickListener {
+        binding.toolbarTextContainer.setNavigationOnClickListener {
             onBackPressed()
         }
     }
 
     private fun initView() {
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        txtPageList.setOnClickListener {
+        binding.txtPageList.setOnClickListener {
             viewModel.finishReadBook()
             finish()
         }
+        initNavigationButton()
     }
 
     private fun initNavigationButton() {
-        containerNavigationNext.setOnClickListener {
+        binding.containerNavigationNext.setOnClickListener {
             viewModel.nextPageClick()
         }
-        containerNavigationBack.setOnClickListener {
+        binding.containerNavigationBack.setOnClickListener {
             viewModel.backPageClick()
         }
     }
@@ -71,9 +73,9 @@ class TextContainerActivity : AppCompatActivity() {
     private fun observeView() {
         viewModel.lastPageState.observe(this, {
             if (it) {
-                txtPageList.visibility = View.VISIBLE
+                binding.txtPageList.visibility = View.VISIBLE
             } else {
-                txtPageList.visibility = View.GONE
+                binding.txtPageList.visibility = View.GONE
             }
         })
         viewModel.errorState.observe(this, {

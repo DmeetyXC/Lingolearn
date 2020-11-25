@@ -5,24 +5,22 @@ import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.dmitriybakunovich.languagelearning.R
+import com.dmitriybakunovich.languagelearning.databinding.TextChildFragmentBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.text_child_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class TextChildFragment : Fragment() {
+class TextChildFragment : Fragment(R.layout.text_child_fragment) {
 
     private val viewModel: TextViewModel by sharedViewModel()
+    private var _binding: TextChildFragmentBinding? = null
+    private val binding get() = _binding!!
 
     // Detect long click time
     private var startClickTime: Long = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.text_child_fragment, container, false)
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = TextChildFragmentBinding.bind(view)
 
         observeView()
         registerTouchListener()
@@ -31,25 +29,27 @@ class TextChildFragment : Fragment() {
 
     private fun observeView() {
         viewModel.bookPage.observe(viewLifecycleOwner, {
-            textChild.text = it.textChild
+            binding.textChild.text = it.textChild
         })
         viewModel.textLineSelected.observe(viewLifecycleOwner, {
-            val text = textChild.text.toString()
-            textChild.setText(viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE)
+            val text = binding.textChild.text.toString()
+            binding.textChild.setText(
+                viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE
+            )
         })
         viewModel.scrollTextState.observe(viewLifecycleOwner, {
-            scrollChild.scrollBy(0, it)
+            binding.scrollChild.scrollBy(0, it)
         })
         viewModel.dictionaryModeState.observe(viewLifecycleOwner, {
             dictionaryModeState(it)
         })
         viewModel.textSizeState.observe(viewLifecycleOwner, {
-            textChild.textSize = it
+            binding.textChild.textSize = it
         })
     }
 
     private fun registerTouchListener() {
-        textChild.setOnTouchListener(View.OnTouchListener { v, event ->
+        binding.textChild.setOnTouchListener(View.OnTouchListener { v, event ->
             v.performClick()
             return@OnTouchListener textTouchListen(v, event)
         })
@@ -68,7 +68,7 @@ class TextChildFragment : Fragment() {
                     (v as TextView).layout?.let {
                         val line = it.getLineForVertical(event.y.toInt())
                         val offset = it.getOffsetForHorizontal(line, event.x)
-                        val text = textChild.text.toString()
+                        val text = binding.textChild.text.toString()
                         viewModel.touchText(offset, text, BookType.CHILD)
                         viewModel.searchNumberLineText(offset, text)
                         viewModel.scrollTextPosition(it.lineCount / 2, line)
@@ -83,13 +83,13 @@ class TextChildFragment : Fragment() {
     private fun dictionaryModeState(state: Boolean) {
         if (state) {
             showSnackBar()
-            with(textChild) {
+            with(binding.textChild) {
                 setTextIsSelectable(true)
                 setOnTouchListener(null)
-                text = textChild.text.toString()
+                text = binding.textChild.text.toString()
             }
         } else {
-            textChild.setTextIsSelectable(false)
+            binding.textChild.setTextIsSelectable(false)
             registerTouchListener()
         }
     }
@@ -104,7 +104,7 @@ class TextChildFragment : Fragment() {
     }
 
     private fun longClickDictionary() {
-        textChild.customSelectionActionModeCallback = object : ActionMode.Callback {
+        binding.textChild.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = false
 
             override fun onDestroyActionMode(mode: ActionMode?) {}
@@ -127,14 +127,19 @@ class TextChildFragment : Fragment() {
 
     private fun textDictionary() {
         var min = 0
-        val textAll = textChild.text
+        val textAll = binding.textChild.text
         var max: Int = textAll.length
-        if (textChild.isFocused) {
-            val selStart: Int = textChild.selectionStart
-            val selEnd: Int = textChild.selectionEnd
+        if (binding.textChild.isFocused) {
+            val selStart: Int = binding.textChild.selectionStart
+            val selEnd: Int = binding.textChild.selectionEnd
             min = 0.coerceAtLeast(selStart.coerceAtMost(selEnd))
             max = 0.coerceAtLeast(selStart.coerceAtLeast(selEnd))
         }
         viewModel.textDictionarySearch(textAll.toString(), min, max)
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

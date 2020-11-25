@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val repository: TextDataRepository) : ViewModel() {
+
     val childPreferenceSate = MutableLiveData<Pair<Array<String>, Array<String>>>()
     val childSelectItemSate = MutableLiveData<String>()
     private val languages = repository.getLanguages()

@@ -6,6 +6,7 @@ import com.dmitriybakunovich.languagelearning.data.repository.TextDataRepository
 import java.util.*
 
 class ChoiceLanguageViewModel(private val repository: TextDataRepository) : ViewModel() {
+
     val childSelectState = MutableLiveData<Int>()
     private val selectedValues = repository.getLanguagesValue()
 

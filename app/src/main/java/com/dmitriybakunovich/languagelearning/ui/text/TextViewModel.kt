@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 
 class TextViewModel(private val bookData: BookData, private val repository: TextDataRepository) :
     ViewModel() {
+
     // Required to receive a dedicated offer for further translation
     // To select text you only need textLineSelected
     private val textSelectedMain = MutableLiveData<SpannableString>()

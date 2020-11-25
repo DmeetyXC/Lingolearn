@@ -1,25 +1,25 @@
 package com.dmitriybakunovich.languagelearning.ui.book
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
+import com.dmitriybakunovich.languagelearning.databinding.BookFragmentBinding
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.android.synthetic.main.book_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
+class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickListener {
 
     private val viewModel: BookViewModel by viewModel()
+    private var _binding: BookFragmentBinding? = null
+    private val binding get() = _binding!!
     private lateinit var parentAdapter: BookParentAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.book_fragment, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +31,9 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         setHasOptionsMenu(true)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = BookFragmentBinding.bind(view)
 
         initView()
         observerView()
@@ -51,14 +52,22 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onItemClick(book: BookData) {
+        viewModel.handleItemClick(book)
+    }
+
+    override fun onFavoriteItemClick(book: BookData) {
+        viewModel.addFavoriteBook(book)
+    }
+
     private fun initView() {
         val appBarLayout = requireActivity().findViewById(R.id.appBarLayout) as AppBarLayout
         appBarLayout.setExpanded(true, true)
         requireActivity().title = getString(R.string.title_library)
-        swipeRefresh.setOnRefreshListener { viewModel.checkNewBooks() }
+        binding.swipeRefresh.setOnRefreshListener { viewModel.checkNewBooks() }
 
         parentAdapter = BookParentAdapter(this)
-        with(recyclerBookParent) {
+        with(binding.recyclerBookParent) {
             layoutManager = LinearLayoutManager(
                 requireActivity(), LinearLayoutManager.VERTICAL, false
             )
@@ -73,7 +82,7 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         })
 
         viewModel.progressState.observe(viewLifecycleOwner, {
-            swipeRefresh.isRefreshing = it
+            binding.swipeRefresh.isRefreshing = it
         })
 
         viewModel.initBookState.observe(viewLifecycleOwner, {
@@ -83,11 +92,8 @@ class BookFragment : Fragment(), BookAdapter.OnItemClickListener {
         })
     }
 
-    override fun onItemClick(book: BookData) {
-        viewModel.handleItemClick(book)
-    }
-
-    override fun onFavoriteItemClick(book: BookData) {
-        viewModel.addFavoriteBook(book)
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

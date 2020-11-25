@@ -5,24 +5,22 @@ import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.dmitriybakunovich.languagelearning.R
+import com.dmitriybakunovich.languagelearning.databinding.TextMainFragmentBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.text_main_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class TextMainFragment : Fragment() {
+class TextMainFragment : Fragment(R.layout.text_main_fragment) {
 
     private val viewModel: TextViewModel by sharedViewModel()
+    private var _binding: TextMainFragmentBinding? = null
+    private val binding get() = _binding!!
 
     // Detect long click time
     private var startClickTime: Long = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.text_main_fragment, container, false)
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = TextMainFragmentBinding.bind(view)
 
         observeView()
         registerTouchListener()
@@ -31,25 +29,27 @@ class TextMainFragment : Fragment() {
 
     private fun observeView() {
         viewModel.bookPage.observe(viewLifecycleOwner, {
-            textMain.text = it.textMain
+            binding.textMain.text = it.textMain
         })
         viewModel.textLineSelected.observe(viewLifecycleOwner, {
-            val text = textMain.text.toString()
-            textMain.setText(viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE)
+            val text = binding.textMain.text.toString()
+            binding.textMain.setText(
+                viewModel.handleLineSelected(text, it), TextView.BufferType.SPANNABLE
+            )
         })
         viewModel.scrollTextState.observe(viewLifecycleOwner, {
-            scrollMain.scrollBy(0, it)
+            binding.scrollMain.scrollBy(0, it)
         })
         viewModel.dictionaryModeState.observe(viewLifecycleOwner, {
             dictionaryModeState(it)
         })
         viewModel.textSizeState.observe(viewLifecycleOwner, {
-            textMain.textSize = it
+            binding.textMain.textSize = it
         })
     }
 
     private fun registerTouchListener() {
-        textMain.setOnTouchListener(View.OnTouchListener { v, event ->
+        binding.textMain.setOnTouchListener(View.OnTouchListener { v, event ->
             v.performClick()
             return@OnTouchListener textTouchListen(v, event)
         })
@@ -68,7 +68,7 @@ class TextMainFragment : Fragment() {
                     (v as TextView).layout?.let {
                         val line = it.getLineForVertical(event.y.toInt())
                         val offset = it.getOffsetForHorizontal(line, event.x)
-                        val text = textMain.text.toString()
+                        val text = binding.textMain.text.toString()
                         viewModel.touchText(offset, text, BookType.MAIN)
                         viewModel.searchNumberLineText(offset, text)
                         viewModel.scrollTextPosition(it.lineCount / 2, line)
@@ -83,13 +83,13 @@ class TextMainFragment : Fragment() {
     private fun dictionaryModeState(state: Boolean) {
         if (state) {
             showSnackBar()
-            with(textMain) {
+            with(binding.textMain) {
                 setTextIsSelectable(true)
                 setOnTouchListener(null)
-                text = textMain.text.toString()
+                text = binding.textMain.text.toString()
             }
         } else {
-            textMain.setTextIsSelectable(false)
+            binding.textMain.setTextIsSelectable(false)
             registerTouchListener()
         }
     }
@@ -104,7 +104,7 @@ class TextMainFragment : Fragment() {
     }
 
     private fun longClickDictionary() {
-        textMain.customSelectionActionModeCallback = object : ActionMode.Callback {
+        binding.textMain.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = false
 
             override fun onDestroyActionMode(mode: ActionMode?) {}
@@ -127,14 +127,19 @@ class TextMainFragment : Fragment() {
 
     private fun textDictionary() {
         var min = 0
-        val textAll = textMain.text
+        val textAll = binding.textMain.text
         var max: Int = textAll.length
-        if (textMain.isFocused) {
-            val selStart: Int = textMain.selectionStart
-            val selEnd: Int = textMain.selectionEnd
+        if (binding.textMain.isFocused) {
+            val selStart: Int = binding.textMain.selectionStart
+            val selEnd: Int = binding.textMain.selectionEnd
             min = 0.coerceAtLeast(selStart.coerceAtMost(selEnd))
             max = 0.coerceAtLeast(selStart.coerceAtLeast(selEnd))
         }
         viewModel.textDictionarySearch(textAll.toString(), min, max)
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

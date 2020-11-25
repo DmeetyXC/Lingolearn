@@ -1,7 +1,6 @@
 package com.dmitriybakunovich.languagelearning.ui.book
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
-import kotlinx.android.synthetic.main.item_book.view.*
+import com.dmitriybakunovich.languagelearning.databinding.ItemBookBinding
 
 class BookAdapter(private val clickListener: OnItemClickListener) :
     ListAdapter<BookData, BookAdapter.BookViewHolder>(BookData.DiffCallback()) {
@@ -22,11 +21,11 @@ class BookAdapter(private val clickListener: OnItemClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_book, parent, false
+        val binding = ItemBookBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
         )
-        val bookHolder = BookViewHolder(view)
-        view.setOnClickListener {
+        val bookHolder = BookViewHolder(binding)
+        binding.root.setOnClickListener {
             clickListener.onItemClick(getItem(bookHolder.adapterPosition))
         }
         bookHolder.favoriteBook.setOnClickListener {
@@ -39,11 +38,11 @@ class BookAdapter(private val clickListener: OnItemClickListener) :
         holder.bind(getItem(position))
     }
 
-    class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val favoriteBook: ImageView = itemView.favoriteBook
-        private val nameBook: TextView = itemView.nameBook
-        private val progressBook: TextView = itemView.progressBook
-        private val imageBook: ImageView = itemView.imageBook
+    class BookViewHolder(binding: ItemBookBinding) : RecyclerView.ViewHolder(binding.root) {
+        val favoriteBook: ImageView = binding.favoriteBook
+        private val nameBook: TextView = binding.nameBook
+        private val progressBook: TextView = binding.progressBook
+        private val imageBook: ImageView = binding.imageBook
 
         fun bind(book: BookData) {
             nameBook.text = book.bookNameTranslate

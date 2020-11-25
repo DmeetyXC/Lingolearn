@@ -1,21 +1,19 @@
 package com.dmitriybakunovich.languagelearning.ui.dictionary
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.Dictionary
-import kotlinx.android.synthetic.main.item_dictionary.view.*
+import com.dmitriybakunovich.languagelearning.databinding.ItemDictionaryBinding
 
 class DictionaryAdapter :
     ListAdapter<Dictionary, DictionaryAdapter.DictionaryViewHolder>(Dictionary.DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DictionaryViewHolder =
         DictionaryViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_dictionary, parent, false
+            ItemDictionaryBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
             )
         )
 
@@ -23,9 +21,10 @@ class DictionaryAdapter :
         holder.bind(getItem(position))
     }
 
-    class DictionaryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val dictionaryValue = itemView.dictionaryValue
-        private val dictionaryTranslateValue = itemView.dictionaryTranslateValue
+    class DictionaryViewHolder(binding: ItemDictionaryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        private val dictionaryValue = binding.dictionaryValue
+        private val dictionaryTranslateValue = binding.dictionaryTranslateValue
 
         fun bind(dictionary: Dictionary) {
             dictionaryValue.text = dictionary.dictionaryValue

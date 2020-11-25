@@ -1,28 +1,24 @@
 package com.dmitriybakunovich.languagelearning.ui.choiceLanguage
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dmitriybakunovich.languagelearning.R
+import com.dmitriybakunovich.languagelearning.databinding.ChoiceLanguageFragmentBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.choice_language_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ChoiceLanguageFragment : Fragment() {
+class ChoiceLanguageFragment : Fragment(R.layout.choice_language_fragment) {
 
     private val viewModel: ChoiceLanguageViewModel by viewModel()
+    private var _binding: ChoiceLanguageFragmentBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.choice_language_fragment, container, false)
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = ChoiceLanguageFragmentBinding.bind(view)
 
         initView()
         observeView()
@@ -32,18 +28,18 @@ class ChoiceLanguageFragment : Fragment() {
     private fun initView() {
         requireActivity().title = getString(R.string.app_name)
         changeVisibleNavigation(false)
-        next.setOnClickListener { nextClick() }
+        binding.next.setOnClickListener { nextClick() }
     }
 
     private fun observeView() {
         viewModel.childSelectState.observe(viewLifecycleOwner, {
-            spinnerChild.setSelection(it)
+            binding.spinnerChild.setSelection(it)
         })
     }
 
     private fun nextClick() {
-        val mainLanguage = viewModel.getSelectValues(spinnerMain.selectedItemPosition)
-        val childLanguage = viewModel.getSelectValues(spinnerChild.selectedItemPosition)
+        val mainLanguage = viewModel.getSelectValues(binding.spinnerMain.selectedItemPosition)
+        val childLanguage = viewModel.getSelectValues(binding.spinnerChild.selectedItemPosition)
         if (mainLanguage == childLanguage) {
             Snackbar.make(requireView(), R.string.different_choice_lang, Snackbar.LENGTH_SHORT)
                 .show()
@@ -61,5 +57,10 @@ class ChoiceLanguageFragment : Fragment() {
         val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav)
         if (visibility) navView.visibility = View.VISIBLE
         else navView.visibility = View.GONE
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

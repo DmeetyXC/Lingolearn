@@ -1,29 +1,25 @@
 package com.dmitriybakunovich.languagelearning.ui.dictionary
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
+import com.dmitriybakunovich.languagelearning.databinding.DictionaryFragmentBinding
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.android.synthetic.main.dictionary_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DictionaryFragment : Fragment() {
+class DictionaryFragment : Fragment(R.layout.dictionary_fragment) {
 
     private val viewModel: DictionaryViewModel by viewModel()
+    private var _binding: DictionaryFragmentBinding? = null
+    private val binding get() = _binding!!
     private lateinit var dictionaryAdapter: DictionaryAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.dictionary_fragment, container, false)
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = DictionaryFragmentBinding.bind(view)
 
         initView()
         observerView()
@@ -35,7 +31,7 @@ class DictionaryFragment : Fragment() {
         requireActivity().title = getString(R.string.title_dictionary)
         dictionaryAdapter = DictionaryAdapter()
         val divider = DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL)
-        with(recyclerDictionary) {
+        with(binding.recyclerDictionary) {
             layoutManager = LinearLayoutManager(requireActivity())
             addItemDecoration(divider)
             adapter = dictionaryAdapter
@@ -46,10 +42,15 @@ class DictionaryFragment : Fragment() {
         viewModel.dictionary.observe(viewLifecycleOwner, {
             dictionaryAdapter.submitList(it)
             if (it.isEmpty()) {
-                txtEmptyDictionary.visibility = View.VISIBLE
+                binding.txtEmptyDictionary.visibility = View.VISIBLE
             } else {
-                txtEmptyDictionary.visibility = View.INVISIBLE
+                binding.txtEmptyDictionary.visibility = View.INVISIBLE
             }
         })
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

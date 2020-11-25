@@ -1,7 +1,6 @@
 package com.dmitriybakunovich.languagelearning.ui.favorite
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
-import kotlinx.android.synthetic.main.item_favorite.view.*
+import com.dmitriybakunovich.languagelearning.databinding.ItemFavoriteBinding
 
 class FavoriteAdapter(private val clickListener: OnItemClickListener) :
     ListAdapter<BookData, FavoriteAdapter.FavoriteViewHolder>(BookData.DiffCallback()) {
@@ -20,12 +19,11 @@ class FavoriteAdapter(private val clickListener: OnItemClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_favorite,
-            parent, false
+        val binding = ItemFavoriteBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
         )
-        val favoriteHolder = FavoriteViewHolder(view)
-        view.setOnClickListener {
+        val favoriteHolder = FavoriteViewHolder(binding)
+        binding.root.setOnClickListener {
             clickListener.onItemClick(getItem(favoriteHolder.adapterPosition))
         }
         return favoriteHolder
@@ -35,10 +33,10 @@ class FavoriteAdapter(private val clickListener: OnItemClickListener) :
         holder.bind(getItem(position))
     }
 
-    class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val nameBook: TextView = itemView.nameBookFavorite
-        private val progressBook: TextView = itemView.progressBookFavorite
-        private val imageBook: ImageView = itemView.imageBookFavorite
+    class FavoriteViewHolder(binding: ItemFavoriteBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val nameBook: TextView = binding.nameBookFavorite
+        private val progressBook: TextView = binding.progressBookFavorite
+        private val imageBook: ImageView = binding.imageBookFavorite
 
         fun bind(book: BookData) {
             nameBook.text = book.bookName

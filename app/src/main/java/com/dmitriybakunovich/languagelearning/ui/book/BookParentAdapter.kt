@@ -1,15 +1,13 @@
 package com.dmitriybakunovich.languagelearning.ui.book
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookParentModel
-import kotlinx.android.synthetic.main.item_book_category.view.*
+import com.dmitriybakunovich.languagelearning.databinding.ItemBookCategoryBinding
 
 class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListener) :
     ListAdapter<BookParentModel, BookParentAdapter.BookParentViewHolder>(
@@ -19,11 +17,11 @@ class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListen
     private val viewPool = RecyclerView.RecycledViewPool()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookParentViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_book_category, parent, false
+        val binding = ItemBookCategoryBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
         )
         val adapter = BookAdapter(clickListener)
-        val viewHolder = BookParentViewHolder(view, adapter)
+        val viewHolder = BookParentViewHolder(binding, adapter)
         initRecycler(viewHolder, adapter)
         return viewHolder
     }
@@ -43,11 +41,11 @@ class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListen
         holder.bind(getItem(position))
     }
 
-    class BookParentViewHolder(itemView: View, private var adapter: BookAdapter) :
-        RecyclerView.ViewHolder(itemView) {
+    class BookParentViewHolder(binding: ItemBookCategoryBinding, private var adapter: BookAdapter) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        val recyclerView: RecyclerView = itemView.recyclerBookChild
-        private val textCategory: TextView = itemView.textTitle
+        val recyclerView: RecyclerView = binding.recyclerBookChild
+        private val textCategory: TextView = binding.textTitle
 
         fun bind(book: BookParentModel) {
             textCategory.text = book.category
