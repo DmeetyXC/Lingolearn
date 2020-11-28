@@ -8,7 +8,7 @@
         android:animateLayoutChanges="true">
 
     <TextView
-            android:id="@+id/dictionaryValue"
+            android:id="@+id/dictionary_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -22,7 +22,7 @@
             tools:text="Book" />
 
     <TextView
-            android:id="@+id/dictionaryTranslateValue"
+            android:id="@+id/dictionary_translate_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -33,7 +33,7 @@
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dictionaryValue"
-            tools:text="Книга" />
+            app:layout_constraintTop_toBottomOf="@+id/dictionary_value"
+            tools:text="Book" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

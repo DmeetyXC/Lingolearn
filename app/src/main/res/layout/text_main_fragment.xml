@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/scrollMain"
+        android:id="@+id/scroll_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
         tools:context=".ui.text.TextMainFragment">
 
     <TextView
-            android:id="@+id/textMain"
+            android:id="@+id/text_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"

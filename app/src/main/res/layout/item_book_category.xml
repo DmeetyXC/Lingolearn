@@ -7,7 +7,7 @@
         android:padding="16dp">
 
     <TextView
-            android:id="@+id/textTitle"
+            android:id="@+id/text_title"
             style="@style/Base.TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
             tools:text="Категория" />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerBookChild"
+            android:id="@+id/recycler_book_child"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"

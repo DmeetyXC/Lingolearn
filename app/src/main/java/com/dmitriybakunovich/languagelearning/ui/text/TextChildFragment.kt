@@ -115,7 +115,7 @@ class TextChildFragment : Fragment(R.layout.text_child_fragment) {
             }
 
             override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-                if (item.itemId == R.id.addTextDictionary) {
+                if (item.itemId == R.id.add_text_dictionary) {
                     textDictionary()
                     mode.finish()
                     return true

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#218099</color>
-    <color name="colorPrimaryDark">#000E42</color>
-    <color name="colorAccent">#2196F3</color>
-    <color name="colorAccentNight">#106BB3</color>
+    <color name="color_primary">#218099</color>
+    <color name="color_primary_dark">#000E42</color>
+    <color name="color_accent">#2196F3</color>
+    <color name="color_accent_night">#106BB3</color>
 
-    <color name="colorGray">#9CA9BA</color>
-    <color name="colorGrayDark">#675F7F</color>
-    <color name="colorGrayLight">#cccccc</color>
+    <color name="color_gray">#9CA9BA</color>
+    <color name="color_gray_dark">#675F7F</color>
+    <color name="color_gray_light">#cccccc</color>
 
-    <color name="colorDividerDark">#1F000000</color>
-    <color name="colorDividerLight">#1FFFFFFF</color>
+    <color name="color_divider_dark">#1F000000</color>
+    <color name="color_divider_light">#1FFFFFFF</color>
+
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>

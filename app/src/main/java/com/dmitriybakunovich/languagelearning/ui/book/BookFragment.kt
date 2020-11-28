@@ -46,7 +46,7 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.actionSettings -> findNavController()
+            R.id.action_settings -> findNavController()
                 .navigate(BookFragmentDirections.actionBookFragmentToSettingsFragment())
         }
         return super.onOptionsItemSelected(item)
@@ -61,7 +61,7 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
     }
 
     private fun initView() {
-        val appBarLayout = requireActivity().findViewById(R.id.appBarLayout) as AppBarLayout
+        val appBarLayout = requireActivity().findViewById(R.id.app_bar_main) as AppBarLayout
         appBarLayout.setExpanded(true, true)
         requireActivity().title = getString(R.string.title_library)
         binding.swipeRefresh.setOnRefreshListener { viewModel.checkNewBooks() }

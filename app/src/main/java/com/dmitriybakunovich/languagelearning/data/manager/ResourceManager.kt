@@ -17,12 +17,12 @@ class ResourceManager(private val context: Context) {
     fun getColorSelectText() =
         when (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO -> ContextCompat.getColor(
-                context.applicationContext, R.color.colorAccentNight
+                context.applicationContext, R.color.color_accent_night
             )
             Configuration.UI_MODE_NIGHT_YES -> ContextCompat.getColor(
-                context.applicationContext, R.color.colorPrimary
+                context.applicationContext, R.color.color_primary
             )
-            else -> ContextCompat.getColor(context.applicationContext, R.color.colorPrimary)
+            else -> ContextCompat.getColor(context.applicationContext, R.color.color_primary)
         }
 
     fun getLanguagesValue(): Array<String> =

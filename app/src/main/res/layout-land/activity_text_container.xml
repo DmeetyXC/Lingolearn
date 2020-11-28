@@ -7,7 +7,7 @@
         tools:context=".ui.text.TextContainerActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayoutText"
+            android:id="@+id/app_bar_layout_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppBarOverlay"
@@ -16,7 +16,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarTextContainer"
+                android:id="@+id/toolbar_text_container"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/PopupOverlay" />
@@ -24,65 +24,65 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/textMainFragment"
+            android:id="@+id/text_main_fragment"
             android:name="com.dmitriybakunovich.languagelearning.ui.text.TextMainFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/navigationBorder"
+            app:layout_constraintBottom_toTopOf="@+id/navigation_border"
             app:layout_constraintEnd_toStartOf="@+id/divider"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayoutText" />
+            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout_text" />
 
     <View
             android:id="@+id/divider"
             android:layout_width="1dp"
             android:layout_height="0dp"
             android:background="?attr/colorDivider"
-            app:layout_constraintBottom_toTopOf="@+id/navigationBorder"
+            app:layout_constraintBottom_toTopOf="@+id/navigation_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayoutText" />
+            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout_text" />
 
     <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/textChildFragment"
+            android:id="@+id/text_child_fragment"
             android:name="com.dmitriybakunovich.languagelearning.ui.text.TextChildFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/navigationBorder"
+            app:layout_constraintBottom_toTopOf="@+id/navigation_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayoutText" />
+            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout_text" />
 
     <TextView
-            android:id="@+id/txtPageList"
+            android:id="@+id/txt_page_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/mark_read"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/color_primary"
             android:textSize="18sp"
             android:textStyle="bold|italic"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/containerNavigationBack"
+            app:layout_constraintBottom_toTopOf="@+id/container_navigation_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible" />
 
     <View
-            android:id="@+id/navigationBorder"
+            android:id="@+id/navigation_border"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="?attr/colorDivider"
-            app:layout_constraintBottom_toTopOf="@+id/txtPageList"
+            app:layout_constraintBottom_toTopOf="@+id/txt_page_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     <FrameLayout
-            android:id="@+id/containerNavigationBack"
+            android:id="@+id/container_navigation_back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -90,7 +90,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-                android:id="@+id/navigationBack"
+                android:id="@+id/navigation_back"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
@@ -101,7 +101,7 @@
     </FrameLayout>
 
     <FrameLayout
-            android:id="@+id/containerNavigationNext"
+            android:id="@+id/container_navigation_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -109,7 +109,7 @@
             app:layout_constraintStart_toEndOf="@+id/divider">
 
         <ImageView
-                android:id="@+id/navigationNext"
+                android:id="@+id/navigation_next"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"

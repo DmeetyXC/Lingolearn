@@ -33,7 +33,7 @@ class FavoriteFragment : Fragment(R.layout.favorite_fragment), FavoriteAdapter.O
     }
 
     private fun initView() {
-        val appBarLayout = requireActivity().findViewById(R.id.appBarLayout) as AppBarLayout
+        val appBarLayout = requireActivity().findViewById(R.id.app_bar_main) as AppBarLayout
         appBarLayout.setExpanded(true, true)
         requireActivity().title = getString(R.string.title_favorite)
         favoriteAdapter = FavoriteAdapter(this)
