@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LanguageLearning</string>
+    <string name="app_name">Lingolearn</string>
     <string name="title_library">Библиотека</string>
     <string name="title_favorite">Избранное</string>
     <string name="title_dictionary">Словарь</string>
