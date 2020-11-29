@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
-import androidx.appcompat.widget.Toolbar
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.dmitriybakunovich.languagelearning.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.dmitriybakunovich.languagelearning.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : PreferenceFragmentCompat(),
@@ -55,18 +54,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        changeVisibleNavigation(true)
-    }
-
     private fun initToolbar() {
-        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-        toolbar.title = getString(R.string.settings)
+        requireActivity().title = getString(R.string.settings)
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
-        changeVisibleNavigation(false)
+        (activity as MainActivity).changeScrollingToolbar(false)
+        (activity as MainActivity).changeVisibleNavigation(false)
     }
 
     private fun observeView() {
@@ -100,10 +92,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
-    // TODO Redesign navigation structure, this remove
-    private fun changeVisibleNavigation(visibility: Boolean) {
-        val navView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_nav)
-        if (visibility) navView.visibility = View.VISIBLE
-        else navView.visibility = View.GONE
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (activity as MainActivity).changeVisibleNavigation(true)
+        (activity as MainActivity).changeScrollingToolbar(true)
     }
 }

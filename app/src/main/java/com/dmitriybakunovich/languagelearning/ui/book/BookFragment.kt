@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
 import com.dmitriybakunovich.languagelearning.databinding.BookFragmentBinding
-import com.google.android.material.appbar.AppBarLayout
+import com.dmitriybakunovich.languagelearning.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickListener {
@@ -61,9 +61,8 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
     }
 
     private fun initView() {
-        val appBarLayout = requireActivity().findViewById(R.id.app_bar_main) as AppBarLayout
-        appBarLayout.setExpanded(true, true)
         requireActivity().title = getString(R.string.title_library)
+        (activity as MainActivity).expandedAppBar()
         binding.swipeRefresh.setOnRefreshListener { viewModel.checkNewBooks() }
 
         parentAdapter = BookParentAdapter(this)

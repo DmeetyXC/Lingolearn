@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.databinding.DictionaryFragmentBinding
-import com.google.android.material.appbar.AppBarLayout
+import com.dmitriybakunovich.languagelearning.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DictionaryFragment : Fragment(R.layout.dictionary_fragment) {
@@ -26,9 +26,9 @@ class DictionaryFragment : Fragment(R.layout.dictionary_fragment) {
     }
 
     private fun initView() {
-        val appBarLayout = requireActivity().findViewById(R.id.app_bar_main) as AppBarLayout
-        appBarLayout.setExpanded(true, true)
         requireActivity().title = getString(R.string.title_dictionary)
+        (activity as MainActivity).expandedAppBar()
+
         dictionaryAdapter = DictionaryAdapter()
         val divider = DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL)
         with(binding.recyclerDictionary) {

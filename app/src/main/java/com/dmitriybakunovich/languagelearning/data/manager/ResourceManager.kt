@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import com.dmitriybakunovich.languagelearning.R
 
 class ResourceManager(private val context: Context) {
+
     fun getDisplayPixels() = (context.applicationContext.resources.displayMetrics.xdpi +
             context.applicationContext.resources.displayMetrics.ydpi).toInt()
     /*(context.applicationContext.resources.displayMetrics.heightPixels -

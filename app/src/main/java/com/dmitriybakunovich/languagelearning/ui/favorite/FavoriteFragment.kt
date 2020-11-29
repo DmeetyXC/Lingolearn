@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
 import com.dmitriybakunovich.languagelearning.databinding.FavoriteFragmentBinding
-import com.google.android.material.appbar.AppBarLayout
+import com.dmitriybakunovich.languagelearning.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : Fragment(R.layout.favorite_fragment), FavoriteAdapter.OnItemClickListener {
@@ -33,9 +33,9 @@ class FavoriteFragment : Fragment(R.layout.favorite_fragment), FavoriteAdapter.O
     }
 
     private fun initView() {
-        val appBarLayout = requireActivity().findViewById(R.id.app_bar_main) as AppBarLayout
-        appBarLayout.setExpanded(true, true)
         requireActivity().title = getString(R.string.title_favorite)
+        (activity as MainActivity).expandedAppBar()
+
         favoriteAdapter = FavoriteAdapter(this)
         with(binding.recyclerFavorite) {
             layoutManager = GridLayoutManager(requireActivity(), 2)
