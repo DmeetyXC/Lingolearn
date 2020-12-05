@@ -21,18 +21,11 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
     private val binding get() = _binding!!
     private lateinit var parentAdapter: BookParentAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (!viewModel.checkSaveLanguage()) {
-            findNavController().navigate(R.id.action_bookFragment_to_choiceLanguageFragment)
-        }
-        setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = BookFragmentBinding.bind(view)
 
+        setHasOptionsMenu(true)
         initView()
         observerView()
     }
@@ -80,6 +73,11 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
 
         viewModel.progressState.observe(viewLifecycleOwner, {
             binding.swipeRefresh.isRefreshing = it
+        })
+
+        viewModel.languageState.observe(viewLifecycleOwner, {
+            if (!it)
+                findNavController().navigate(R.id.action_bookFragment_to_choiceLanguageFragment)
         })
 
         viewModel.initBookState.observe(viewLifecycleOwner, {

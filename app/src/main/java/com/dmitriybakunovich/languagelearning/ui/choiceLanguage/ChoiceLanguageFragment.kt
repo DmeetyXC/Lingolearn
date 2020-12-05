@@ -22,7 +22,6 @@ class ChoiceLanguageFragment : Fragment(R.layout.choice_language_fragment) {
 
         initView()
         observeView()
-        viewModel.setInitialPositionLang()
     }
 
     private fun initView() {

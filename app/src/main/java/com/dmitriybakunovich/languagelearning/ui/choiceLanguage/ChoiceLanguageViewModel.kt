@@ -10,15 +10,19 @@ class ChoiceLanguageViewModel(private val repository: TextDataRepository) : View
     val childSelectState = MutableLiveData<Int>()
     private val selectedValues = repository.getLanguagesValue()
 
+    init {
+        setInitialPositionLang()
+    }
+
     fun saveLanguageChoice(mainLanguage: String, childLanguage: String) {
         repository.saveSelectLanguage(mainLanguage, childLanguage)
     }
 
-    fun setInitialPositionLang() {
+    fun getSelectValues(position: Int) = selectedValues[position]
+
+    private fun setInitialPositionLang() {
         val positionSystemLanguage =
             selectedValues.indexOfFirst { it == Locale.getDefault().language }
         childSelectState.postValue(positionSystemLanguage)
     }
-
-    fun getSelectValues(position: Int) = selectedValues[position]
 }

@@ -19,11 +19,13 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
 
     val progressState = MutableLiveData<Boolean>()
     val initBookState = SingleLiveEvent<BookData>()
+    val languageState = SingleLiveEvent<Boolean>()
     val allBookCategory = Transformations.map(repository.allBook) {
         loadBookCategory(it)
     }
 
     init {
+        languageState.postValue(checkSaveLanguage())
         checkNewBooks()
     }
 
@@ -58,7 +60,7 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
         }
     }
 
-    fun checkSaveLanguage(): Boolean {
+    private fun checkSaveLanguage(): Boolean {
         val mainLanguage = repository.getMainLanguage()
         return mainLanguage != null && mainLanguage.isNotEmpty()
     }
