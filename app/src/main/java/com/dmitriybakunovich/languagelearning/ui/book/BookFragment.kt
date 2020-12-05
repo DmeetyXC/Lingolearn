@@ -24,9 +24,7 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!viewModel.checkSaveLanguage()) {
-            findNavController().navigate(
-                BookFragmentDirections.actionBookFragmentToChoiceLanguageFragment()
-            )
+            findNavController().navigate(R.id.action_bookFragment_to_choiceLanguageFragment)
         }
         setHasOptionsMenu(true)
     }
@@ -47,7 +45,7 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_settings -> findNavController()
-                .navigate(BookFragmentDirections.actionBookFragmentToSettingsFragment())
+                .navigate(R.id.action_bookFragment_to_settingsFragment)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -85,10 +83,14 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
         })
 
         viewModel.initBookState.observe(viewLifecycleOwner, {
-            findNavController().navigate(
-                BookFragmentDirections.actionBookFragmentToTextContainerActivity(it)
-            )
+            navigateTextContainer(it)
         })
+    }
+
+    private fun navigateTextContainer(bookData: BookData) {
+        val bundle = Bundle()
+        bundle.putParcelable("book", bookData)
+        findNavController().navigate(R.id.action_bookFragment_to_textContainerActivity, bundle)
     }
 
     override fun onDestroyView() {

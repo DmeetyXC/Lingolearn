@@ -46,9 +46,7 @@ class ChoiceLanguageFragment : Fragment(R.layout.choice_language_fragment) {
         } else {
             viewModel.saveLanguageChoice(mainLanguage, childLanguage)
             (activity as MainActivity).changeVisibleNavigation(true)
-            findNavController().navigate(
-                ChoiceLanguageFragmentDirections.actionChoiceLanguageFragmentToBookFragment()
-            )
+            findNavController().navigate(R.id.action_choiceLanguageFragment_to_bookFragment)
         }
     }
 

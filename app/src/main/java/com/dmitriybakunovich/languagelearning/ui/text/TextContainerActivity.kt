@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.navArgs
 import com.dmitriybakunovich.languagelearning.R
+import com.dmitriybakunovich.languagelearning.data.entity.BookData
 import com.dmitriybakunovich.languagelearning.databinding.ActivityTextContainerBinding
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -14,36 +14,21 @@ class TextContainerActivity : AppCompatActivity() {
 
     private lateinit var viewModel: TextViewModel
     private lateinit var binding: ActivityTextContainerBinding
-    private val args: TextContainerActivityArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTextContainerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = getViewModel { parametersOf(args.book) }
-        initToolbar()
+        val bookData: BookData? = intent.getParcelableExtra("book")
+        viewModel = getViewModel { parametersOf(bookData) }
+        initToolbar(bookData)
         initView()
         observeView()
     }
 
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.text_menu, menu)
-        val textNext = menu?.findItem(R.id.textNext)
-        val textBack = menu?.findItem(R.id.textBack)
-        textNext?.setOnMenuItemClickListener {
-            viewModel.nextPageClick()
-            return@setOnMenuItemClickListener true
-        }
-        textBack?.setOnMenuItemClickListener {
-            viewModel.backPageClick()
-            return@setOnMenuItemClickListener true
-        }
-        return true
-    }*/
-
-    private fun initToolbar() {
-        binding.toolbarTextContainer.title = args.book.bookNameTranslate
+    private fun initToolbar(bookData: BookData?) {
+        binding.toolbarTextContainer.title = bookData?.bookNameTranslate
         setSupportActionBar(binding.toolbarTextContainer)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbarTextContainer.setNavigationOnClickListener {

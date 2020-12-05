@@ -39,7 +39,7 @@ class FavoriteAdapter(private val clickListener: OnItemClickListener) :
         private val imageBook: ImageView = binding.imageBookFavorite
 
         fun bind(book: BookData) {
-            nameBook.text = book.bookName
+            nameBook.text = book.bookNameTranslate
             setBookProgress(book)
             Glide.with(itemView).load(book.bookCoverPatch).into(imageBook)
         }
