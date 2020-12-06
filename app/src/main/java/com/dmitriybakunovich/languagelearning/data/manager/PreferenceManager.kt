@@ -5,29 +5,33 @@ import androidx.appcompat.app.AppCompatDelegate
 
 class PreferenceManager(private val sharedPref: SharedPreferences) {
 
-    fun saveLanguage(mainLanguage: String, childLanguage: String) {
+    companion object {
+        const val MAIN = "main"
+        const val CHILD = "child"
+        const val FONT_SIZE = "font_size"
+        const val FONT_SIZE_DEFAULT = "16"
+        const val THEME = "theme"
+        const val THEME_DEFAULT = "system"
+        const val THEME_LIGHT = "light"
+        const val THEME_DARK = "dark"
+        const val BOOK = "book"
+    }
+
+    fun saveLanguages(mainLanguage: String, childLanguage: String) {
         with(sharedPref.edit()) {
-            putString("main", mainLanguage)
-            putString("child", childLanguage)
+            putString(MAIN, mainLanguage)
+            putString(CHILD, childLanguage)
             apply()
         }
     }
 
-    fun loadMainLanguage(): String? {
-        return sharedPref.getString("main", "")
-    }
+    fun getLanguage(key: String, default: String = ""): String? = sharedPref.getString(key, default)
 
-    fun loadChildLanguage(): String? {
-        return sharedPref.getString("child", "")
-    }
+    fun getTextSize(): String? = sharedPref.getString(FONT_SIZE, FONT_SIZE_DEFAULT)
 
-    fun loadTextSize(): String? {
-        return sharedPref.getString("font_size", "16")
-    }
-
-    fun getAppTheme(): Int = when (sharedPref.getString("theme", "system")) {
-        "light" -> AppCompatDelegate.MODE_NIGHT_NO
-        "dark" -> AppCompatDelegate.MODE_NIGHT_YES
+    fun getAppTheme(): Int = when (sharedPref.getString(THEME, THEME_DEFAULT)) {
+        THEME_LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+        THEME_DARK -> AppCompatDelegate.MODE_NIGHT_YES
         else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
 }

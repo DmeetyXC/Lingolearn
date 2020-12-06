@@ -30,6 +30,7 @@ class TextDataRepository(
 
     companion object {
         private const val TRANSLATE_URL = "https://api.cognitive.microsofttranslator.com"
+        private const val BASE_COLLECTION = "books"
     }
 
     suspend fun getBook(bookData: BookData): List<TextData> =
@@ -56,10 +57,10 @@ class TextDataRepository(
         databaseDao.deleteAllText()
     }
 
-    fun getTextSize() = preferenceManager.loadTextSize()
+    fun getTextSize() = preferenceManager.getTextSize()?.toFloat()
 
     fun saveSelectLanguage(mainLanguage: String, childLanguage: String) {
-        preferenceManager.saveLanguage(mainLanguage, childLanguage)
+        preferenceManager.saveLanguages(mainLanguage, childLanguage)
     }
 
     suspend fun translateText(textTranslate: String): String {
@@ -73,9 +74,9 @@ class TextDataRepository(
         return translateResult[0].translation[0].text
     }
 
-    fun getMainLanguage() = preferenceManager.loadMainLanguage()
+    fun getMainLanguage() = preferenceManager.getLanguage(PreferenceManager.MAIN)
 
-    fun getChildLanguage() = preferenceManager.loadChildLanguage()
+    fun getChildLanguage() = preferenceManager.getLanguage(PreferenceManager.CHILD)
 
     fun getColorText() = resourceManager.getColorSelectText()
 
@@ -137,9 +138,9 @@ class TextDataRepository(
     private fun getTypeLanguage(typeLoadBook: BookType): String {
         var typeLanguage: String? = null
         if (typeLoadBook == BookType.MAIN) {
-            typeLanguage = preferenceManager.loadMainLanguage()
+            typeLanguage = preferenceManager.getLanguage(PreferenceManager.MAIN)
         } else if (typeLoadBook == BookType.CHILD) {
-            typeLanguage = preferenceManager.loadChildLanguage()
+            typeLanguage = preferenceManager.getLanguage(PreferenceManager.CHILD)
         }
         typeLanguage?.let {
             return typeLanguage
@@ -168,6 +169,5 @@ class TextDataRepository(
         }
     }
 
-    private fun getFirebaseCollection() = Firebase.firestore
-        .collection("books")
+    private fun getFirebaseCollection() = Firebase.firestore.collection(BASE_COLLECTION)
 }

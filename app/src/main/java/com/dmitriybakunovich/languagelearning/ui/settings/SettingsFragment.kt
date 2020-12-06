@@ -9,6 +9,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.dmitriybakunovich.languagelearning.R
+import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager
 import com.dmitriybakunovich.languagelearning.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,7 +28,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        prefChild = preferenceScreen.findPreference("child")!!
+        prefChild = preferenceScreen.findPreference(PreferenceManager.CHILD)!!
         initToolbar()
         observeView()
         viewModel.initChildPref()
@@ -45,12 +46,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            "main" -> {
-                viewModel.handleMainClick()
-            }
-            "child" -> {
-                viewModel.deleteAllData()
-            }
+            PreferenceManager.MAIN -> viewModel.handleMainClick()
+            PreferenceManager.CHILD -> viewModel.deleteAllData()
         }
     }
 
@@ -77,13 +74,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun listenerChangeTheme() {
-        val listPreference = findPreference("theme") as ListPreference?
+        val listPreference = findPreference(PreferenceManager.THEME) as ListPreference?
         listPreference.let {
             it?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
                 setDefaultNightMode(
                     when (newValue) {
-                        "light" -> MODE_NIGHT_NO
-                        "dark" -> MODE_NIGHT_YES
+                        PreferenceManager.THEME_LIGHT -> MODE_NIGHT_NO
+                        PreferenceManager.THEME_DARK -> MODE_NIGHT_YES
                         else -> MODE_NIGHT_FOLLOW_SYSTEM
                     }
                 )

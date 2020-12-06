@@ -14,8 +14,6 @@ class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListen
         BookParentModel.DiffCallback()
     ) {
 
-    private val viewPool = RecyclerView.RecycledViewPool()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookParentViewHolder {
         val binding = ItemBookCategoryBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -32,7 +30,6 @@ class BookParentAdapter(private val clickListener: BookAdapter.OnItemClickListen
                 viewHolder.recyclerView.context, LinearLayoutManager.HORIZONTAL, false
             )
             itemAnimator = null
-            setRecycledViewPool(viewPool)
             adapter = bookAdapter
         }
     }

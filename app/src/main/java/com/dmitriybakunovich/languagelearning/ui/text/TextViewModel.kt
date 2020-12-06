@@ -38,7 +38,7 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
         viewModelScope.launch(Dispatchers.IO) {
             setPageCurrentRead()
         }
-        textSizeState.postValue((repository.getTextSize())?.toFloat())
+        textSizeState.postValue(repository.getTextSize())
     }
 
     fun dictionaryModeState(status: Boolean) {

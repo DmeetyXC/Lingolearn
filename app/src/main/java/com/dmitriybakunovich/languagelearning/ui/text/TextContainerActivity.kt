@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager.Companion.BOOK
 import com.dmitriybakunovich.languagelearning.databinding.ActivityTextContainerBinding
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -20,7 +21,7 @@ class TextContainerActivity : AppCompatActivity() {
         binding = ActivityTextContainerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val bookData: BookData? = intent.getParcelableExtra("book")
+        val bookData: BookData? = intent.getParcelableExtra(BOOK)
         viewModel = getViewModel { parametersOf(bookData) }
         initToolbar(bookData)
         initView()

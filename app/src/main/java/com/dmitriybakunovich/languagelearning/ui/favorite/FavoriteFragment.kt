@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
+import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager.Companion.BOOK
 import com.dmitriybakunovich.languagelearning.databinding.FavoriteFragmentBinding
 import com.dmitriybakunovich.languagelearning.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -28,7 +29,7 @@ class FavoriteFragment : Fragment(R.layout.favorite_fragment), FavoriteAdapter.O
 
     override fun onItemClick(book: BookData) {
         val bundle = Bundle()
-        bundle.putParcelable("book", book)
+        bundle.putParcelable(BOOK, book)
         findNavController().navigate(R.id.action_favoriteFragment_to_textContainerActivity, bundle)
     }
 
