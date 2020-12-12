@@ -3,7 +3,10 @@ package com.dmitriybakunovich.languagelearning.ui
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.databinding.ActivityMainBinding
@@ -20,39 +23,57 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initToolbar()
         initNavigation()
-    }
-
-    fun changeVisibleNavigation(visibility: Boolean) {
-        if (visibility) binding.bottomNav.visibility = View.VISIBLE
-        else binding.bottomNav.visibility = View.GONE
-    }
-
-    fun expandedAppBar() {
-        binding.appBarMain.setExpanded(true, true)
-    }
-
-    fun changeScrollingToolbar(isScroll: Boolean) {
-        val params = binding.toolbar.layoutParams as AppBarLayout.LayoutParams
-        if (isScroll) params.scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS
-        else params.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
-    }
-
-    private fun initToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun initNavigation() {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         binding.bottomNav.setupWithNavController(navController)
-        initNavigationClickListener()
+        initAppBar(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            destinationChanged(destination.id)
+        }
     }
 
-    private fun initNavigationClickListener() {
-        binding.toolbar.setNavigationOnClickListener {
-            onBackPressed()
+    private fun initAppBar(navController: NavController) {
+        setSupportActionBar(binding.toolbar)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.choice_language_fragment,
+                R.id.book_fragment,
+                R.id.favorite_fragment,
+                R.id.dictionary_fragment
+            )
+        )
+        findViewById<Toolbar>(R.id.toolbar)
+            .setupWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun destinationChanged(destinationId: Int) {
+        binding.appBarMain.setExpanded(true, true)
+        when (destinationId) {
+            R.id.choice_language_fragment -> {
+                changeVisibleNavigation(false)
+            }
+            R.id.book_fragment -> {
+                changeScrollingToolbar(true)
+                changeVisibleNavigation(true)
+            }
+            R.id.settings_fragment -> {
+                changeScrollingToolbar(false)
+                changeVisibleNavigation(false)
+            }
         }
+    }
+
+    private fun changeVisibleNavigation(visibility: Boolean) {
+        if (visibility) binding.bottomNav.visibility = View.VISIBLE
+        else binding.bottomNav.visibility = View.GONE
+    }
+
+    private fun changeScrollingToolbar(isScroll: Boolean) {
+        val params = binding.toolbar.layoutParams as AppBarLayout.LayoutParams
+        if (isScroll) params.scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS
+        else params.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
     }
 }

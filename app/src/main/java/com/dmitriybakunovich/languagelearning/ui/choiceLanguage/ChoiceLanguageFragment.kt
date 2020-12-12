@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.databinding.ChoiceLanguageFragmentBinding
-import com.dmitriybakunovich.languagelearning.ui.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,8 +24,6 @@ class ChoiceLanguageFragment : Fragment(R.layout.choice_language_fragment) {
     }
 
     private fun initView() {
-        requireActivity().title = getString(R.string.app_name)
-        (activity as MainActivity).changeVisibleNavigation(false)
         binding.next.setOnClickListener { nextClick() }
     }
 
@@ -44,7 +41,6 @@ class ChoiceLanguageFragment : Fragment(R.layout.choice_language_fragment) {
                 .show()
         } else {
             viewModel.saveLanguageChoice(mainLanguage, childLanguage)
-            (activity as MainActivity).changeVisibleNavigation(true)
             findNavController().navigate(R.id.action_choiceLanguageFragment_to_bookFragment)
         }
     }

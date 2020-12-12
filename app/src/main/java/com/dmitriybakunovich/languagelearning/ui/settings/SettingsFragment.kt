@@ -3,14 +3,12 @@ package com.dmitriybakunovich.languagelearning.ui.settings
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager
-import com.dmitriybakunovich.languagelearning.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : PreferenceFragmentCompat(),
@@ -29,7 +27,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         super.onViewCreated(view, savedInstanceState)
 
         prefChild = preferenceScreen.findPreference(PreferenceManager.CHILD)!!
-        initToolbar()
         observeView()
         viewModel.initChildPref()
     }
@@ -49,13 +46,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             PreferenceManager.MAIN -> viewModel.handleMainClick()
             PreferenceManager.CHILD -> viewModel.deleteAllData()
         }
-    }
-
-    private fun initToolbar() {
-        requireActivity().title = getString(R.string.settings)
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        (activity as MainActivity).changeScrollingToolbar(false)
-        (activity as MainActivity).changeVisibleNavigation(false)
     }
 
     private fun observeView() {
@@ -87,12 +77,5 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 true
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        (activity as MainActivity).changeVisibleNavigation(true)
-        (activity as MainActivity).changeScrollingToolbar(true)
     }
 }

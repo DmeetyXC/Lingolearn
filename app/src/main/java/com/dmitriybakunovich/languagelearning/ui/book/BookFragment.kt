@@ -12,7 +12,6 @@ import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager.Companion.BOOK
 import com.dmitriybakunovich.languagelearning.databinding.BookFragmentBinding
-import com.dmitriybakunovich.languagelearning.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickListener {
@@ -28,7 +27,7 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
 
         setHasOptionsMenu(true)
         initView()
-        observerView()
+        observeView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -53,8 +52,6 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
     }
 
     private fun initView() {
-        requireActivity().title = getString(R.string.title_library)
-        (activity as MainActivity).expandedAppBar()
         binding.swipeRefresh.setOnRefreshListener { viewModel.checkNewBooks() }
 
         parentAdapter = BookParentAdapter(this)
@@ -67,7 +64,7 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
         }
     }
 
-    private fun observerView() {
+    private fun observeView() {
         viewModel.allBookCategory.observe(viewLifecycleOwner, {
             parentAdapter.submitList(it)
         })

@@ -9,7 +9,6 @@ import com.dmitriybakunovich.languagelearning.R
 import com.dmitriybakunovich.languagelearning.data.entity.BookData
 import com.dmitriybakunovich.languagelearning.data.manager.PreferenceManager.Companion.BOOK
 import com.dmitriybakunovich.languagelearning.databinding.FavoriteFragmentBinding
-import com.dmitriybakunovich.languagelearning.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : Fragment(R.layout.favorite_fragment), FavoriteAdapter.OnItemClickListener {
@@ -34,9 +33,6 @@ class FavoriteFragment : Fragment(R.layout.favorite_fragment), FavoriteAdapter.O
     }
 
     private fun initView() {
-        requireActivity().title = getString(R.string.title_favorite)
-        (activity as MainActivity).expandedAppBar()
-
         favoriteAdapter = FavoriteAdapter(this)
         with(binding.recyclerFavorite) {
             layoutManager = GridLayoutManager(requireActivity(), 2)
