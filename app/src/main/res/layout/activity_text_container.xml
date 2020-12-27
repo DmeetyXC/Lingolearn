@@ -25,7 +25,7 @@
 
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/text_main_fragment"
-            android:name="com.dmitriybakunovich.languagelearning.ui.text.TextMainFragment"
+            android:name="com.dmeetyxc.lingolearn.ui.text.TextMainFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
@@ -48,7 +48,7 @@
 
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/text_child_fragment"
-            android:name="com.dmitriybakunovich.languagelearning.ui.text.TextChildFragment"
+            android:name="com.dmeetyxc.lingolearn.ui.text.TextChildFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"

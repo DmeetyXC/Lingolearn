@@ -9,7 +9,7 @@ plugins {
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.dmitriybakunovich.languagelearning"
+        applicationId "com.dmeetyxc.lingolearn"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

@@ -1,2 +1,2 @@
-# LanguageLearning
-Android application for learning foreign languages
+# Lingolearn
+Android application for learning different languages
