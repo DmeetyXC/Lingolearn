@@ -25,12 +25,12 @@ allprojects {
 }
 
 ext {
-    room_version = '2.2.5'
+    room_version = '2.2.6'
     arch_lifecycle_version = '2.2.0'
     coroutines = '1.4.2'
-    leak_canary = '2.5'
+    leak_canary = '2.6'
     firebase_analytics = '18.0.0'
-    firebase_firestore = '22.0.0'
+    firebase_firestore = '22.0.1'
     koin_version = "2.2.1"
     nav_version = "2.3.2"
     retrofit_version = "2.9.0"
