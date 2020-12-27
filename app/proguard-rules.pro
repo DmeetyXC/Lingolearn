@@ -19,3 +19,5 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keepnames class * extends android.os.Parcelable
+-keep class com.dmitriybakunovich.languagelearning.data.entity.* { *; }
