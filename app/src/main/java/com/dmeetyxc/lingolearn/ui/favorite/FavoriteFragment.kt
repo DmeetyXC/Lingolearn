@@ -33,6 +33,7 @@ class FavoriteFragment : Fragment(R.layout.favorite_fragment), FavoriteAdapter.O
     }
 
     private fun initView() {
+        requireActivity().title = getString(R.string.title_favorite)
         favoriteAdapter = FavoriteAdapter(this)
         with(binding.recyclerFavorite) {
             layoutManager = GridLayoutManager(requireActivity(), 2)

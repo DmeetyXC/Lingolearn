@@ -26,7 +26,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        prefChild = preferenceScreen.findPreference(PreferenceManager.CHILD)!!
+        initView()
         observeView()
         viewModel.initChildPref()
     }
@@ -46,6 +46,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
             PreferenceManager.MAIN -> viewModel.handleMainClick()
             PreferenceManager.CHILD -> viewModel.deleteAllData()
         }
+    }
+
+    private fun initView() {
+        requireActivity().title = getString(R.string.settings)
+        prefChild = preferenceScreen.findPreference(PreferenceManager.CHILD)!!
     }
 
     private fun observeView() {

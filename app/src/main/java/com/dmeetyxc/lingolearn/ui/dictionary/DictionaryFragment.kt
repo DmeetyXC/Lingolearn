@@ -25,6 +25,7 @@ class DictionaryFragment : Fragment(R.layout.dictionary_fragment) {
     }
 
     private fun initView() {
+        requireActivity().title = getString(R.string.title_dictionary)
         dictionaryAdapter = DictionaryAdapter()
         val divider = DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL)
         with(binding.recyclerDictionary) {
