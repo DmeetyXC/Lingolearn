@@ -5,7 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.dmeetyxc.lingolearn.R
@@ -27,7 +27,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNavigation() {
-        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        val navHostFragment = supportFragmentManager
+                .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
         binding.bottomNav.setupWithNavController(navController)
         initAppBar(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->

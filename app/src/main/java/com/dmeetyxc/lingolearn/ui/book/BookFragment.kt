@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
@@ -36,11 +37,8 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_settings -> findNavController()
-                .navigate(R.id.action_bookFragment_to_settingsFragment)
-        }
-        return super.onOptionsItemSelected(item)
+        return item.onNavDestinationSelected(findNavController())
+                || super.onOptionsItemSelected(item)
     }
 
     override fun onItemClick(book: BookData) {
