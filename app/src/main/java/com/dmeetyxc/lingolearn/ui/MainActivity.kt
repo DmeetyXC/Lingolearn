@@ -3,7 +3,6 @@ package com.dmeetyxc.lingolearn.ui
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initNavigation() {
         val navHostFragment = supportFragmentManager
-                .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNav.setupWithNavController(navController)
         initAppBar(navController)
@@ -47,8 +46,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.dictionary_fragment
             )
         )
-        findViewById<Toolbar>(R.id.toolbar)
-            .setupWithNavController(navController, appBarConfiguration)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     private fun destinationChanged(destinationId: Int) {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:shortcutDisabledMessage="@string/shortcut_disabled"
+        android:shortcutId="library"
+        android:shortcutShortLabel="@string/title_library"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="com.dmeetyxc.lingolearn.shortcut.LIBRARY"
+            android:targetClass="com.dmeetyxc.lingolearn.ui.MainActivity"
+            android:targetPackage="com.dmeetyxc.lingolearn" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:shortcutDisabledMessage="@string/shortcut_disabled"
+        android:shortcutId="favorite"
+        android:shortcutShortLabel="@string/title_favorite"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="com.dmeetyxc.lingolearn.shortcut.FAVORITE"
+            android:targetClass="com.dmeetyxc.lingolearn.ui.MainActivity"
+            android:targetPackage="com.dmeetyxc.lingolearn" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:shortcutDisabledMessage="@string/shortcut_disabled"
+        android:shortcutId="dictionary"
+        android:shortcutShortLabel="@string/title_dictionary"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="com.dmeetyxc.lingolearn.shortcut.DICTIONARY"
+            android:targetClass="com.dmeetyxc.lingolearn.ui.MainActivity"
+            android:targetPackage="com.dmeetyxc.lingolearn" />
+    </shortcut>
+</shortcuts>

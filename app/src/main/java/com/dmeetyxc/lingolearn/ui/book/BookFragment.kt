@@ -22,6 +22,16 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
     private val binding get() = _binding!!
     private lateinit var parentAdapter: BookParentAdapter
 
+    companion object {
+        private const val SHORTCUT_FAVORITE = "com.dmeetyxc.lingolearn.shortcut.FAVORITE"
+        private const val SHORTCUT_DICTIONARY = "com.dmeetyxc.lingolearn.shortcut.DICTIONARY"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        handleShortcut(requireActivity().intent.action)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = BookFragmentBinding.bind(view)
@@ -47,6 +57,15 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
 
     override fun onFavoriteItemClick(book: BookData) {
         viewModel.addFavoriteBook(book)
+    }
+
+    private fun handleShortcut(intentAction: String?) {
+        when (intentAction) {
+            SHORTCUT_FAVORITE -> findNavController()
+                .navigate(R.id.action_bookFragment_to_favoriteFragment)
+            SHORTCUT_DICTIONARY -> findNavController()
+                .navigate(R.id.action_bookFragment_to_dictionaryFragment)
+        }
     }
 
     private fun initView() {

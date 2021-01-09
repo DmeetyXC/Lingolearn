@@ -22,6 +22,7 @@
     <string name="mark_read">Пометить как прочитанное</string>
     <string name="error">Ошибка: %s</string>
     <string name="settings">Настройки</string>
+    <string name="shortcut_disabled">Ярлык отключен</string>
 
     <!-- Preference -->
     <string name="lang_header">Языки</string>
