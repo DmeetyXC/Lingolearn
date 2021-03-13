@@ -1,71 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/nav_graph"
-        app:startDestination="@id/book_fragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/choice_language_fragment">
 
     <fragment
-            android:id="@+id/book_fragment"
-            android:name="com.dmeetyxc.lingolearn.ui.book.BookFragment"
-            android:label="@string/title_library"
-            tools:layout="@layout/book_fragment">
+        android:id="@+id/choice_language_fragment"
+        android:name="com.dmeetyxc.lingolearn.ui.choiceLanguage.ChoiceLanguageFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/choice_language_fragment">
         <action
-                android:id="@+id/action_bookFragment_to_textContainerActivity"
-                app:destination="@id/text_container_activity" />
-        <action
-                android:id="@+id/action_bookFragment_to_dictionaryFragment"
-                app:destination="@id/dictionary_fragment" />
-        <action
-                android:id="@+id/action_bookFragment_to_favoriteFragment"
-                app:destination="@id/favorite_fragment" />
-        <action
-                android:id="@+id/action_bookFragment_to_choiceLanguageFragment"
-                app:destination="@id/choice_language_fragment"
-                app:launchSingleTop="true"
-                app:popUpTo="@id/nav_graph"
-                app:popUpToInclusive="true" />
-        <action
-                android:id="@+id/action_bookFragment_to_settingsFragment"
-                app:destination="@id/settings_fragment" />
-    </fragment>
-    <activity
-            android:id="@+id/text_container_activity"
-            android:name="com.dmeetyxc.lingolearn.ui.text.TextContainerActivity"
-            android:label="@string/app_name"
-            tools:layout="@layout/activity_text_container">
-        <argument
-                android:name="book"
-                app:argType="com.dmeetyxc.lingolearn.data.entity.BookData" />
-    </activity>
-    <fragment
-            android:id="@+id/dictionary_fragment"
-            android:name="com.dmeetyxc.lingolearn.ui.dictionary.DictionaryFragment"
-            android:label="@string/title_dictionary"
-            tools:layout="@layout/dictionary_fragment" />
-    <fragment
-            android:id="@+id/favorite_fragment"
-            android:name="com.dmeetyxc.lingolearn.ui.favorite.FavoriteFragment"
-            android:label="@string/title_favorite"
-            tools:layout="@layout/favorite_fragment">
-        <action
-                android:id="@+id/action_favoriteFragment_to_textContainerActivity"
-                app:destination="@id/text_container_activity" />
+            android:id="@+id/action_choice_language_fragment_to_containerFragment"
+            app:destination="@id/mainFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
-            android:id="@+id/choice_language_fragment"
-            android:name="com.dmeetyxc.lingolearn.ui.choiceLanguage.ChoiceLanguageFragment"
-            android:label="@string/app_name"
-            tools:layout="@layout/choice_language_fragment">
-        <action
-                android:id="@+id/action_choiceLanguageFragment_to_bookFragment"
-                app:destination="@id/book_fragment"
-                app:launchSingleTop="true"
-                app:popUpTo="@id/nav_graph"
-                app:popUpToInclusive="true" />
-    </fragment>
+        android:id="@+id/settings_fragment"
+        android:name="com.dmeetyxc.lingolearn.ui.settings.SettingsFragment"
+        android:label="@string/settings" />
+    <action
+        android:id="@+id/action_global_settings_fragment"
+        app:destination="@id/settings_fragment" />
     <fragment
-            android:id="@+id/settings_fragment"
-            android:name="com.dmeetyxc.lingolearn.ui.settings.SettingsFragment"
-            android:label="@string/settings" />
+        android:id="@+id/mainFragment"
+        android:name="com.dmeetyxc.lingolearn.ui.MainFragment"
+        android:label="MainFragment" />
 </navigation>

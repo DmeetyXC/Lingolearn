@@ -9,6 +9,7 @@
 
         <item name="colorDivider">@color/color_divider_dark</item>
         <item name="android:statusBarColor">@color/color_gray_light</item>
+        <item name="preferenceTheme">@style/AppThemeNoActionBar.PreferenceThemeOverlay</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme">
@@ -26,6 +27,10 @@
 
     <style name="BottomNavigationView">
         <item name="android:background">?android:attr/windowBackground</item>
+    </style>
+
+    <style name="AppThemeNoActionBar.PreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
+        <item name="android:layout">@layout/settings_fragment</item>
     </style>
 
 </resources>

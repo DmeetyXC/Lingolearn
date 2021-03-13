@@ -1,13 +1,9 @@
 package com.dmeetyxc.lingolearn.ui.book
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
@@ -36,19 +32,8 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
         super.onViewCreated(view, savedInstanceState)
         _binding = BookFragmentBinding.bind(view)
 
-        setHasOptionsMenu(true)
         initView()
         observeView()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        requireActivity().menuInflater.inflate(R.menu.main_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return item.onNavDestinationSelected(findNavController())
-                || super.onOptionsItemSelected(item)
     }
 
     override fun onItemClick(book: BookData) {
@@ -60,11 +45,18 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
     }
 
     private fun handleShortcut(intentAction: String?) {
-        when (intentAction) {
-            SHORTCUT_FAVORITE -> findNavController()
-                .navigate(R.id.action_bookFragment_to_favoriteFragment)
-            SHORTCUT_DICTIONARY -> findNavController()
-                .navigate(R.id.action_bookFragment_to_dictionaryFragment)
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.favorite_fragment
+            && navController.currentDestination?.id != R.id.dictionary_fragment
+        ) {
+            when (intentAction) {
+                SHORTCUT_FAVORITE -> {
+                    navController.navigate(R.id.action_book_fragment_to_favorite_fragment)
+                }
+                SHORTCUT_DICTIONARY -> {
+                    navController.navigate(R.id.action_book_fragment_to_dictionary_fragment)
+                }
+            }
         }
     }
 
@@ -91,11 +83,6 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
             binding.swipeRefresh.isRefreshing = it
         })
 
-        viewModel.languageState.observe(viewLifecycleOwner, {
-            if (!it)
-                findNavController().navigate(R.id.action_bookFragment_to_choiceLanguageFragment)
-        })
-
         viewModel.initBookState.observe(viewLifecycleOwner, {
             navigateTextContainer(it)
         })
@@ -104,7 +91,7 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
     private fun navigateTextContainer(bookData: BookData) {
         val bundle = Bundle()
         bundle.putParcelable(BOOK, bookData)
-        findNavController().navigate(R.id.action_bookFragment_to_textContainerActivity, bundle)
+        findNavController().navigate(R.id.action_bookFragment_to_text_container_activity, bundle)
     }
 
     override fun onDestroyView() {

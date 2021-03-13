@@ -3,7 +3,9 @@ package com.dmeetyxc.lingolearn.ui.settings
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
+import androidx.appcompat.widget.Toolbar
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -49,8 +51,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun initView() {
-        requireActivity().title = getString(R.string.settings)
+        initialToolbar()
         prefChild = preferenceScreen.findPreference(PreferenceManager.CHILD)!!
+    }
+
+    private fun initialToolbar() {
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar_settings)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
     }
 
     private fun observeView() {

@@ -29,7 +29,10 @@ class FavoriteFragment : Fragment(R.layout.favorite_fragment), FavoriteAdapter.O
     override fun onItemClick(book: BookData) {
         val bundle = Bundle()
         bundle.putParcelable(BOOK, book)
-        findNavController().navigate(R.id.action_favoriteFragment_to_textContainerActivity, bundle)
+        findNavController().navigate(
+            R.id.action_favoriteFragment_to_text_container_activity,
+            bundle
+        )
     }
 
     private fun initView() {
