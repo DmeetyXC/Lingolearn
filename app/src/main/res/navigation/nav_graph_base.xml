@@ -18,7 +18,7 @@
         android:id="@+id/book_fragment"
         android:name="com.dmeetyxc.lingolearn.ui.book.BookFragment"
         android:label="@string/title_library"
-        tools:layout="@layout/book_fragment">
+        tools:layout="@layout/fragment_book">
         <action
             android:id="@+id/action_bookFragment_to_text_container_activity"
             app:destination="@id/text_container_activity" />
@@ -33,7 +33,7 @@
         android:id="@+id/favorite_fragment"
         android:name="com.dmeetyxc.lingolearn.ui.favorite.FavoriteFragment"
         android:label="@string/title_favorite"
-        tools:layout="@layout/favorite_fragment">
+        tools:layout="@layout/fragment_favorite">
         <action
             android:id="@+id/action_favoriteFragment_to_text_container_activity"
             app:destination="@id/text_container_activity" />
@@ -42,5 +42,5 @@
         android:id="@+id/dictionary_fragment"
         android:name="com.dmeetyxc.lingolearn.ui.dictionary.DictionaryFragment"
         android:label="@string/title_dictionary"
-        tools:layout="@layout/dictionary_fragment" />
+        tools:layout="@layout/fragment_dictionary" />
 </navigation>

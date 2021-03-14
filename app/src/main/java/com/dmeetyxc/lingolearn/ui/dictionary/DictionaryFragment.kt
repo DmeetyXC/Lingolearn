@@ -6,19 +6,19 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmeetyxc.lingolearn.R
-import com.dmeetyxc.lingolearn.databinding.DictionaryFragmentBinding
+import com.dmeetyxc.lingolearn.databinding.FragmentDictionaryBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DictionaryFragment : Fragment(R.layout.dictionary_fragment) {
+class DictionaryFragment : Fragment(R.layout.fragment_dictionary) {
 
     private val viewModel: DictionaryViewModel by viewModel()
-    private var _binding: DictionaryFragmentBinding? = null
+    private var _binding: FragmentDictionaryBinding? = null
     private val binding get() = _binding!!
     private lateinit var dictionaryAdapter: DictionaryAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = DictionaryFragmentBinding.bind(view)
+        _binding = FragmentDictionaryBinding.bind(view)
 
         initView()
         observeView()

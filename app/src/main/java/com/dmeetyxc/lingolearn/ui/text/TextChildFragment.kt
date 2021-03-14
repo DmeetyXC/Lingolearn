@@ -5,14 +5,14 @@ import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.dmeetyxc.lingolearn.R
-import com.dmeetyxc.lingolearn.databinding.TextChildFragmentBinding
+import com.dmeetyxc.lingolearn.databinding.FragmentTextChildBinding
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class TextChildFragment : Fragment(R.layout.text_child_fragment) {
+class TextChildFragment : Fragment(R.layout.fragment_text_child) {
 
     private val viewModel: TextViewModel by sharedViewModel()
-    private var _binding: TextChildFragmentBinding? = null
+    private var _binding: FragmentTextChildBinding? = null
     private val binding get() = _binding!!
 
     // Detect long click time
@@ -20,7 +20,7 @@ class TextChildFragment : Fragment(R.layout.text_child_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = TextChildFragmentBinding.bind(view)
+        _binding = FragmentTextChildBinding.bind(view)
 
         observeView()
         registerTouchListener()

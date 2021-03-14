@@ -14,12 +14,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.dmeetyxc.lingolearn.R
-import com.dmeetyxc.lingolearn.databinding.MainFragmentBinding
+import com.dmeetyxc.lingolearn.databinding.FragmentMainBinding
 import com.google.android.material.appbar.AppBarLayout
 
-class MainFragment : Fragment(R.layout.main_fragment) {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private var _binding: MainFragmentBinding? = null
+    private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,7 @@ class MainFragment : Fragment(R.layout.main_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = MainFragmentBinding.bind(view)
+        _binding = FragmentMainBinding.bind(view)
 
         initNavigation()
     }

@@ -5,19 +5,19 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.dmeetyxc.lingolearn.R
-import com.dmeetyxc.lingolearn.databinding.ChoiceLanguageFragmentBinding
+import com.dmeetyxc.lingolearn.databinding.FragmentChoiceLanguageBinding
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ChoiceLanguageFragment : Fragment(R.layout.choice_language_fragment) {
+class ChoiceLanguageFragment : Fragment(R.layout.fragment_choice_language) {
 
     private val viewModel: ChoiceLanguageViewModel by viewModel()
-    private var _binding: ChoiceLanguageFragmentBinding? = null
+    private var _binding: FragmentChoiceLanguageBinding? = null
     private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = ChoiceLanguageFragmentBinding.bind(view)
+        _binding = FragmentChoiceLanguageBinding.bind(view)
 
         initView()
         observeView()

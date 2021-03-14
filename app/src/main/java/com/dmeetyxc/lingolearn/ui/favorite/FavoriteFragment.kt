@@ -8,19 +8,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
-import com.dmeetyxc.lingolearn.databinding.FavoriteFragmentBinding
+import com.dmeetyxc.lingolearn.databinding.FragmentFavoriteBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavoriteFragment : Fragment(R.layout.favorite_fragment), FavoriteAdapter.OnItemClickListener {
+class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.OnItemClickListener {
 
     private val viewModel: FavoriteViewModel by viewModel()
-    private var _binding: FavoriteFragmentBinding? = null
+    private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
     private lateinit var favoriteAdapter: FavoriteAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FavoriteFragmentBinding.bind(view)
+        _binding = FragmentFavoriteBinding.bind(view)
 
         initView()
         observeView()

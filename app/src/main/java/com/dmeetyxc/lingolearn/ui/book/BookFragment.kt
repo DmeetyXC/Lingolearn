@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
-import com.dmeetyxc.lingolearn.databinding.BookFragmentBinding
+import com.dmeetyxc.lingolearn.databinding.FragmentBookBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickListener {
+class BookFragment : Fragment(R.layout.fragment_book), BookAdapter.OnItemClickListener {
 
     private val viewModel: BookViewModel by viewModel()
-    private var _binding: BookFragmentBinding? = null
+    private var _binding: FragmentBookBinding? = null
     private val binding get() = _binding!!
     private lateinit var parentAdapter: BookParentAdapter
 
@@ -31,7 +31,7 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = BookFragmentBinding.bind(view)
+        _binding = FragmentBookBinding.bind(view)
 
         initView()
         observeView()

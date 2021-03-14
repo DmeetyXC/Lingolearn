@@ -9,7 +9,7 @@
         android:id="@+id/choice_language_fragment"
         android:name="com.dmeetyxc.lingolearn.ui.choiceLanguage.ChoiceLanguageFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/choice_language_fragment">
+        tools:layout="@layout/fragment_choice_language">
         <action
             android:id="@+id/action_choice_language_fragment_to_mainFragment"
             app:destination="@id/main_fragment"
