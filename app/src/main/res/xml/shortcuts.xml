@@ -10,7 +10,7 @@
         tools:targetApi="n_mr1">
         <intent
             android:action="com.dmeetyxc.lingolearn.shortcut.LIBRARY"
-            android:targetClass="com.dmeetyxc.lingolearn.ui.MainActivity"
+            android:targetClass="com.dmeetyxc.lingolearn.ui.main.RootActivity"
             android:targetPackage="com.dmeetyxc.lingolearn" />
     </shortcut>
 
@@ -23,7 +23,7 @@
         tools:targetApi="n_mr1">
         <intent
             android:action="com.dmeetyxc.lingolearn.shortcut.FAVORITE"
-            android:targetClass="com.dmeetyxc.lingolearn.ui.MainActivity"
+            android:targetClass="com.dmeetyxc.lingolearn.ui.main.RootActivity"
             android:targetPackage="com.dmeetyxc.lingolearn" />
     </shortcut>
 
@@ -36,7 +36,7 @@
         tools:targetApi="n_mr1">
         <intent
             android:action="com.dmeetyxc.lingolearn.shortcut.DICTIONARY"
-            android:targetClass="com.dmeetyxc.lingolearn.ui.MainActivity"
+            android:targetClass="com.dmeetyxc.lingolearn.ui.main.RootActivity"
             android:targetPackage="com.dmeetyxc.lingolearn" />
     </shortcut>
 </shortcuts>

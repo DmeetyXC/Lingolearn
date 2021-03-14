@@ -31,10 +31,6 @@ class ChoiceLanguageFragment : Fragment(R.layout.choice_language_fragment) {
         viewModel.childSelectState.observe(viewLifecycleOwner, {
             binding.spinnerChild.setSelection(it)
         })
-        viewModel.languageState.observe(viewLifecycleOwner, {
-            if (!it)
-                findNavController().navigate(R.id.action_choice_language_fragment_to_containerFragment)
-        })
     }
 
     private fun nextClick() {
@@ -45,7 +41,7 @@ class ChoiceLanguageFragment : Fragment(R.layout.choice_language_fragment) {
                 .show()
         } else {
             viewModel.saveLanguageChoice(mainLanguage, childLanguage)
-            findNavController().navigate(R.id.action_choice_language_fragment_to_containerFragment)
+            findNavController().navigate(R.id.action_choice_language_fragment_to_mainFragment)
         }
     }
 

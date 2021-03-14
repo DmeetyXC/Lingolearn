@@ -3,6 +3,7 @@ package com.dmeetyxc.lingolearn.ui.book
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmeetyxc.lingolearn.R
@@ -83,9 +84,18 @@ class BookFragment : Fragment(R.layout.book_fragment), BookAdapter.OnItemClickLi
             binding.swipeRefresh.isRefreshing = it
         })
 
+        viewModel.languageState.observe(viewLifecycleOwner, {
+            if (!it) navigateChoiceLanguage()
+        })
+
         viewModel.initBookState.observe(viewLifecycleOwner, {
             navigateTextContainer(it)
         })
+    }
+
+    private fun navigateChoiceLanguage() {
+        val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+        navController.navigate(R.id.choice_language_fragment)
     }
 
     private fun navigateTextContainer(bookData: BookData) {

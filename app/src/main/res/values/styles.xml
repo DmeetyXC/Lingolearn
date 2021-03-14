@@ -9,6 +9,7 @@
 
         <item name="colorDivider">@color/color_divider_dark</item>
         <item name="android:statusBarColor">@color/color_gray_light</item>
+
         <item name="preferenceTheme">@style/AppThemeNoActionBar.PreferenceThemeOverlay</item>
     </style>
 

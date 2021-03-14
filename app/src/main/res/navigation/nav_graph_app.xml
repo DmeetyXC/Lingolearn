@@ -2,8 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/choice_language_fragment">
+    android:id="@+id/nav_graph_app"
+    app:startDestination="@id/main_fragment">
 
     <fragment
         android:id="@+id/choice_language_fragment"
@@ -11,10 +11,10 @@
         android:label="@string/app_name"
         tools:layout="@layout/choice_language_fragment">
         <action
-            android:id="@+id/action_choice_language_fragment_to_containerFragment"
-            app:destination="@id/mainFragment"
+            android:id="@+id/action_choice_language_fragment_to_mainFragment"
+            app:destination="@id/main_fragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/nav_graph"
+            app:popUpTo="@id/nav_graph_app"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -25,7 +25,7 @@
         android:id="@+id/action_global_settings_fragment"
         app:destination="@id/settings_fragment" />
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.dmeetyxc.lingolearn.ui.MainFragment"
+        android:id="@+id/main_fragment"
+        android:name="com.dmeetyxc.lingolearn.ui.main.MainFragment"
         android:label="MainFragment" />
 </navigation>

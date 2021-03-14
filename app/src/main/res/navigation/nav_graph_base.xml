@@ -28,12 +28,6 @@
         <action
             android:id="@+id/action_book_fragment_to_dictionary_fragment"
             app:destination="@id/dictionary_fragment" />
-        <action
-            android:id="@+id/action_book_fragment_to_choiceLanguageFragment"
-            app:destination="@id/choiceLanguageFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/favorite_fragment"
@@ -49,16 +43,4 @@
         android:name="com.dmeetyxc.lingolearn.ui.dictionary.DictionaryFragment"
         android:label="@string/title_dictionary"
         tools:layout="@layout/dictionary_fragment" />
-    <fragment
-        android:id="@+id/choiceLanguageFragment"
-        android:name="com.dmeetyxc.lingolearn.ui.choiceLanguage.ChoiceLanguageFragment"
-        android:label="choice_language_fragment"
-        tools:layout="@layout/choice_language_fragment">
-        <action
-            android:id="@+id/action_choiceLanguageFragment_to_book_fragment"
-            app:destination="@id/book_fragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-    </fragment>
 </navigation>

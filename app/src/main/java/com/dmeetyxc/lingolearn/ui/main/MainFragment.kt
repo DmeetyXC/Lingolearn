@@ -1,4 +1,4 @@
-package com.dmeetyxc.lingolearn.ui
+package com.dmeetyxc.lingolearn.ui.main
 
 import android.os.Bundle
 import android.view.Menu
