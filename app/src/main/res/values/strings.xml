@@ -15,6 +15,8 @@
     <string name="cancel">Cancel</string>
     <string name="empty_dictionary">Dictionary is empty</string>
     <string name="empty_favorite">No favorite books</string>
+    <string name="empty_book">The list of books is empty, Internet
+        access is required to download</string>
     <string name="different_choice_lang">Select different languages</string>
     <string name="choice_lang_learn">The language you want to learn</string>
     <string name="choice_lang_native">Your original language</string>

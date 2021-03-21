@@ -16,6 +16,7 @@
     <string name="cancel">Отмена</string>
     <string name="empty_dictionary">Словарь пуст</string>
     <string name="empty_favorite">Нет избранных книг</string>
+    <string name="empty_book">Список книг пуст, для загрузки необходим доступ к интернету</string>
     <string name="different_choice_lang">Выберите разные языки</string>
     <string name="choice_lang_learn">Язык который хотите изучить</string>
     <string name="choice_lang_native">Ваш исходный язык</string>
