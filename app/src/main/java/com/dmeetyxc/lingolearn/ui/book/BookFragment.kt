@@ -93,7 +93,7 @@ class BookFragment : Fragment(R.layout.fragment_book), BookAdapter.OnItemClickLi
             navigateTextContainer(it)
         })
 
-        viewModel.networkConnectionState.observe(viewLifecycleOwner, {
+        viewModel.networkState().observe(viewLifecycleOwner, {
             if (it) {
                 binding.txtEmptyBook.visibility = View.INVISIBLE
                 viewModel.checkNewBooks()

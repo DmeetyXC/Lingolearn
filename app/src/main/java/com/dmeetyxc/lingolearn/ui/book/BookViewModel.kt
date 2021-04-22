@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 
 class BookViewModel(
     private val repository: TextDataRepository,
-    val networkConnectionState: ConnectionManager,
+    private val connectionManager: ConnectionManager
 ) : ViewModel() {
 
     val progressState = MutableLiveData<Boolean>()
@@ -45,6 +45,8 @@ class BookViewModel(
         Transformations.map(repository.allBook) {
             loadBookCategory(it)
         }
+
+    fun networkState() = connectionManager.networkStatus.asLiveData()
 
     fun handleItemClick(book: BookData) {
         viewModelScope.launch {
