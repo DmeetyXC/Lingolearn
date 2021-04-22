@@ -21,8 +21,8 @@ import kotlin.coroutines.suspendCoroutine
 
 class TextDataRepository(
     private val databaseDao: DatabaseDao,
-    private val resourceManager: ResourceManager,
-    private val preferenceManager: PreferenceManager
+    private val preferenceManager: PreferenceManager,
+    private val resourceManager: ResourceManager
 ) {
     val allBook: LiveData<List<BookData>> = databaseDao.getAllBookData()
     val dictionary: LiveData<List<Dictionary>> = databaseDao.getAllDictionary()

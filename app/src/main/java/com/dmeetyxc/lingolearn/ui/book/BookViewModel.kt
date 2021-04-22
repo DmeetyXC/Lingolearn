@@ -1,12 +1,10 @@
 package com.dmeetyxc.lingolearn.ui.book
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.entity.BookParentModel
 import com.dmeetyxc.lingolearn.data.entity.TextData
+import com.dmeetyxc.lingolearn.data.manager.ConnectionManager
 import com.dmeetyxc.lingolearn.data.repository.TextDataRepository
 import com.dmeetyxc.lingolearn.ui.text.BookType
 import com.dmeetyxc.lingolearn.util.SingleLiveEvent
@@ -15,14 +13,14 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
+class BookViewModel(
+    private val repository: TextDataRepository,
+    val networkConnectionState: ConnectionManager,
+) : ViewModel() {
 
     val progressState = MutableLiveData<Boolean>()
     val initBookState = SingleLiveEvent<BookData>()
     val languageState = SingleLiveEvent<Boolean>()
-    val allBookCategory = Transformations.map(repository.allBook) {
-        loadBookCategory(it)
-    }
 
     init {
         languageState.postValue(checkSaveLanguage())
@@ -31,7 +29,8 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
 
     fun checkNewBooks() {
         viewModelScope.launch(Dispatchers.IO) {
-            if (repository.getBooksNameLocal() != repository.loadBooksNameCloud()) {
+            val booksNameCloud = repository.loadBooksNameCloud()
+            if (booksNameCloud.isEmpty() || booksNameCloud != repository.getBooksNameLocal()) {
                 progressState.postValue(true)
                 val childLanguage = repository.getChildLanguage()
                 if (!childLanguage.isNullOrEmpty()) {
@@ -41,6 +40,11 @@ class BookViewModel(private val repository: TextDataRepository) : ViewModel() {
             progressState.postValue(false)
         }
     }
+
+    fun booksCategoryState(): LiveData<List<BookParentModel>> =
+        Transformations.map(repository.allBook) {
+            loadBookCategory(it)
+        }
 
     fun handleItemClick(book: BookData) {
         viewModelScope.launch {

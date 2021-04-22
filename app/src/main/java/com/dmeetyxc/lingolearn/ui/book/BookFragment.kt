@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
-import com.dmeetyxc.lingolearn.data.entity.BookParentModel
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
 import com.dmeetyxc.lingolearn.databinding.FragmentBookBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -77,8 +76,9 @@ class BookFragment : Fragment(R.layout.fragment_book), BookAdapter.OnItemClickLi
     }
 
     private fun observeView() {
-        viewModel.allBookCategory.observe(viewLifecycleOwner, {
-            handleBookList(it)
+        viewModel.booksCategoryState().observe(viewLifecycleOwner, {
+            parentAdapter.submitList(it)
+            if (it.isEmpty()) binding.txtEmptyBook.visibility = View.VISIBLE
         })
 
         viewModel.progressState.observe(viewLifecycleOwner, {
@@ -92,15 +92,13 @@ class BookFragment : Fragment(R.layout.fragment_book), BookAdapter.OnItemClickLi
         viewModel.initBookState.observe(viewLifecycleOwner, {
             navigateTextContainer(it)
         })
-    }
 
-    private fun handleBookList(books: List<BookParentModel>) {
-        parentAdapter.submitList(books)
-        if (books.isEmpty()) {
-            binding.txtEmptyBook.visibility = View.VISIBLE
-        } else {
-            binding.txtEmptyBook.visibility = View.INVISIBLE
-        }
+        viewModel.networkConnectionState.observe(viewLifecycleOwner, {
+            if (it) {
+                binding.txtEmptyBook.visibility = View.INVISIBLE
+                viewModel.checkNewBooks()
+            }
+        })
     }
 
     private fun navigateChoiceLanguage() {
