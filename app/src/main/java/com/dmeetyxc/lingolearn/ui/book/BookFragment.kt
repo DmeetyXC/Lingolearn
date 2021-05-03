@@ -12,7 +12,7 @@ import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
 import com.dmeetyxc.lingolearn.databinding.FragmentBookBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookFragment : Fragment(R.layout.fragment_book), BookAdapter.OnItemClickListener {
+class BookFragment : Fragment(R.layout.fragment_book) {
 
     private val viewModel: BookViewModel by viewModel()
     private var _binding: FragmentBookBinding? = null
@@ -37,14 +37,6 @@ class BookFragment : Fragment(R.layout.fragment_book), BookAdapter.OnItemClickLi
         observeView()
     }
 
-    override fun onItemClick(book: BookData) {
-        viewModel.handleItemClick(book)
-    }
-
-    override fun onFavoriteItemClick(book: BookData) {
-        viewModel.addFavoriteBook(book)
-    }
-
     private fun handleShortcut(intentAction: String?) {
         val navController = findNavController()
         if (navController.currentDestination?.id != R.id.favorite_fragment
@@ -65,7 +57,13 @@ class BookFragment : Fragment(R.layout.fragment_book), BookAdapter.OnItemClickLi
         requireActivity().title = getString(R.string.title_library)
         binding.swipeRefresh.setOnRefreshListener { viewModel.checkNewBooks() }
 
-        parentAdapter = BookParentAdapter(this)
+        parentAdapter = BookParentAdapter { bookSelectedType, book ->
+            when (bookSelectedType) {
+                BookAdapter.BookSelectedType.ITEM -> viewModel.handleItemClick(book)
+                BookAdapter.BookSelectedType.FAVORITE_ITEM -> viewModel.addFavoriteBook(book)
+            }
+        }
+
         with(binding.recyclerBookParent) {
             layoutManager = LinearLayoutManager(
                 requireActivity(), LinearLayoutManager.VERTICAL, false

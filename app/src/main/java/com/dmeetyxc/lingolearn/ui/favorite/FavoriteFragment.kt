@@ -11,7 +11,7 @@ import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
 import com.dmeetyxc.lingolearn.databinding.FragmentFavoriteBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.OnItemClickListener {
+class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     private val viewModel: FavoriteViewModel by viewModel()
     private var _binding: FragmentFavoriteBinding? = null
@@ -26,18 +26,11 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.O
         observeView()
     }
 
-    override fun onItemClick(book: BookData) {
-        val bundle = Bundle()
-        bundle.putParcelable(BOOK, book)
-        findNavController().navigate(
-            R.id.action_favoriteFragment_to_text_container_activity,
-            bundle
-        )
-    }
-
     private fun initView() {
         requireActivity().title = getString(R.string.title_favorite)
-        favoriteAdapter = FavoriteAdapter(this)
+        favoriteAdapter = FavoriteAdapter {
+            navigateTextContainer(it)
+        }
         with(binding.recyclerFavorite) {
             layoutManager = GridLayoutManager(requireActivity(), 2)
             adapter = favoriteAdapter
@@ -53,6 +46,15 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.O
                 binding.txtEmptyFavorite.visibility = View.INVISIBLE
             }
         })
+    }
+
+    private fun navigateTextContainer(book: BookData) {
+        val bundle = Bundle()
+        bundle.putParcelable(BOOK, book)
+        findNavController().navigate(
+            R.id.action_favoriteFragment_to_text_container_activity,
+            bundle
+        )
     }
 
     override fun onDestroyView() {

@@ -1,7 +1,6 @@
 package com.dmeetyxc.lingolearn.data.entity
 
 import android.os.Parcelable
-import androidx.recyclerview.widget.DiffUtil
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
@@ -17,18 +16,4 @@ data class BookData(
     val bookCoverPatch: String?,
     val numberPages: Int = 0,
     val isFavourite: Boolean = false
-) : Parcelable {
-
-    class DiffCallback : DiffUtil.ItemCallback<BookData>() {
-        override fun areItemsTheSame(oldItem: BookData, newItem: BookData): Boolean {
-            return oldItem.bookName == newItem.bookName
-        }
-
-        override fun areContentsTheSame(oldItem: BookData, newItem: BookData): Boolean {
-            return oldItem.isFavourite == newItem.isFavourite
-                    && oldItem.isLoad == newItem.isLoad
-                    && oldItem.numberPages == newItem.numberPages
-                    && oldItem.currentPageRead == newItem.currentPageRead
-        }
-    }
-}
+) : Parcelable

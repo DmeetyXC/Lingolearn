@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,13 +12,12 @@ import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.databinding.ItemBookBinding
 
-class BookAdapter(private val clickListener: OnItemClickListener) :
-    ListAdapter<BookData, BookAdapter.BookViewHolder>(BookData.DiffCallback()) {
+class BookAdapter(private val listener: (BookSelectedType, BookData) -> Unit) :
+    ListAdapter<BookData, BookAdapter.BookViewHolder>(DiffCallback()) {
 
-    interface OnItemClickListener {
-        fun onItemClick(book: BookData)
-
-        fun onFavoriteItemClick(book: BookData)
+    enum class BookSelectedType {
+        ITEM,
+        FAVORITE_ITEM
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
@@ -26,10 +26,10 @@ class BookAdapter(private val clickListener: OnItemClickListener) :
         )
         val bookHolder = BookViewHolder(binding)
         binding.root.setOnClickListener {
-            clickListener.onItemClick(getItem(bookHolder.adapterPosition))
+            listener(BookSelectedType.ITEM, getItem(bookHolder.adapterPosition))
         }
         bookHolder.favoriteBook.setOnClickListener {
-            clickListener.onFavoriteItemClick(getItem(bookHolder.adapterPosition))
+            listener(BookSelectedType.FAVORITE_ITEM, getItem(bookHolder.adapterPosition))
         }
         return bookHolder
     }
@@ -80,6 +80,19 @@ class BookAdapter(private val clickListener: OnItemClickListener) :
                 return@with 0
             }
             (book.currentPageRead * 100) / book.numberPages
+        }
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<BookData>() {
+        override fun areItemsTheSame(oldItem: BookData, newItem: BookData): Boolean {
+            return oldItem.bookName == newItem.bookName
+        }
+
+        override fun areContentsTheSame(oldItem: BookData, newItem: BookData): Boolean {
+            return oldItem.isFavourite == newItem.isFavourite
+                    && oldItem.isLoad == newItem.isLoad
+                    && oldItem.numberPages == newItem.numberPages
+                    && oldItem.currentPageRead == newItem.currentPageRead
         }
     }
 }
