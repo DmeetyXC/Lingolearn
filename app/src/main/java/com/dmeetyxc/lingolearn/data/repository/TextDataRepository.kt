@@ -13,6 +13,8 @@ import com.dmeetyxc.lingolearn.data.network.ApiTranslate
 import com.dmeetyxc.lingolearn.ui.text.BookType
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.coroutines.resume
@@ -22,7 +24,8 @@ import kotlin.coroutines.suspendCoroutine
 class TextDataRepository(
     private val databaseDao: DatabaseDao,
     private val preferenceManager: PreferenceManager,
-    private val resourceManager: ResourceManager
+    private val resourceManager: ResourceManager,
+    private val scope: CoroutineScope
 ) {
     val allBook: LiveData<List<BookData>> = databaseDao.getAllBookData()
     val dictionary: LiveData<List<Dictionary>> = databaseDao.getAllDictionary()
@@ -48,8 +51,10 @@ class TextDataRepository(
         databaseDao.insertBooks(loadBooks(childLanguage))
     }
 
-    suspend fun update(bookData: BookData) {
-        databaseDao.update(bookData)
+    fun update(bookData: BookData) {
+        scope.launch {
+            databaseDao.update(bookData)
+        }
     }
 
     suspend fun deleteAllData() {

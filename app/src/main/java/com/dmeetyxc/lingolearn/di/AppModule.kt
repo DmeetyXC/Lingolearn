@@ -14,6 +14,9 @@ import com.dmeetyxc.lingolearn.ui.dictionary.DictionaryViewModel
 import com.dmeetyxc.lingolearn.ui.favorite.FavoriteViewModel
 import com.dmeetyxc.lingolearn.ui.settings.SettingsViewModel
 import com.dmeetyxc.lingolearn.ui.text.TextViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -27,10 +30,10 @@ val appModule = module {
     single { provideDatabaseDao(get()) }
     single {
         TextDataRepository(
-            get(), PreferenceManager(provideSharedPreferences(get())), ResourceManager(get())
+            get(), PreferenceManager(provideSharedPreferences(get())), ResourceManager(get()), get()
         )
     }
-//    factory { CoroutineScope(Dispatchers.IO) }
+    factory { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
 }
 
 fun provideDatabaseDao(context: Context) = AppDatabase

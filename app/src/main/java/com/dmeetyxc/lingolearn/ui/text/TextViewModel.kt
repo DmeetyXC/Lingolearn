@@ -12,7 +12,6 @@ import com.dmeetyxc.lingolearn.data.entity.TextData
 import com.dmeetyxc.lingolearn.data.repository.TextDataRepository
 import com.dmeetyxc.lingolearn.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class TextViewModel(private val bookData: BookData, private val repository: TextDataRepository) :
@@ -200,14 +199,11 @@ class TextViewModel(private val bookData: BookData, private val repository: Text
     }
 
     override fun onCleared() {
-        GlobalScope.launch(Dispatchers.IO) {
-            repository.update(
-                bookData.copy(
-                    currentPageRead = pageCurrentRead, isLoad = true,
-                    numberPages = books.size
-                )
+        repository.update(
+            bookData.copy(
+                currentPageRead = pageCurrentRead, isLoad = true, numberPages = books.size
             )
-        }
+        )
         super.onCleared()
     }
 }
