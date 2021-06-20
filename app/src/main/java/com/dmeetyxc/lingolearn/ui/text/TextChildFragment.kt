@@ -3,6 +3,7 @@ package com.dmeetyxc.lingolearn.ui.text
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
+import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.databinding.FragmentTextChildBinding
@@ -14,9 +15,6 @@ class TextChildFragment : Fragment(R.layout.fragment_text_child) {
     private val viewModel: TextViewModel by sharedViewModel()
     private var _binding: FragmentTextChildBinding? = null
     private val binding get() = _binding!!
-
-    // Detect long click time
-    private var startClickTime: Long = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,34 +47,28 @@ class TextChildFragment : Fragment(R.layout.fragment_text_child) {
     }
 
     private fun registerTouchListener() {
-        binding.textChild.setOnTouchListener(View.OnTouchListener { v, event ->
-            v.performClick()
-            return@OnTouchListener textTouchListen(v, event)
+        val gestureDetector = GestureDetectorCompat(requireContext(), TextGestureListener {
+            when (it) {
+                is TextGestureListener.TypeTouchText.SingleTap -> touchText(it.event)
+                is TextGestureListener.TypeTouchText.LongPress ->
+                    viewModel.dictionaryModeState(true)
+            }
         })
+
+        binding.textChild.setOnTouchListener { v, event ->
+            v.performClick()
+            gestureDetector.onTouchEvent(event)
+        }
     }
 
-    private fun textTouchListen(v: View, event: MotionEvent): Boolean {
-        return when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                startClickTime = System.currentTimeMillis()
-                return true
-            }
-            MotionEvent.ACTION_UP -> {
-                if ((System.currentTimeMillis() - startClickTime) > 500) {
-                    viewModel.dictionaryModeState(true)
-                } else {
-                    (v as TextView).layout?.let {
-                        val line = it.getLineForVertical(event.y.toInt())
-                        val offset = it.getOffsetForHorizontal(line, event.x)
-                        val text = binding.textChild.text.toString()
-                        viewModel.touchText(offset, text, BookType.CHILD)
-                        viewModel.searchNumberLineText(offset, text)
-                        viewModel.scrollTextPosition(it.lineCount / 2, line)
-                    }
-                }
-                return true
-            }
-            else -> false
+    private fun touchText(event: MotionEvent) {
+        binding.textChild.layout?.let {
+            val line = it.getLineForVertical(event.y.toInt())
+            val offset = it.getOffsetForHorizontal(line, event.x)
+            val text = binding.textChild.text.toString()
+            viewModel.touchText(offset, text, BookType.CHILD)
+            viewModel.searchNumberLineText(offset, text)
+            viewModel.scrollTextPosition(it.lineCount / 2, line)
         }
     }
 
