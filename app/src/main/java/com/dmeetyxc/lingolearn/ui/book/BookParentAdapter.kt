@@ -12,7 +12,7 @@ import com.dmeetyxc.lingolearn.data.entity.BookParentModel
 import com.dmeetyxc.lingolearn.databinding.ItemBookCategoryBinding
 
 class BookParentAdapter(private val listener: (BookAdapter.BookSelectedType, BookData) -> Unit) :
-    ListAdapter<BookParentModel, BookParentAdapter.BookParentViewHolder>(DiffCallback()) {
+    ListAdapter<BookParentModel, BookParentAdapter.BookParentViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookParentViewHolder {
         val binding = ItemBookCategoryBinding.inflate(
@@ -50,7 +50,7 @@ class BookParentAdapter(private val listener: (BookAdapter.BookSelectedType, Boo
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<BookParentModel>() {
+    private object DiffCallback : DiffUtil.ItemCallback<BookParentModel>() {
         override fun areItemsTheSame(oldItem: BookParentModel, newItem: BookParentModel): Boolean {
             return oldItem.category == newItem.category
         }

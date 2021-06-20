@@ -13,11 +13,10 @@ import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.databinding.ItemBookBinding
 
 class BookAdapter(private val listener: (BookSelectedType, BookData) -> Unit) :
-    ListAdapter<BookData, BookAdapter.BookViewHolder>(DiffCallback()) {
+    ListAdapter<BookData, BookAdapter.BookViewHolder>(DiffCallback) {
 
     enum class BookSelectedType {
-        ITEM,
-        FAVORITE_ITEM
+        ITEM, FAVORITE_ITEM
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
@@ -83,7 +82,7 @@ class BookAdapter(private val listener: (BookSelectedType, BookData) -> Unit) :
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<BookData>() {
+    private object DiffCallback : DiffUtil.ItemCallback<BookData>() {
         override fun areItemsTheSame(oldItem: BookData, newItem: BookData): Boolean {
             return oldItem.bookName == newItem.bookName
         }

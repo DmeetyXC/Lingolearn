@@ -2,6 +2,7 @@ package com.dmeetyxc.lingolearn.ui.favorite
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -49,8 +50,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     }
 
     private fun navigateTextContainer(book: BookData) {
-        val bundle = Bundle()
-        bundle.putParcelable(BOOK, book)
+        val bundle = bundleOf(BOOK to book)
         findNavController().navigate(
             R.id.action_favoriteFragment_to_text_container_activity,
             bundle

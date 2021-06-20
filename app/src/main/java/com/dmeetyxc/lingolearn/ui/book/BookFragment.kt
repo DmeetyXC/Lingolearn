@@ -1,7 +1,9 @@
 package com.dmeetyxc.lingolearn.ui.book
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -50,6 +52,7 @@ class BookFragment : Fragment(R.layout.fragment_book) {
                     navController.navigate(R.id.action_book_fragment_to_dictionary_fragment)
                 }
             }
+            if (intentAction != Intent.ACTION_MAIN) requireActivity().intent.action = ""
         }
     }
 
@@ -105,8 +108,7 @@ class BookFragment : Fragment(R.layout.fragment_book) {
     }
 
     private fun navigateTextContainer(bookData: BookData) {
-        val bundle = Bundle()
-        bundle.putParcelable(BOOK, bookData)
+        val bundle = bundleOf(BOOK to bookData)
         findNavController().navigate(R.id.action_bookFragment_to_text_container_activity, bundle)
     }
 

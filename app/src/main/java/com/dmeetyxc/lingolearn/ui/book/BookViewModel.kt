@@ -29,8 +29,8 @@ class BookViewModel(
 
     fun checkNewBooks() {
         viewModelScope.launch(Dispatchers.IO) {
-            val booksNameCloud = repository.loadBooksNameCloud()
-            if (booksNameCloud.isEmpty() || booksNameCloud != repository.getBooksNameLocal()) {
+            val booksNameLocal = repository.getBooksNameLocal()
+            if (booksNameLocal.isEmpty() || repository.loadBooksNameCloud() != booksNameLocal) {
                 progressState.postValue(true)
                 val childLanguage = repository.getChildLanguage()
                 if (!childLanguage.isNullOrEmpty()) {

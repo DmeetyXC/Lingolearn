@@ -13,7 +13,7 @@ import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.databinding.ItemFavoriteBinding
 
 class FavoriteAdapter(private val listener: (BookData) -> Unit) :
-    ListAdapter<BookData, FavoriteAdapter.FavoriteViewHolder>(DiffCallback()) {
+    ListAdapter<BookData, FavoriteAdapter.FavoriteViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val binding = ItemFavoriteBinding.inflate(
@@ -65,7 +65,7 @@ class FavoriteAdapter(private val listener: (BookData) -> Unit) :
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<BookData>() {
+    private object DiffCallback : DiffUtil.ItemCallback<BookData>() {
         override fun areItemsTheSame(oldItem: BookData, newItem: BookData): Boolean {
             return oldItem.bookName == newItem.bookName
         }

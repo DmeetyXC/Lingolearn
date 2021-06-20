@@ -9,7 +9,7 @@ import com.dmeetyxc.lingolearn.data.entity.Dictionary
 import com.dmeetyxc.lingolearn.databinding.ItemDictionaryBinding
 
 class DictionaryAdapter :
-    ListAdapter<Dictionary, DictionaryAdapter.DictionaryViewHolder>(DiffCallback()) {
+    ListAdapter<Dictionary, DictionaryAdapter.DictionaryViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DictionaryViewHolder =
         DictionaryViewHolder(
@@ -33,7 +33,7 @@ class DictionaryAdapter :
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Dictionary>() {
+    private object DiffCallback : DiffUtil.ItemCallback<Dictionary>() {
         override fun areItemsTheSame(oldItem: Dictionary, newItem: Dictionary): Boolean {
             return oldItem.idDictionary == newItem.idDictionary
         }
