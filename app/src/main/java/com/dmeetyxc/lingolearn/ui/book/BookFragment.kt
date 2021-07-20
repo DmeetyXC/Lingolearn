@@ -81,7 +81,7 @@ class BookFragment : Fragment(R.layout.fragment_book) {
     private fun observeView() {
         viewModel.booksCategoryState().observe(viewLifecycleOwner, {
             parentAdapter.submitList(it)
-            if (it.isEmpty()) binding.txtEmptyBook.visibility = View.VISIBLE
+            changeVisibleTextEmpty(it.isEmpty())
         })
 
         viewModel.progressState.observe(viewLifecycleOwner, {
@@ -98,10 +98,15 @@ class BookFragment : Fragment(R.layout.fragment_book) {
 
         viewModel.networkState().observe(viewLifecycleOwner, {
             if (it) {
-                binding.txtEmptyBook.visibility = View.INVISIBLE
+                changeVisibleTextEmpty(false)
                 viewModel.checkNewBooks()
             }
         })
+    }
+
+    private fun changeVisibleTextEmpty(stateVisibility: Boolean) {
+        if (stateVisibility) binding.txtEmptyBook.visibility = View.VISIBLE
+        else binding.txtEmptyBook.visibility = View.INVISIBLE
     }
 
     private fun navigateChoiceLanguage() {
