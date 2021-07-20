@@ -4,17 +4,19 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
 import com.dmeetyxc.lingolearn.databinding.FragmentFavoriteBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
-    private val viewModel: FavoriteViewModel by viewModel()
+    private val viewModel: FavoriteViewModel by viewModels()
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
     private lateinit var favoriteAdapter: FavoriteAdapter

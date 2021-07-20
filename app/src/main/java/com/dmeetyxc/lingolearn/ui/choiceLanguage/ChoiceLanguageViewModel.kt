@@ -2,20 +2,27 @@ package com.dmeetyxc.lingolearn.ui.choiceLanguage
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dmeetyxc.lingolearn.data.repository.TextDataRepository
+import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
+import com.dmeetyxc.lingolearn.data.manager.ResourceManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
+import javax.inject.Inject
 
-class ChoiceLanguageViewModel(private val repository: TextDataRepository) : ViewModel() {
+@HiltViewModel
+class ChoiceLanguageViewModel @Inject constructor(
+    private val preferenceManager: PreferenceManager,
+    resourceManager: ResourceManager
+) : ViewModel() {
 
     val childSelectState = MutableLiveData<Int>()
-    private val selectedValues = repository.getLanguagesValue()
+    private val selectedValues = resourceManager.getLanguagesValue()
 
     init {
         setInitialPositionLang()
     }
 
     fun saveLanguageChoice(mainLanguage: String, childLanguage: String) {
-        repository.saveSelectLanguage(mainLanguage, childLanguage)
+        preferenceManager.saveLanguages(mainLanguage, childLanguage)
     }
 
     fun getSelectValues(position: Int) = selectedValues[position]

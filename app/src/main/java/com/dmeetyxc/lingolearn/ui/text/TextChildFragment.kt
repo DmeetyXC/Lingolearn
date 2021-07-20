@@ -5,14 +5,16 @@ import android.view.*
 import android.widget.TextView
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.databinding.FragmentTextChildBinding
 import com.google.android.material.snackbar.Snackbar
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TextChildFragment : Fragment(R.layout.fragment_text_child) {
 
-    private val viewModel: TextViewModel by sharedViewModel()
+    private val viewModel: TextViewModel by activityViewModels()
     private var _binding: FragmentTextChildBinding? = null
     private val binding get() = _binding!!
 
@@ -66,7 +68,6 @@ class TextChildFragment : Fragment(R.layout.fragment_text_child) {
             val line = it.getLineForVertical(event.y.toInt())
             val offset = it.getOffsetForHorizontal(line, event.x)
             val text = binding.textChild.text.toString()
-            viewModel.touchText(offset, text, BookType.CHILD)
             viewModel.searchNumberLineText(offset, text)
             viewModel.scrollTextPosition(it.lineCount / 2, line)
         }

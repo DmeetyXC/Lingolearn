@@ -3,34 +3,43 @@ package com.dmeetyxc.lingolearn.ui.settings
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dmeetyxc.lingolearn.data.repository.TextDataRepository
+import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
+import com.dmeetyxc.lingolearn.data.manager.ResourceManager
+import com.dmeetyxc.lingolearn.data.repository.BooksRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SettingsViewModel(private val repository: TextDataRepository) : ViewModel() {
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val booksRepository: BooksRepository,
+    private val preferenceManager: PreferenceManager,
+    resourceManager: ResourceManager
+) : ViewModel() {
 
     val childPreferenceSate = MutableLiveData<Pair<Array<String>, Array<String>>>()
     val childSelectItemSate = MutableLiveData<String>()
-    private val languages = repository.getLanguages()
-    private val languagesValues = repository.getLanguagesValue()
+    private val languages = resourceManager.getLanguages()
+    private val languagesValues = resourceManager.getLanguagesValue()
 
     fun initChildPref() {
-        repository.getMainLanguage()?.let {
+        preferenceManager.getMainLanguage()?.let {
             childPreferenceSate.postValue(removeLanguage(it))
-            childSelectItemSate.postValue(repository.getChildLanguage())
+            childSelectItemSate.postValue(preferenceManager.getChildLanguage())
         }
     }
 
     fun handleMainClick() {
-        repository.getMainLanguage()?.let {
+        preferenceManager.getMainLanguage()?.let {
             childPreferenceSate.postValue(removeLanguage(it))
-            childSelectItemSate.postValue(repository.getChildLanguage())
+            childSelectItemSate.postValue(preferenceManager.getChildLanguage())
             deleteAllData()
         }
     }
 
     fun deleteAllData() = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteAllData()
+        booksRepository.deleteAllBooks()
     }
 
     private fun removeLanguage(item: String): Pair<Array<String>, Array<String>> {

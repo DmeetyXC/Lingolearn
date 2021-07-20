@@ -3,17 +3,18 @@ package com.dmeetyxc.lingolearn.ui.text
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
 import com.dmeetyxc.lingolearn.databinding.ActivityTextContainerBinding
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TextContainerActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: TextViewModel
+    private val viewModel: TextViewModel by viewModels()
     private lateinit var binding: ActivityTextContainerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +23,6 @@ class TextContainerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val bookData: BookData? = intent.getParcelableExtra(BOOK)
-        viewModel = getViewModel { parametersOf(bookData) }
         initToolbar(bookData)
         initView()
         observeView()
@@ -56,11 +56,8 @@ class TextContainerActivity : AppCompatActivity() {
 
     private fun observeView() {
         viewModel.lastPageState.observe(this, {
-            if (it) {
-                binding.txtPageList.visibility = View.VISIBLE
-            } else {
-                binding.txtPageList.visibility = View.GONE
-            }
+            if (it) binding.txtPageList.visibility = View.VISIBLE
+            else binding.txtPageList.visibility = View.GONE
         })
         viewModel.errorState.observe(this, {
             Toast.makeText(this, getString(R.string.error, it), Toast.LENGTH_SHORT).show()

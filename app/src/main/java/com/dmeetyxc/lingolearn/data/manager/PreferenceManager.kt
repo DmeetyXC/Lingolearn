@@ -2,8 +2,9 @@ package com.dmeetyxc.lingolearn.data.manager
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import javax.inject.Inject
 
-class PreferenceManager(private val sharedPref: SharedPreferences) {
+class PreferenceManager @Inject constructor(private val sharedPref: SharedPreferences) {
 
     companion object {
         const val MAIN = "main"
@@ -25,7 +26,9 @@ class PreferenceManager(private val sharedPref: SharedPreferences) {
         }
     }
 
-    fun getLanguage(key: String, default: String = ""): String? = sharedPref.getString(key, default)
+    fun getMainLanguage() = sharedPref.getString(MAIN, "")
+
+    fun getChildLanguage() = sharedPref.getString(CHILD, "")
 
     fun getTextSize(): String? = sharedPref.getString(FONT_SIZE, FONT_SIZE_DEFAULT)
 

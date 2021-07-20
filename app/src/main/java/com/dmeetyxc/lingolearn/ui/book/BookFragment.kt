@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,11 +13,12 @@ import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
 import com.dmeetyxc.lingolearn.databinding.FragmentBookBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BookFragment : Fragment(R.layout.fragment_book) {
 
-    private val viewModel: BookViewModel by viewModel()
+    private val viewModel: BookViewModel by viewModels()
     private var _binding: FragmentBookBinding? = null
     private val binding get() = _binding!!
     private lateinit var parentAdapter: BookParentAdapter

@@ -3,15 +3,17 @@ package com.dmeetyxc.lingolearn.ui.choiceLanguage
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.databinding.FragmentChoiceLanguageBinding
 import com.google.android.material.snackbar.Snackbar
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChoiceLanguageFragment : Fragment(R.layout.fragment_choice_language) {
 
-    private val viewModel: ChoiceLanguageViewModel by viewModel()
+    private val viewModel: ChoiceLanguageViewModel by viewModels()
     private var _binding: FragmentChoiceLanguageBinding? = null
     private val binding get() = _binding!!
 

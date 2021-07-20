@@ -16,7 +16,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.databinding.FragmentMainBinding
 import com.google.android.material.appbar.AppBarLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private var _binding: FragmentMainBinding? = null
