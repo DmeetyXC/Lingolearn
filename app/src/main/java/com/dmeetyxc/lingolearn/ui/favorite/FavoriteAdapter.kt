@@ -30,6 +30,18 @@ class FavoriteAdapter(private val listener: (BookData) -> Unit) :
         holder.bind(getItem(position))
     }
 
+    override fun onBindViewHolder(
+        holder: FavoriteViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isNullOrEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            holder.bind(payloads)
+        }
+    }
+
     class FavoriteViewHolder(binding: ItemFavoriteBinding) : RecyclerView.ViewHolder(binding.root) {
         private val nameBook: TextView = binding.nameBookFavorite
         private val progressBook: TextView = binding.progressBookFavorite
@@ -39,6 +51,11 @@ class FavoriteAdapter(private val listener: (BookData) -> Unit) :
             nameBook.text = book.bookNameTranslate
             setBookProgress(book)
             Glide.with(itemView).load(book.bookCoverPatch).into(imageBook)
+        }
+
+        fun bind(payloads: List<Any>) {
+            val book = payloads.last() as BookData
+            setBookProgress(book)
         }
 
         private fun setBookProgress(book: BookData) {
@@ -75,6 +92,13 @@ class FavoriteAdapter(private val listener: (BookData) -> Unit) :
                     && oldItem.isLoad == newItem.isLoad
                     && oldItem.numberPages == newItem.numberPages
                     && oldItem.currentPageRead == newItem.currentPageRead
+        }
+
+        override fun getChangePayload(oldItem: BookData, newItem: BookData): Any? {
+            if (oldItem.isFavourite != newItem.isFavourite
+                || oldItem.currentPageRead != newItem.currentPageRead
+            ) return newItem
+            return super.getChangePayload(oldItem, newItem)
         }
     }
 }
