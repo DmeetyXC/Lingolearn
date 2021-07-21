@@ -69,12 +69,13 @@ dependencies {
 
     // Kotlin components
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     // Firebase components
-    implementation "com.google.firebase:firebase-analytics:$firebase_analytics"
-    implementation "com.google.firebase:firebase-firestore-ktx:$firebase_firestore"
+    implementation platform("com.google.firebase:firebase-bom:$firebase_version")
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 
     // DI components
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -89,5 +90,5 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
 }

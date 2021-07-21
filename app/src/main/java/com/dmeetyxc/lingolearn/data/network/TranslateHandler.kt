@@ -6,8 +6,8 @@ import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
 import javax.inject.Inject
 
 class TranslateHandler @Inject constructor(
-    private val apiTranslate: ApiTranslate,
-    private val preferenceManager: PreferenceManager,
+    private val translateService: TranslateService,
+    private val preferenceManager: PreferenceManager
 ) {
     companion object {
         const val TRANSLATE_URL = "https://api.cognitive.microsofttranslator.com"
@@ -15,7 +15,7 @@ class TranslateHandler @Inject constructor(
 
     suspend fun translateText(textTranslate: String): String {
         val translateResult =
-            apiTranslate.getTranslateText(
+            translateService.getTranslateText(
                 BuildConfig.apiTranslateText,
                 preferenceManager.getMainLanguage()!!,
                 preferenceManager.getChildLanguage()!!,

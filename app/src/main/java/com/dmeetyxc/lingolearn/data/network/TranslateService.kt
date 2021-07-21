@@ -4,7 +4,7 @@ import com.dmeetyxc.lingolearn.data.entity.TranslateResult
 import com.dmeetyxc.lingolearn.data.entity.TranslationData
 import retrofit2.http.*
 
-interface ApiTranslate {
+interface TranslateService {
     @Headers("Content-Type: application/json")
     @POST("/translate?api-version=3.0")
     suspend fun getTranslateText(

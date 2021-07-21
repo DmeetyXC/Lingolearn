@@ -30,11 +30,9 @@ allprojects {
 ext {
     room_version = '2.3.0'
     arch_lifecycle_version = '2.3.1'
-    coroutines = '1.5.0'
-    leak_canary = '2.7'
-    firebase_analytics = '19.0.0'
-    firebase_firestore = '23.0.2'
-    koin_version = "3.0.2"
+    coroutines_version = '1.5.0'
+    leak_canary_version = '2.7'
+    firebase_version = '28.2.1'
     nav_version = "2.3.5"
     retrofit_version = "2.9.0"
     glide_version = "4.12.0"

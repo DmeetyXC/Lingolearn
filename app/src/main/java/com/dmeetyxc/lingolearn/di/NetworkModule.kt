@@ -1,7 +1,7 @@
 package com.dmeetyxc.lingolearn.di
 
-import com.dmeetyxc.lingolearn.data.network.ApiTranslate
 import com.dmeetyxc.lingolearn.data.network.TranslateHandler
+import com.dmeetyxc.lingolearn.data.network.TranslateService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,9 +16,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiTranslate(): ApiTranslate = Retrofit.Builder()
+    fun provideApiTranslate(): TranslateService = Retrofit.Builder()
         .baseUrl(TranslateHandler.TRANSLATE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(ApiTranslate::class.java)
+        .create(TranslateService::class.java)
 }
