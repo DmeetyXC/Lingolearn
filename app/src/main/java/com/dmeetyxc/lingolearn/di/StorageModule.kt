@@ -2,6 +2,7 @@ package com.dmeetyxc.lingolearn.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
 import com.dmeetyxc.lingolearn.data.db.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -16,9 +17,15 @@ object StorageModule {
 
     @Provides
     @Singleton
-    fun provideDatabaseDao(@ApplicationContext context: Context) = AppDatabase
-        .getDatabase(context)
-        .databaseDao()
+    fun provideDatabase(@ApplicationContext context: Context) = Room.databaseBuilder(
+        context.applicationContext,
+        AppDatabase::class.java,
+        "database"
+    )
+        .build()
+
+    @Provides
+    fun provideDatabaseDao(appDatabase: AppDatabase) = appDatabase.databaseDao()
 
     @Provides
     @Singleton

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -81,7 +82,7 @@ class BookFragment : Fragment(R.layout.fragment_book) {
     private fun observeView() {
         viewModel.booksCategoryState().observe(viewLifecycleOwner, {
             parentAdapter.submitList(it)
-            changeVisibleTextEmpty(it.isEmpty())
+            binding.txtEmptyBook.isVisible = it.isEmpty()
         })
 
         viewModel.progressState.observe(viewLifecycleOwner, {
@@ -98,15 +99,10 @@ class BookFragment : Fragment(R.layout.fragment_book) {
 
         viewModel.networkState().observe(viewLifecycleOwner, {
             if (it) {
-                changeVisibleTextEmpty(false)
+                binding.txtEmptyBook.isVisible = false
                 viewModel.checkNewBooks()
             }
         })
-    }
-
-    private fun changeVisibleTextEmpty(stateVisibility: Boolean) {
-        if (stateVisibility) binding.txtEmptyBook.visibility = View.VISIBLE
-        else binding.txtEmptyBook.visibility = View.INVISIBLE
     }
 
     private fun navigateChoiceLanguage() {

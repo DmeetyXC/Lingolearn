@@ -3,6 +3,7 @@ package com.dmeetyxc.lingolearn.ui.favorite
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -43,11 +44,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     private fun observeView() {
         viewModel.favoriteBook.observe(viewLifecycleOwner, {
             favoriteAdapter.submitList(it)
-            if (it.isEmpty()) {
-                binding.txtEmptyFavorite.visibility = View.VISIBLE
-            } else {
-                binding.txtEmptyFavorite.visibility = View.INVISIBLE
-            }
+            binding.txtEmptyFavorite.isVisible = it.isEmpty()
         })
     }
 

@@ -72,12 +72,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun destinationChanged(destinationId: Int) {
         binding.appBarMain.setExpanded(true, true)
         when (destinationId) {
-            R.id.book_fragment -> {
-                changeScrollingToolbar(true)
-            }
-            R.id.settings_fragment -> {
-                changeScrollingToolbar(false)
-            }
+            R.id.book_fragment -> changeScrollingToolbar(true)
+            R.id.settings_fragment -> changeScrollingToolbar(false)
         }
     }
 

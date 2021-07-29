@@ -1,10 +1,10 @@
 package com.dmeetyxc.lingolearn.ui.text
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
@@ -56,8 +56,7 @@ class TextContainerActivity : AppCompatActivity() {
 
     private fun observeView() {
         viewModel.lastPageState.observe(this, {
-            if (it) binding.txtPageList.visibility = View.VISIBLE
-            else binding.txtPageList.visibility = View.GONE
+            binding.txtPageList.isVisible = it
         })
         viewModel.errorState.observe(this, {
             Toast.makeText(this, getString(R.string.error, it), Toast.LENGTH_SHORT).show()
