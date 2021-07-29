@@ -63,9 +63,8 @@ class TextViewModel @Inject constructor(
     fun textDictionarySearch(textAll: String, min: Int, max: Int) {
         val selectedText = textAll.subSequence(min, max)
         viewModelScope.launch(Dispatchers.IO) {
-            textInteractor.translateText(selectedText.toString()) {
-                if (it is TextInteractor.TextTranslateResponse.Error)
-                    errorState.postValue(it.errorMessage.localizedMessage)
+            with(textInteractor.translateText(selectedText.toString())) {
+                if (isFailure) errorState.postValue(exceptionOrNull()?.localizedMessage)
             }
         }
     }

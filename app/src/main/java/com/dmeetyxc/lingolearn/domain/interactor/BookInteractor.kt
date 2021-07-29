@@ -8,6 +8,7 @@ import com.dmeetyxc.lingolearn.data.entity.TextData
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
 import com.dmeetyxc.lingolearn.data.manager.ResourceManager
 import com.dmeetyxc.lingolearn.data.repository.BooksRepository
+import com.dmeetyxc.lingolearn.data.repository.TextDataRepository
 import com.dmeetyxc.lingolearn.ui.text.BookType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 class BookInteractor @Inject constructor(
     private val booksRepository: BooksRepository,
+    private val textDataRepository: TextDataRepository,
     private val preferenceManager: PreferenceManager,
     private val resourceManager: ResourceManager
 ) {
@@ -38,10 +40,10 @@ class BookInteractor @Inject constructor(
     suspend fun loadBook(bookData: BookData) {
         withContext(Dispatchers.IO) {
             val textMain = async {
-                booksRepository.loadFullTextBook(bookData, BookType.MAIN)
+                textDataRepository.loadFullTextData(bookData, BookType.MAIN)
             }
             val textChild = async {
-                booksRepository.loadFullTextBook(bookData, BookType.CHILD)
+                textDataRepository.loadFullTextData(bookData, BookType.CHILD)
             }
             val parseMainBook = async { parseBook(textMain.await()) }
             val parseChildBook = async { parseBook(textChild.await()) }
@@ -118,7 +120,7 @@ class BookInteractor @Inject constructor(
             val textChild = parseTextChild[i]
             textData.add(TextData(bookData.bookName, textMain, textChild))
         }
-        booksRepository.insert(textData)
+        textDataRepository.insert(textData)
     }
 
     /**

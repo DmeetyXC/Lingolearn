@@ -10,11 +10,13 @@ import com.dmeetyxc.lingolearn.data.manager.ResourceManager
 import com.dmeetyxc.lingolearn.data.network.TranslateHandler
 import com.dmeetyxc.lingolearn.data.repository.BooksRepository
 import com.dmeetyxc.lingolearn.data.repository.DictionaryRepository
+import com.dmeetyxc.lingolearn.data.repository.TextDataRepository
 import javax.inject.Inject
 
 class TextInteractor @Inject constructor(
     private val dictionaryRepository: DictionaryRepository,
     private val booksRepository: BooksRepository,
+    private val textDataRepository: TextDataRepository,
     private val translateHandler: TranslateHandler,
     private val resourceManager: ResourceManager,
     private val preferenceManager: PreferenceManager
@@ -39,17 +41,12 @@ class TextInteractor @Inject constructor(
         return selectionString(SpannableString(text), firstIndex, lastIndex)
     }
 
-    suspend fun translateText(text: String, translateListener: (TextTranslateResponse) -> Unit) {
-        try {
-            val translateText = translateHandler.translateText(text)
-            dictionaryRepository.insert(Dictionary(text, translateText))
-            translateListener(TextTranslateResponse.Success)
-        } catch (e: Exception) {
-            translateListener(TextTranslateResponse.Error(e))
-        }
+    suspend fun translateText(text: String) = kotlin.runCatching {
+        val translateText = translateHandler.translateText(text)
+        dictionaryRepository.insert(Dictionary(text, translateText))
     }
 
-    suspend fun getTextData(bookData: BookData) = booksRepository.getBook(bookData)
+    suspend fun getTextData(bookData: BookData) = textDataRepository.getTextDataBook(bookData)
 
     fun updateBook(bookData: BookData) {
         booksRepository.updateBook(bookData)
@@ -60,7 +57,6 @@ class TextInteractor @Inject constructor(
     private fun selectionString(
         spannableString: SpannableString, firstIndex: Int, lastIndex: Int
     ): SpannableString {
-//        BackgroundColorSpan(Color.GREEN)
         spannableString.setSpan(
             ForegroundColorSpan(resourceManager.getColorSelectText()), firstIndex,
             lastIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -94,10 +90,5 @@ class TextInteractor @Inject constructor(
             }
         }
         return lastIndex + 1
-    }
-
-    sealed class TextTranslateResponse {
-        data class Error(val errorMessage: Exception) : TextTranslateResponse()
-        object Success : TextTranslateResponse()
     }
 }

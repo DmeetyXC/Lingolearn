@@ -25,7 +25,13 @@ object StorageModule {
         .build()
 
     @Provides
-    fun provideDatabaseDao(appDatabase: AppDatabase) = appDatabase.databaseDao()
+    fun provideDatabaseDao(appDatabase: AppDatabase) = appDatabase.bookDao()
+
+    @Provides
+    fun provideDictionaryDao(appDatabase: AppDatabase) = appDatabase.dictionaryDao()
+
+    @Provides
+    fun provideTextDataDao(appDatabase: AppDatabase) = appDatabase.textDataDao()
 
     @Provides
     @Singleton

@@ -12,5 +12,9 @@ import com.dmeetyxc.lingolearn.data.entity.TextData
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun databaseDao(): DatabaseDao
+    abstract fun bookDao(): BookDao
+
+    abstract fun dictionaryDao(): DictionaryDao
+
+    abstract fun textDataDao(): TextDataDao
 }
