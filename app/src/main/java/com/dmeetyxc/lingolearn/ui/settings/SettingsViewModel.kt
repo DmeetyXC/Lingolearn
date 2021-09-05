@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
 import com.dmeetyxc.lingolearn.data.manager.ResourceManager
-import com.dmeetyxc.lingolearn.data.repository.BooksRepository
+import com.dmeetyxc.lingolearn.domain.book.BookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val booksRepository: BooksRepository,
+    private val bookRepository: BookRepository,
     private val preferenceManager: PreferenceManager,
     resourceManager: ResourceManager
 ) : ViewModel() {
@@ -39,7 +39,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun deleteAllData() = viewModelScope.launch(Dispatchers.IO) {
-        booksRepository.deleteAllBooks()
+        bookRepository.deleteAllBooks()
     }
 
     private fun removeLanguage(item: String): Pair<Array<String>, Array<String>> {

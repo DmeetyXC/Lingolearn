@@ -1,4 +1,4 @@
-package com.dmeetyxc.lingolearn.domain.interactor
+package com.dmeetyxc.lingolearn.domain.text
 
 import android.text.Spannable
 import android.text.SpannableString
@@ -8,21 +8,20 @@ import com.dmeetyxc.lingolearn.data.entity.Dictionary
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
 import com.dmeetyxc.lingolearn.data.manager.ResourceManager
 import com.dmeetyxc.lingolearn.data.network.TranslateHandler
-import com.dmeetyxc.lingolearn.data.repository.BooksRepository
-import com.dmeetyxc.lingolearn.data.repository.DictionaryRepository
-import com.dmeetyxc.lingolearn.data.repository.TextDataRepository
+import com.dmeetyxc.lingolearn.domain.book.BookRepository
+import com.dmeetyxc.lingolearn.domain.dictionary.DictionaryRepository
 import javax.inject.Inject
 
-class TextInteractor @Inject constructor(
+class TextInteractorImpl @Inject constructor(
     private val dictionaryRepository: DictionaryRepository,
-    private val booksRepository: BooksRepository,
-    private val textDataRepository: TextDataRepository,
+    private val bookRepository: BookRepository,
+    private val textRepository: TextRepository,
     private val translateHandler: TranslateHandler,
     private val resourceManager: ResourceManager,
     private val preferenceManager: PreferenceManager
-) {
+) : TextInteractor {
 
-    fun searchNumberLineText(indexClick: Int, text: String): Int {
+    override fun searchNumberLineText(indexClick: Int, text: String): Int {
         var number = 0
         for (i in indexClick - 1 downTo 1) {
             val symbol1 = text[i]
@@ -33,26 +32,26 @@ class TextInteractor @Inject constructor(
         return number
     }
 
-    fun getTextSize() = preferenceManager.getTextSize()?.toFloat()
+    override fun getTextSize() = preferenceManager.getTextSize()?.toFloat()
 
-    fun lineSelectedText(text: String, numberLine: Int): SpannableString {
+    override fun lineSelectedText(text: String, numberLine: Int): SpannableString {
         val firstIndex = getFirstElement(numberLine, text)
         val lastIndex = getLastElement(firstIndex, text)
         return selectionString(SpannableString(text), firstIndex, lastIndex)
     }
 
-    suspend fun translateText(text: String) = kotlin.runCatching {
+    override suspend fun translateText(text: String) = kotlin.runCatching {
         val translateText = translateHandler.translateText(text)
         dictionaryRepository.insert(Dictionary(text, translateText))
     }
 
-    suspend fun getTextData(bookData: BookData) = textDataRepository.getTextDataBook(bookData)
+    override suspend fun getTextData(bookData: BookData) = textRepository.getTextDataBook(bookData)
 
-    fun updateBook(bookData: BookData) {
-        booksRepository.updateBook(bookData)
+    override fun updateBook(bookData: BookData) {
+        bookRepository.updateBook(bookData)
     }
 
-    fun getMovingTextPixels() = resourceManager.getMovingPixels()
+    override fun getMovingTextPixels() = resourceManager.getMovingPixels()
 
     private fun selectionString(
         spannableString: SpannableString, firstIndex: Int, lastIndex: Int

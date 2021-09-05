@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import androidx.lifecycle.asLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -15,7 +16,7 @@ class ConnectionManager @Inject constructor(@ApplicationContext context: Context
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    val networkStatus = callbackFlow {
+    private val networkStatus = callbackFlow {
         val networkStatusCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 trySend(true)
@@ -39,4 +40,6 @@ class ConnectionManager @Inject constructor(@ApplicationContext context: Context
             connectivityManager.unregisterNetworkCallback(networkStatusCallback)
         }
     }
+
+    fun getNetworkStatus() = networkStatus.asLiveData()
 }

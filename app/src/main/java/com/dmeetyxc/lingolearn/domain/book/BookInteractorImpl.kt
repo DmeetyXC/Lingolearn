@@ -1,4 +1,4 @@
-package com.dmeetyxc.lingolearn.domain.interactor
+package com.dmeetyxc.lingolearn.domain.book
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
@@ -7,43 +7,42 @@ import com.dmeetyxc.lingolearn.data.entity.BookParentModel
 import com.dmeetyxc.lingolearn.data.entity.TextData
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
 import com.dmeetyxc.lingolearn.data.manager.ResourceManager
-import com.dmeetyxc.lingolearn.data.repository.BooksRepository
-import com.dmeetyxc.lingolearn.data.repository.TextDataRepository
+import com.dmeetyxc.lingolearn.domain.text.TextRepository
 import com.dmeetyxc.lingolearn.ui.text.BookType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class BookInteractor @Inject constructor(
-    private val booksRepository: BooksRepository,
-    private val textDataRepository: TextDataRepository,
+class BookInteractorImpl @Inject constructor(
+    private val bookRepository: BookRepository,
+    private val textRepository: TextRepository,
     private val preferenceManager: PreferenceManager,
     private val resourceManager: ResourceManager
-) {
+) : BookInteractor {
 
-    suspend fun checkNewBooks() {
-        val booksNameLocal = booksRepository.getBooksNameLocal()
-        if (booksNameLocal.isEmpty() || booksRepository.loadBooksNameCloud() != booksNameLocal) {
+    override suspend fun checkNewBooks() {
+        val booksNameLocal = bookRepository.getBooksNameLocal()
+        if (booksNameLocal.isEmpty() || bookRepository.loadBooksNameCloud() != booksNameLocal) {
             val childLanguage = preferenceManager.getChildLanguage()
             if (!childLanguage.isNullOrEmpty()) {
-                booksRepository.addNewBooks(childLanguage)
+                bookRepository.addNewBooks(childLanguage)
             }
         }
     }
 
-    fun transformBookCategory(): LiveData<List<BookParentModel>> =
-        Transformations.map(booksRepository.getAllBookData()) {
+    override fun getCategoryBook(): LiveData<List<BookParentModel>> =
+        Transformations.map(bookRepository.getAllBookData()) {
             loadBookCategory(it)
         }
 
-    suspend fun loadBook(bookData: BookData) {
+    override suspend fun loadBook(bookData: BookData) {
         withContext(Dispatchers.IO) {
             val textMain = async {
-                textDataRepository.loadFullTextData(bookData, BookType.MAIN)
+                textRepository.loadFullTextData(bookData, BookType.MAIN)
             }
             val textChild = async {
-                textDataRepository.loadFullTextData(bookData, BookType.CHILD)
+                textRepository.loadFullTextData(bookData, BookType.CHILD)
             }
             val parseMainBook = async { parseBook(textMain.await()) }
             val parseChildBook = async { parseBook(textChild.await()) }
@@ -55,17 +54,17 @@ class BookInteractor @Inject constructor(
         }
     }
 
-    fun checkSaveLanguage(): Boolean {
+    override fun checkSaveLanguage(): Boolean {
         val mainLanguage = preferenceManager.getMainLanguage()
         return mainLanguage != null && mainLanguage.isNotEmpty()
     }
 
-    suspend fun updateFavoriteBook(book: BookData) {
+    override suspend fun updateFavoriteBook(book: BookData) {
         withContext(Dispatchers.IO) {
             if (book.isFavourite) {
-                booksRepository.updateBook(book.copy(isFavourite = false))
+                bookRepository.updateBook(book.copy(isFavourite = false))
             } else {
-                booksRepository.updateBook(book.copy(isLoad = true, isFavourite = true))
+                bookRepository.updateBook(book.copy(isLoad = true, isFavourite = true))
             }
         }
     }
@@ -120,7 +119,7 @@ class BookInteractor @Inject constructor(
             val textChild = parseTextChild[i]
             textData.add(TextData(bookData.bookName, textMain, textChild))
         }
-        textDataRepository.insert(textData)
+        textRepository.insert(textData)
     }
 
     /**

@@ -4,6 +4,7 @@ import com.dmeetyxc.lingolearn.data.db.TextDataDao
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.entity.TextData
 import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
+import com.dmeetyxc.lingolearn.domain.text.TextRepository
 import com.dmeetyxc.lingolearn.ui.text.BookType
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -12,19 +13,19 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class TextDataRepository @Inject constructor(
+class TextRepositoryImpl @Inject constructor(
     private val database: TextDataDao,
     private val preferenceManager: PreferenceManager
-) {
+) : TextRepository {
 
-    suspend fun getTextDataBook(bookData: BookData): List<TextData> =
+    override suspend fun getTextDataBook(bookData: BookData): List<TextData> =
         database.getTextBook(bookData.bookName)
 
-    fun insert(textData: List<TextData>) {
+    override fun insert(textData: List<TextData>) {
         database.insert(textData)
     }
 
-    suspend fun loadFullTextData(bookData: BookData, typeLoadBook: BookType): String {
+    override suspend fun loadFullTextData(bookData: BookData, typeLoadBook: BookType): String {
         return suspendCoroutine { cont ->
             getFirebaseCollection()
                 .document(bookData.bookName)
@@ -54,5 +55,5 @@ class TextDataRepository @Inject constructor(
     }
 
     private fun getFirebaseCollection() =
-        Firebase.firestore.collection(BooksRepository.BASE_COLLECTION)
+        Firebase.firestore.collection(BookRepositoryImpl.BASE_COLLECTION)
 }

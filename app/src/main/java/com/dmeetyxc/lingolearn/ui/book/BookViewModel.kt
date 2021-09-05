@@ -1,10 +1,13 @@
 package com.dmeetyxc.lingolearn.ui.book
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.entity.BookParentModel
 import com.dmeetyxc.lingolearn.data.manager.ConnectionManager
-import com.dmeetyxc.lingolearn.domain.interactor.BookInteractor
+import com.dmeetyxc.lingolearn.domain.book.BookInteractor
 import com.dmeetyxc.lingolearn.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -35,9 +38,9 @@ class BookViewModel @Inject constructor(
     }
 
     fun booksCategoryState(): LiveData<List<BookParentModel>> =
-        bookInteractor.transformBookCategory()
+        bookInteractor.getCategoryBook()
 
-    fun networkState() = connectionManager.networkStatus.asLiveData()
+    fun networkState() = connectionManager.getNetworkStatus()
 
     fun handleItemClick(book: BookData) {
         viewModelScope.launch {

@@ -2,6 +2,7 @@ package com.dmeetyxc.lingolearn.data.repository
 
 import com.dmeetyxc.lingolearn.data.db.BookDao
 import com.dmeetyxc.lingolearn.data.entity.BookData
+import com.dmeetyxc.lingolearn.domain.book.BookRepository
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -11,37 +12,37 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class BooksRepository @Inject constructor(
+class BookRepositoryImpl @Inject constructor(
     private val database: BookDao,
     // Needed to correctly update selected books when exiting screen
     private val scope: CoroutineScope
-) {
+) : BookRepository {
 
     companion object {
         const val BASE_COLLECTION = "books"
     }
 
-    fun getAllBookData() = database.getAllBookData()
+    override fun getAllBookData() = database.getAllBookData()
 
-    suspend fun addNewBooks(childLanguage: String) {
+    override suspend fun addNewBooks(childLanguage: String) {
         database.insertBooks(loadBooks(childLanguage))
     }
 
-    suspend fun deleteAllBooks() {
+    override suspend fun deleteAllBooks() {
         database.deleteBooks()
     }
 
-    fun getBooksNameLocal(): List<String> = database.getBooksName()
+    override fun getBooksNameLocal(): List<String> = database.getBooksName()
 
-    fun getFavoriteBook() = database.getFavoriteBook()
+    override fun getFavoriteBook() = database.getFavoriteBook()
 
-    fun updateBook(bookData: BookData) {
+    override fun updateBook(bookData: BookData) {
         scope.launch {
             database.update(bookData)
         }
     }
 
-    suspend fun loadBooksNameCloud(): List<String> {
+    override suspend fun loadBooksNameCloud(): List<String> {
         val bookData = mutableListOf<String>()
         return suspendCoroutine { cont ->
             getFirebaseCollection()
