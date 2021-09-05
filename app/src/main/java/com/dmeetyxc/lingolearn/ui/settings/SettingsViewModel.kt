@@ -3,9 +3,8 @@ package com.dmeetyxc.lingolearn.ui.settings
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
-import com.dmeetyxc.lingolearn.data.manager.ResourceManager
 import com.dmeetyxc.lingolearn.domain.book.BookRepository
+import com.dmeetyxc.lingolearn.domain.settings.AppSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,26 +13,25 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val bookRepository: BookRepository,
-    private val preferenceManager: PreferenceManager,
-    resourceManager: ResourceManager
+    private val appSettings: AppSettings
 ) : ViewModel() {
 
     val childPreferenceSate = MutableLiveData<Pair<Array<String>, Array<String>>>()
     val childSelectItemSate = MutableLiveData<String>()
-    private val languages = resourceManager.getLanguages()
-    private val languagesValues = resourceManager.getLanguagesValue()
+    private val languages = appSettings.getLanguages()
+    private val languagesValues = appSettings.getLanguagesValue()
 
     fun initChildPref() {
-        preferenceManager.getMainLanguage()?.let {
+        appSettings.getMainLanguage()?.let {
             childPreferenceSate.postValue(removeLanguage(it))
-            childSelectItemSate.postValue(preferenceManager.getChildLanguage())
+            childSelectItemSate.postValue(appSettings.getChildLanguage())
         }
     }
 
     fun handleMainClick() {
-        preferenceManager.getMainLanguage()?.let {
+        appSettings.getMainLanguage()?.let {
             childPreferenceSate.postValue(removeLanguage(it))
-            childSelectItemSate.postValue(preferenceManager.getChildLanguage())
+            childSelectItemSate.postValue(appSettings.getChildLanguage())
             deleteAllData()
         }
     }

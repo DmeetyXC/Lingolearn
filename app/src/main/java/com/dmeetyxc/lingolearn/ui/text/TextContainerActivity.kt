@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
-import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
+import com.dmeetyxc.lingolearn.data.manager.PreferenceManagerImpl.Companion.BOOK
 import com.dmeetyxc.lingolearn.databinding.ActivityTextContainerBinding
 import dagger.hilt.android.AndroidEntryPoint
 

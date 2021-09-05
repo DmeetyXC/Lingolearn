@@ -5,8 +5,8 @@ import androidx.lifecycle.Transformations
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.entity.BookParentModel
 import com.dmeetyxc.lingolearn.data.entity.TextData
-import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
-import com.dmeetyxc.lingolearn.data.manager.ResourceManager
+import com.dmeetyxc.lingolearn.domain.settings.AppSettings
+import com.dmeetyxc.lingolearn.domain.settings.TextSettings
 import com.dmeetyxc.lingolearn.domain.text.TextRepository
 import com.dmeetyxc.lingolearn.ui.text.BookType
 import kotlinx.coroutines.Dispatchers
@@ -17,14 +17,14 @@ import javax.inject.Inject
 class BookInteractorImpl @Inject constructor(
     private val bookRepository: BookRepository,
     private val textRepository: TextRepository,
-    private val preferenceManager: PreferenceManager,
-    private val resourceManager: ResourceManager
+    private val appSettings: AppSettings,
+    private val textSettings: TextSettings
 ) : BookInteractor {
 
     override suspend fun checkNewBooks() {
         val booksNameLocal = bookRepository.getBooksNameLocal()
         if (booksNameLocal.isEmpty() || bookRepository.loadBooksNameCloud() != booksNameLocal) {
-            val childLanguage = preferenceManager.getChildLanguage()
+            val childLanguage = appSettings.getChildLanguage()
             if (!childLanguage.isNullOrEmpty()) {
                 bookRepository.addNewBooks(childLanguage)
             }
@@ -55,7 +55,7 @@ class BookInteractorImpl @Inject constructor(
     }
 
     override fun checkSaveLanguage(): Boolean {
-        val mainLanguage = preferenceManager.getMainLanguage()
+        val mainLanguage = appSettings.getMainLanguage()
         return mainLanguage != null && mainLanguage.isNotEmpty()
     }
 
@@ -133,7 +133,7 @@ class BookInteractorImpl @Inject constructor(
         val finalArrChild = mutableListOf<String>()
         val stringMain: StringBuilder = StringBuilder()
         val stringChild: StringBuilder = StringBuilder()
-        val sizeMax = resourceManager.getDisplayPixels()
+        val sizeMax = textSettings.getDisplayPixels()
         var lengthText = 0
         for (i in arrMain.indices) {
             lengthText += arrMain[i].length

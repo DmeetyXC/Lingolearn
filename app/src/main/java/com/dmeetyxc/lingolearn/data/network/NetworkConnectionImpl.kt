@@ -1,4 +1,4 @@
-package com.dmeetyxc.lingolearn.data.manager
+package com.dmeetyxc.lingolearn.data.network
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -11,7 +11,9 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
 
-class ConnectionManager @Inject constructor(@ApplicationContext context: Context) {
+class NetworkConnectionImpl @Inject constructor(
+    @ApplicationContext context: Context
+) : NetworkConnection {
 
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -41,5 +43,5 @@ class ConnectionManager @Inject constructor(@ApplicationContext context: Context
         }
     }
 
-    fun getNetworkStatus() = networkStatus.asLiveData()
+    override fun fetchNetworkStatus() = networkStatus.asLiveData()
 }

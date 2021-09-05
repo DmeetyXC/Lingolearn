@@ -5,20 +5,17 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.entity.Dictionary
-import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
-import com.dmeetyxc.lingolearn.data.manager.ResourceManager
-import com.dmeetyxc.lingolearn.data.network.TranslateHandler
 import com.dmeetyxc.lingolearn.domain.book.BookRepository
 import com.dmeetyxc.lingolearn.domain.dictionary.DictionaryRepository
+import com.dmeetyxc.lingolearn.domain.settings.TextSettings
 import javax.inject.Inject
 
 class TextInteractorImpl @Inject constructor(
     private val dictionaryRepository: DictionaryRepository,
     private val bookRepository: BookRepository,
     private val textRepository: TextRepository,
-    private val translateHandler: TranslateHandler,
-    private val resourceManager: ResourceManager,
-    private val preferenceManager: PreferenceManager
+    private val textSettings: TextSettings,
+    private val translateTextHandler: TranslateTextHandler
 ) : TextInteractor {
 
     override fun searchNumberLineText(indexClick: Int, text: String): Int {
@@ -32,7 +29,7 @@ class TextInteractorImpl @Inject constructor(
         return number
     }
 
-    override fun getTextSize() = preferenceManager.getTextSize()?.toFloat()
+    override fun getTextSize() = textSettings.getTextSize()
 
     override fun lineSelectedText(text: String, numberLine: Int): SpannableString {
         val firstIndex = getFirstElement(numberLine, text)
@@ -41,7 +38,7 @@ class TextInteractorImpl @Inject constructor(
     }
 
     override suspend fun translateText(text: String) = kotlin.runCatching {
-        val translateText = translateHandler.translateText(text)
+        val translateText = translateTextHandler.translateText(text)
         dictionaryRepository.insert(Dictionary(text, translateText))
     }
 
@@ -51,13 +48,13 @@ class TextInteractorImpl @Inject constructor(
         bookRepository.updateBook(bookData)
     }
 
-    override fun getMovingTextPixels() = resourceManager.getMovingPixels()
+    override fun getMovingTextPixels() = textSettings.getMovingPixels()
 
     private fun selectionString(
         spannableString: SpannableString, firstIndex: Int, lastIndex: Int
     ): SpannableString {
         spannableString.setSpan(
-            ForegroundColorSpan(resourceManager.getColorSelectText()), firstIndex,
+            ForegroundColorSpan(textSettings.getColorSelectText()), firstIndex,
             lastIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         return spannableString

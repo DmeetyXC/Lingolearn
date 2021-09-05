@@ -2,7 +2,7 @@ package com.dmeetyxc.lingolearn
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
+import com.dmeetyxc.lingolearn.domain.settings.AppSettings
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -10,7 +10,7 @@ import javax.inject.Inject
 class App : Application() {
 
     @Inject
-    fun setDayNightTheme(preferenceManager: PreferenceManager) {
-        AppCompatDelegate.setDefaultNightMode(preferenceManager.getAppTheme())
+    fun setDayNightTheme(appSettings: AppSettings) {
+        AppCompatDelegate.setDefaultNightMode(appSettings.getAppTheme())
     }
 }

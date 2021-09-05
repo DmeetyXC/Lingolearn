@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.entity.BookParentModel
-import com.dmeetyxc.lingolearn.data.manager.ConnectionManager
+import com.dmeetyxc.lingolearn.data.network.NetworkConnection
 import com.dmeetyxc.lingolearn.domain.book.BookInteractor
 import com.dmeetyxc.lingolearn.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BookViewModel @Inject constructor(
     private val bookInteractor: BookInteractor,
-    private val connectionManager: ConnectionManager
+    private val networkConnection: NetworkConnection
 ) : ViewModel() {
 
     val progressState = MutableLiveData<Boolean>()
@@ -40,7 +40,7 @@ class BookViewModel @Inject constructor(
     fun booksCategoryState(): LiveData<List<BookParentModel>> =
         bookInteractor.getCategoryBook()
 
-    fun networkState() = connectionManager.getNetworkStatus()
+    fun networkState() = networkConnection.fetchNetworkStatus()
 
     fun handleItemClick(book: BookData) {
         viewModelScope.launch {

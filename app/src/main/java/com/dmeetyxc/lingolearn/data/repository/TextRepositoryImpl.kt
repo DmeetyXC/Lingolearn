@@ -3,7 +3,7 @@ package com.dmeetyxc.lingolearn.data.repository
 import com.dmeetyxc.lingolearn.data.db.TextDataDao
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.entity.TextData
-import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
+import com.dmeetyxc.lingolearn.domain.settings.AppSettings
 import com.dmeetyxc.lingolearn.domain.text.TextRepository
 import com.dmeetyxc.lingolearn.ui.text.BookType
 import com.google.firebase.firestore.ktx.firestore
@@ -15,7 +15,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class TextRepositoryImpl @Inject constructor(
     private val database: TextDataDao,
-    private val preferenceManager: PreferenceManager
+    private val appSettings: AppSettings
 ) : TextRepository {
 
     override suspend fun getTextDataBook(bookData: BookData): List<TextData> =
@@ -44,9 +44,9 @@ class TextRepositoryImpl @Inject constructor(
     private fun getTypeLanguage(typeLoadBook: BookType): String {
         var typeLanguage: String? = null
         if (typeLoadBook == BookType.MAIN) {
-            typeLanguage = preferenceManager.getMainLanguage()
+            typeLanguage = appSettings.getMainLanguage()
         } else if (typeLoadBook == BookType.CHILD) {
-            typeLanguage = preferenceManager.getChildLanguage()
+            typeLanguage = appSettings.getChildLanguage()
         }
         typeLanguage?.let {
             return typeLanguage
