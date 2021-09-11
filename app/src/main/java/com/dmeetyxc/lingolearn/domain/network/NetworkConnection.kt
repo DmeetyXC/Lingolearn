@@ -1,4 +1,4 @@
-package com.dmeetyxc.lingolearn.data.network
+package com.dmeetyxc.lingolearn.domain.network
 
 import androidx.lifecycle.LiveData
 

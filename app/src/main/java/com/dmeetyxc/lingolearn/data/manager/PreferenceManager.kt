@@ -1,14 +1,40 @@
 package com.dmeetyxc.lingolearn.data.manager
 
-interface PreferenceManager {
+import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
+import javax.inject.Inject
 
-    fun saveLanguages(mainLanguage: String, childLanguage: String)
+class PreferenceManager @Inject constructor(private val sharedPref: SharedPreferences) {
 
-    fun getMainLanguage(): String?
+    companion object {
+        const val MAIN = "main"
+        const val CHILD = "child"
+        const val FONT_SIZE = "font_size"
+        const val FONT_SIZE_DEFAULT = "16"
+        const val THEME = "theme"
+        const val THEME_DEFAULT = "system"
+        const val THEME_LIGHT = "light"
+        const val THEME_DARK = "dark"
+        const val BOOK = "book"
+    }
 
-    fun getChildLanguage(): String?
+    fun saveLanguages(mainLanguage: String, childLanguage: String) {
+        with(sharedPref.edit()) {
+            putString(MAIN, mainLanguage)
+            putString(CHILD, childLanguage)
+            apply()
+        }
+    }
 
-    fun getTextSize(): String?
+    fun getMainLanguage() = sharedPref.getString(MAIN, "")
 
-    fun getAppTheme(): Int
+    fun getChildLanguage() = sharedPref.getString(CHILD, "")
+
+    fun getTextSize(): String? = sharedPref.getString(FONT_SIZE, FONT_SIZE_DEFAULT)
+
+    fun getAppTheme(): Int = when (sharedPref.getString(THEME, THEME_DEFAULT)) {
+        THEME_LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+        THEME_DARK -> AppCompatDelegate.MODE_NIGHT_YES
+        else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+    }
 }

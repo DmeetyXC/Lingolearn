@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.entity.TextData
-import com.dmeetyxc.lingolearn.data.manager.PreferenceManagerImpl.Companion.BOOK
+import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
 import com.dmeetyxc.lingolearn.domain.text.TextInteractor
 import com.dmeetyxc.lingolearn.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel

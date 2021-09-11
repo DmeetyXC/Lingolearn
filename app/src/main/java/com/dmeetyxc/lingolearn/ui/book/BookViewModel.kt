@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmeetyxc.lingolearn.data.entity.BookData
 import com.dmeetyxc.lingolearn.data.entity.BookParentModel
-import com.dmeetyxc.lingolearn.data.network.NetworkConnection
 import com.dmeetyxc.lingolearn.domain.book.BookInteractor
+import com.dmeetyxc.lingolearn.domain.network.NetworkConnection
 import com.dmeetyxc.lingolearn.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

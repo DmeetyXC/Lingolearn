@@ -11,7 +11,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.dmeetyxc.lingolearn.R
-import com.dmeetyxc.lingolearn.data.manager.PreferenceManagerImpl
+import com.dmeetyxc.lingolearn.data.manager.PreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,14 +47,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            PreferenceManagerImpl.MAIN -> viewModel.handleMainClick()
-            PreferenceManagerImpl.CHILD -> viewModel.deleteAllData()
+            PreferenceManager.MAIN -> viewModel.handleMainClick()
+            PreferenceManager.CHILD -> viewModel.deleteAllData()
         }
     }
 
     private fun initView() {
         initialToolbar()
-        prefChild = preferenceScreen.findPreference(PreferenceManagerImpl.CHILD)!!
+        prefChild = preferenceScreen.findPreference(PreferenceManager.CHILD)!!
     }
 
     private fun initialToolbar() {
@@ -80,13 +80,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun listenerChangeTheme() {
-        val listPreference = findPreference(PreferenceManagerImpl.THEME) as ListPreference?
+        val listPreference = findPreference(PreferenceManager.THEME) as ListPreference?
         listPreference.let {
             it?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
                 setDefaultNightMode(
                     when (newValue) {
-                        PreferenceManagerImpl.THEME_LIGHT -> MODE_NIGHT_NO
-                        PreferenceManagerImpl.THEME_DARK -> MODE_NIGHT_YES
+                        PreferenceManager.THEME_LIGHT -> MODE_NIGHT_NO
+                        PreferenceManager.THEME_DARK -> MODE_NIGHT_YES
                         else -> MODE_NIGHT_FOLLOW_SYSTEM
                     }
                 )

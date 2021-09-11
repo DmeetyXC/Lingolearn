@@ -1,7 +1,7 @@
 package com.dmeetyxc.lingolearn.di
 
-import com.dmeetyxc.lingolearn.data.network.NetworkConnection
 import com.dmeetyxc.lingolearn.data.network.NetworkConnectionImpl
+import com.dmeetyxc.lingolearn.domain.network.NetworkConnection
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

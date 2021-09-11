@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dmeetyxc.lingolearn.R
 import com.dmeetyxc.lingolearn.data.entity.BookData
-import com.dmeetyxc.lingolearn.data.manager.PreferenceManagerImpl.Companion.BOOK
+import com.dmeetyxc.lingolearn.data.manager.PreferenceManager.Companion.BOOK
 import com.dmeetyxc.lingolearn.databinding.FragmentFavoriteBinding
 import dagger.hilt.android.AndroidEntryPoint
 
